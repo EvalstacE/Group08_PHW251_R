@@ -11,7 +11,7 @@ execute:
 
 # Project option selection: 
 
-**Group 8 git repository link:** 
+**Group 8 git repository link:** <https://github.com/EvalstacE/Group08_PHW251_R> 
 
 \newpage
 
@@ -21,18 +21,51 @@ execute:
 
 ## Meeting Planning: 
 
+Discuss meeting tempo: “checking in” at the beginning of meetings versus “just sticking to business”.
+
 ### Communication method: 
 
-What is your team's preferred communication method - email, text, bcourse messaging?
+Group text messages and email if needed
 
 ### Meeting times and frequency: 
 
 When will your team be holding meetings? How frequently will you meet? 
 Are there times or days that work well for everyone?
 
-Discuss future non-academic commitments that might affect members' availability.
 
-Discuss meeting tempo: “checking in” at the beginning of meetings versus “just sticking to business”.
+
+**Curlee**: 
+
+  + Timezone: 
+  
+  + Available days: 
+  
+  + Available times: 
+  
+  + Any upcoming commitments affecting availability: 
+  
+
+**Val**: 
+
+  + Timezone: Mountain
+  
+  + Available days: all
+  
+  + Available times: weekends: anytime; weekdays: anytime after 5PM MST
+  
+  + Any upcoming commitments affecting availability: 
+  
+
+**Ana**: 
+
+  + Timezone: 
+  
+  + Available days: 
+  
+  + Available times: 
+  
+  + Any upcoming commitments affecting availability: 
+
 
 
 ------------------------------------------------
@@ -44,11 +77,14 @@ Discuss meeting tempo: “checking in” at the beginning of meetings versus “
 ### Method for tracking progress: 
 
 How is your team going to keep track of progress? 
+
 Who will be taking minutes, creating agendas, and contacting the course facilitators with questions?
 
-#### Point person: 
+#### Point person: Val Stacey
 
 We encourage you to discuss potential dates and times to meet with a course facilitator during Weeks 3-5. Decide on the best date and time for all.
+
+
 
 
 ------------------------------------------------
@@ -58,6 +94,7 @@ We encourage you to discuss potential dates and times to meet with a course faci
 
 
 ## Conflict Management
+
 
 If a conflict arises, plan to solve the issue as soon as possible. 
 
