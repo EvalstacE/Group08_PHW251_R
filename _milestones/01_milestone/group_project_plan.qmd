@@ -2,7 +2,9 @@
 title: "Milestone 1"
 author: "Group 8: Erin Curlee, Val Stacey, Ana Terzo"
 date: "09/30/2025"
-format: html
+format: 
+  html:
+    self-contained: true
 execute:
   message: false
   warning: false
@@ -11,6 +13,9 @@ execute:
 
 # Project option selection: 
 
+**Scenario 1: Infectious disease outbreak (simulated) in California**
+
+
 **Group 8 git repository link:** <https://github.com/EvalstacE/Group08_PHW251_R> 
 
 \newpage
@@ -18,10 +23,6 @@ execute:
 ------------------------------------------------
 
 # Roles and Responsibilities
-
-## Meeting Planning: 
-
-Discuss meeting tempo: “checking in” at the beginning of meetings versus “just sticking to business”.
 
 ### Communication method: 
 
@@ -32,17 +33,22 @@ Group text messages and email if needed
 When will your team be holding meetings? How frequently will you meet? 
 Are there times or days that work well for everyone?
 
++ We have a scheudled standing meeting every Thursday at 5PM PST, not to go past 7PM
+
++ if the meeting is not needed - we will text each other and can cancel
+
+
 
 
 **Curlee**: 
 
-  + Timezone: 
+  + Timezone: PST
   
-  + Available days: 
+  + Available days: every other Friday during the day; after 2 PM Sat/Sun
   
-  + Available times: 
+  + Available times: after 5 PM 
   
-  + Any upcoming commitments affecting availability: 
+  + Any upcoming commitments affecting availability: November 14th birthday - taking some time off around then
   
 
 **Val**: 
@@ -53,20 +59,15 @@ Are there times or days that work well for everyone?
   
   + Available times: weekends: anytime; weekdays: anytime after 5PM MST
   
-  + Any upcoming commitments affecting availability: 
-  
 
 **Ana**: 
 
-  + Timezone: 
+  + Timezone: PST
   
-  + Available days: 
+  + Available days: tuesdays/thursdays/fridays best
   
-  + Available times: 
+  + Available times: after work 
   
-  + Any upcoming commitments affecting availability: 
-
-
 
 ------------------------------------------------
 
@@ -78,13 +79,17 @@ Are there times or days that work well for everyone?
 
 How is your team going to keep track of progress? 
 
-Who will be taking minutes, creating agendas, and contacting the course facilitators with questions?
++ We have our github repo organized with milestone folders to help keep us on track
 
-#### Point person: Val Stacey
-
-We encourage you to discuss potential dates and times to meet with a course facilitator during Weeks 3-5. Decide on the best date and time for all.
++ We will assign roles and tasks as needed at our weekly check-in meetings for upcoming assignments
 
 
+
+For contacting the course facilitators with questions:
+
++ Point person: Val
+
++ Erin and Ana as secondary
 
 
 ------------------------------------------------
