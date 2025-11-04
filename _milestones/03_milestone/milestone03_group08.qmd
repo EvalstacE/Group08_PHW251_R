@@ -1,0 +1,72 @@
+---
+title: "Milestone 3"
+author: "Group 8: Erin Curlee, Val Stacey, Ana Terzo"
+date: "11/11/2025"
+format: 
+  html:
+    theme: cosmo
+    self-contained: true
+    code-fold: show
+    code-copy: true
+    code-overflow: wrap
+    css: "../styles.css"
+execute:
+  message: false
+  warning: false
+---
+
+
+```{r}
+#| label: setup
+#| include: false
+#| warning: false
+#| message: false
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra, janitor, reactable, MMWRweek
+)
+
+```
+
+
+```{r, include = FALSE}
+raw_ca_df <- read.csv(file = here("_data/raw_data/raw_ca_df.csv"))
+raw_la_cnty_df <- read.csv(file = here("_data/raw_data/raw_la_cnty_df.csv"))
+raw_pop_df <- read.csv(file = here("_data/raw_data/raw_pop_df.csv"))
+```
+
+
+::: {.section-banner}
+
+<div class="banner-text-container">
+  <div class="sb-title">Preparing Data for Analysis</div>
+  <div class="sb-accent"></div>
+  <div class="sb-subtitle">Cleaning and Restructuring</div>
+</div>
+
+:::
+
+
+{{< include 03a_cleaning.qmd >}}
+
+
+
+\newpage
+
+
+::: {.section-banner}
+
+<div class="banner-text-container">
+  <div class="sb-title">Descriptive Statistics</div>
+  <div class="sb-accent"></div>
+</div>
+
+:::
+
+
+
+{{< include 03b_descriptive_stats.qmd >}

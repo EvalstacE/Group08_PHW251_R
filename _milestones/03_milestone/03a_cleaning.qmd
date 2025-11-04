@@ -1,0 +1,266 @@
+
+
+## Aligning Column Names
+
+We first ensured that all column names referring to the same variables were consistent across the three databases, using the provided code book as a reference. This step improved both the efficiency of subsequent analyses and the readability of the data dictionary developed and presented later in this report. We add in a "county" field to teh la_cnty_df to be able to join with the California database for later analyses. 
+
+```{r}
+#| code-fold: true
+
+
+la_cnty_df <- raw_la_cnty_df %>%
+  rename(
+    "age_cat" = "age_category", 
+    "race_ethnicity" = "race_eth",
+    "new_infections" = "dx_new",
+    "cumulative_infected" = "infected_cumulative",
+    "new_unrecovered" = "unrecovered_new",
+    "cumulative_unrecovered" = "unrecovered_cumulative",
+    "new_severe" = "severe_new",
+    "cumulative_severe" = "severe_cumulative"
+  ) %>%
+  mutate(county = "LA County")
+
+pop_df <- raw_pop_df %>%
+  rename(
+    "race_ethnicity" = "race7"
+  )
+
+
+ca_df <- raw_ca_df %>%
+  select(-dt_diagnosis)
+
+```
+
+
+
+```{r}
+la_raw_cols <- raw_la_cnty_df %>%
+  summarise(across(everything(), ~ class(.x)[1])) %>%
+  pivot_longer(
+    everything(),
+    names_to = "variable",
+    values_to = "type"
+  ) 
+
+la_cols <- la_cnty_df %>%
+  summarise(across(everything(), ~ class(.x)[1])) %>%
+  pivot_longer(
+    everything(),
+    names_to = "variable",
+    values_to = "type"
+  ) 
+
+
+ca_cols <- ca_df %>%
+  summarise(across(everything(), ~ class(.x)[1])) %>%
+  pivot_longer(
+    everything(),
+    names_to = "variable",
+    values_to = "type"
+  ) 
+```
+
+
+
+
+## Restructuring Variables 
+
+### Age Groups
+
+The population database contains counts for six age groups, whereas the California and LA County databases use four. Because the groupings align --- “0–4,” “5–11,” and “12–17” in the population database correspond to the “0–17” group in the others --- we summarized the population counts to match the four age-group format. 
+
+In the original population database, counts are reported for each single year of age within every demographic subgroup (e.g., county, sex, race/ethnicity). To obtain total estimates per age group and demographic category, the single-year counts were aggregated (summed). The table below presents a subset of the original and restructured population data to illustrate the resulting summarized age groupings. 
+
+```{r}
+#| code-fold: true
+
+pop_df <- pop_df %>%
+  group_by(
+   county, health_officer_region, sex, 
+    race_ethnicity, age_cat 
+  ) %>%
+  summarise(pop = sum(pop), .groups = "drop")
+
+
+pop_df_recat <- pop_df %>%
+  mutate(
+    new_age_group = 
+      if_else(age_cat %in% c("0-4", "5-11", "12-17"),"0-17", age_cat)
+    ) %>%
+  group_by(
+    county, health_officer_region, sex, 
+    race_ethnicity, new_age_group
+    ) %>%
+  summarise(pop = sum(pop), .groups = "drop") %>%
+  rename("age_cat" = "new_age_group")
+  
+```
+
+
+Below is a subset of the original and restructured population dataset to demonstrate the result of summarizing the age grouping: 
+
+```{r, echo = FALSE}
+
+pop_df_subset <- pop_df %>%
+  select(-health_officer_region) %>%
+  filter(
+    county == "Alameda",
+    age_cat %in% c("0-4", "5-11", "12-17"),
+    race_ethnicity == "Hispanic",
+    sex == "FEMALE"
+  ) %>% janitor::adorn_totals()%>%
+  mutate(
+    across(where(is.numeric), 
+            ~ ifelse(county == "Total", comma(., accuracy = 1), .)
+           )
+    )
+
+
+pop_recat_subset <- pop_df_recat %>%
+  select(-health_officer_region) %>%
+  filter(
+    county == "Alameda",
+    age_cat == "0-17",
+    race_ethnicity == "Hispanic",
+    sex == "FEMALE"
+  ) %>%
+  mutate(pop = comma(pop, accuracy = 1))
+
+
+```
+
+
+
+#### Original Age Groups:
+
+```{r, echo = FALSE}
+pop_df_subset %>% 
+  kbl(align = "c",
+      col.names = c("County", "Sex", "Race / Ethnicity", "Age Group", "Population")
+      ) %>%
+  row_spec(0, bold = TRUE, extra_css = "font-size: 16px!important;") %>%
+  row_spec(4, 
+      bold = TRUE, 
+      background = "#fdf2a6", 
+      extra_css = "font-size: 14px!important;"
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "condensed", "bordered"))
+```
+
+
+
+#### New, Aggregate Age Group:
+
+```{r, echo = FALSE}
+pop_recat_subset %>% 
+  kbl(align = "c",
+      col.names = c("County", "Sex", "Race / Ethnicity", "Age Group", "Population"),
+      table.attr = 'class="table table-bordered no-stripe"'
+      ) %>%
+  kable_styling(bootstrap_options = c("bordered")) %>%
+  row_spec(0, bold = TRUE, extra_css = "font-size: 16px!important;") %>%
+  row_spec(1, background = "#ffffff") %>%
+  column_spec(5, 
+      bold = TRUE, 
+      background = "#fdf2a6", 
+      extra_css = "font-size: 14px!important;"
+  )
+  
+```
+
+
+-------------
+
+\newpage
+
+
+### Infection Dates
+
+For date-based analyses related to infections, we will identify and aggregate to the MMWR week and year. For both LA County and California databases, we will create two new columns ("year" and "mmwr_week") and remove any other date-related fields that are no longer needed. We will also add the start date and end date of the MMWR week in case we need them as a reference point later. 
+
+The California database includes a field called "time_int," which stores 6-digit integers, beginning with the four-digit year and ending with the 2-digit MMWR week (1-52). For example, an infection that occurred in the 32nd week of 2023 would be coded as the integer: 202322. To create the "year" and "mmwr_week" columns, we can extract the first four digits as the "year" and the last 2 digits as the "mmwr_week," and the original "time_int" field will be removed as it is no longer needed. 
+
+The code book provided for the LA County database identifies a column called "dt_report" as the last day of the MMWR week for which the data are reported. However, the database provided all NA values, so this column will be removed. Instead, we will convert the infection date field into a proper 'date' format, and then utilize functions from the `MMWRweek` package to pull the year and MMWR week from that date field to create the new columns.
+
+```{r}
+
+### -- function: add MMR Week and Year 
+add_mmwr_week_columns <- function(data, date_col = "week_start") {
+  date_vector <- data[[date_col]]
+  mmwr_info <- MMWRweek::MMWRweek(date_vector)
+  data <- data %>%
+    mutate(
+      MMWRyear = factor(mmwr_info$MMWRyear),
+      MMWRweek = factor(mmwr_info$MMWRweek)
+    )
+  return(data)
+}
+
+
+add_start_end_dates <- 
+  function(data, year_col = "MMWRyear", week_col = "MMWRweek") {
+    year_vec <- as.integer(as.character(data[[year_col]]))
+    week_vec <- as.integer(as.character(data[[week_col]]))
+  
+  data %>%
+    mutate(
+      start_date = MMWRweek2Date(MMWRyear = year_vec, MMWRweek = week_vec, MMWRday = 1),
+      end_date   = MMWRweek2Date(MMWRyear = year_vec, MMWRweek = week_vec, MMWRday = 7)
+    )
+  }
+
+```
+
+
+```{r}
+
+la_cnty_df <- la_cnty_df %>%
+  ##--restructure infection date field to proper date format
+  mutate(DATE_FIX = as.Date(parse_date_time(dt_dx, "%d%b%Y"), format = "%Y-%m-%d")) %>% 
+  ##--use date to create MMWR week, year, start and end date fields
+  add_mmwr_week_columns(date_col = "DATE_FIX") %>%
+  add_start_end_dates() %>%
+  select(-c(DATE_FIX, dt_dx, dt_report)) %>%
+  relocate(MMWRyear, MMWRweek, start_date, end_date, .before = everything()) %>%
+  relocate(county, .before = age_cat)
+
+
+ca_df <- ca_df %>%
+  ##--pull MMWR week and year from time_int field
+  mutate(MMWRyear = time_int %/% 100, MMWRweek = time_int %% 100) %>%
+  add_start_end_dates() %>%
+  select(-time_int) %>%
+  relocate(MMWRyear, MMWRweek, start_date, end_date, .before = everything())
+
+
+
+
+```
+
+
+
+
+
+## Final Combined Database
+
+```{r}
+combined_df <- rbind(ca_df, la_cnty_df)
+```
+
+
+
+
+
+saved each cleaned database (and the combined one), prior to starting analyses / descriptive stats: 
+
+```{r}
+
+#write.csv(la_cnty_df, file = here("_data/cleaned_data/cleaned_la_df.csv"), row.names = FALSE)
+#write.csv(ca_df, file = here("_data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)
+#write.csv(pop_df, file = here("_data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)
+#write.csv(combined_df, file = here("_data/cleaned_data/combined_df.csv"), row.names = FALSE)
+```
+
+
+
