@@ -1,0 +1,188 @@
+---
+title: "Milestone 3"
+author: "Group 8: Erin Curlee, Val Stacey, Ana Terzo"
+date: "11/11/2025"
+format: 
+  html:
+    theme: cosmo
+    self-contained: true
+    code-fold: show
+    code-copy: true
+    code-overflow: wrap
+    css: "../styles.css"
+execute:
+  message: false
+  warning: false
+---
+
+
+```{r}
+#| label: setup
+#| include: false
+#| warning: false
+#| message: false
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra, janitor
+)
+
+```
+
+
+```{r, include = FALSE}
+raw_ca_df <- read.csv(file = here("_data/raw_ca_df.csv"))
+raw_la_cnty_df <- read.csv(file = here("_data/raw_la_cnty_df.csv"))
+raw_pop_df <- read.csv(file = here("_data/raw_pop_df.csv"))
+```
+
+
+::: {.section-banner}
+
+<div class="banner-text-container">
+  <div class="sb-title">Preparing Data for Analysis</div>
+  <div class="sb-accent"></div>
+  <div class="sb-subtitle">Cleaning and Restructuring</div>
+</div>
+
+:::
+
+
+# 1. Aligning Column Names
+
+We first ensured that all column names referring to the same variables were consistent across the three datasets, using the provided codebook as a reference. This step improved both the efficiency of subsequent analyses and the readability of the data dictionary developed and presented later in this report. 
+
+```{r}
+#| code-fold: true
+
+
+la_cnty_df <- raw_la_cnty_df %>%
+  rename(
+    "age_cat" = "age_category", 
+    "race_ethnicity" = "race_eth",
+    "new_infections" = "dx_new",
+    "cumulative_infected" = "infected_cumulative",
+    "new_unrecovered" = "unrecovered_new",
+    "cumulative_unrecovered" = "unrecovered_cumulative",
+    "new_severe" = "severe_new",
+    "cumulative_severe" = "severe_cumulative"
+  )
+
+pop_df <- raw_pop_df %>%
+  rename(
+    "race_ethnicity" = "race7"
+  )
+
+```
+
+
+# 2. Restructuring Variables 
+
+## Age Groups
+
+The population dataset contains counts for six age groups, whereas the California and LA County datasets use four. Because the groupings align --- “0–4,” “5–11,” and “12–17” in the population dataset correspond to the “0–17” group in the others --- we summarized the population counts to match the four age-group format. 
+
+In the original population dataset, counts are reported for each single year of age within every demographic subgroup (e.g., county, sex, race/ethnicity). To obtain total estimates per age group and demographic category, the single-year counts were aggregated (summed). The table below presents a subset of the original and restructured population data to illustrate the resulting summarized age groupings. 
+
+```{r}
+#| code-fold: true
+
+pop_df <- pop_df %>%
+  group_by(
+   county, health_officer_region, sex, 
+    race_ethnicity, age_cat 
+  ) %>%
+  summarise(pop = sum(pop), .groups = "drop")
+
+
+pop_df_recat <- pop_df %>%
+  mutate(
+    new_age_group = 
+      if_else(age_cat %in% c("0-4", "5-11", "12-17"),"0-17", age_cat)
+    ) %>%
+  group_by(
+    county, health_officer_region, sex, 
+    race_ethnicity, new_age_group
+    ) %>%
+  summarise(pop = sum(pop), .groups = "drop") %>%
+  rename("age_cat" = "new_age_group")
+  
+```
+
+
+Below is a subset of the original and restructured population dataset to demonstrate the result of summarizing the age grouping: 
+
+```{r, echo = FALSE}
+
+pop_df_subset <- pop_df %>%
+  select(-health_officer_region) %>%
+  filter(
+    county == "Alameda",
+    age_cat %in% c("0-4", "5-11", "12-17"),
+    race_ethnicity == "Hispanic",
+    sex == "FEMALE"
+  ) %>% janitor::adorn_totals()%>%
+  mutate(
+    across(where(is.numeric), 
+            ~ ifelse(county == "Total", comma(., accuracy = 1), .)
+           )
+    )
+
+
+pop_recat_subset <- pop_df_recat %>%
+  select(-health_officer_region) %>%
+  filter(
+    county == "Alameda",
+    age_cat == "0-17",
+    race_ethnicity == "Hispanic",
+    sex == "FEMALE"
+  ) %>%
+  mutate(pop = comma(pop, accuracy = 1))
+
+
+```
+
+
+
+#### Original Age Groups:
+
+```{r, echo = FALSE}
+pop_df_subset %>% 
+  kbl(align = "c",
+      col.names = c("County", "Sex", "Race / Ethnicity", "Age Group", "Population")
+      ) %>%
+  row_spec(0, bold = TRUE, extra_css = "font-size: 16px!important;") %>%
+  row_spec(4, 
+      bold = TRUE, 
+      background = "#fdf2a6", 
+      extra_css = "font-size: 14px!important;"
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "condensed", "bordered"))
+```
+
+
+
+#### New, Aggregate Age Group:
+
+```{r, echo = FALSE}
+pop_recat_subset %>% 
+  kbl(align = "c",
+      col.names = c("County", "Sex", "Race / Ethnicity", "Age Group", "Population"),
+      table.attr = 'class="table table-bordered no-stripe"'
+      ) %>%
+  kable_styling(bootstrap_options = c("bordered")) %>%
+  row_spec(0, bold = TRUE, extra_css = "font-size: 16px!important;") %>%
+  row_spec(1, background = "#ffffff") %>%
+  column_spec(5, 
+      bold = TRUE, 
+      background = "#fdf2a6", 
+      extra_css = "font-size: 14px!important;"
+  )
+  
+```
+
+
+

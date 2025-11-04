@@ -1,0 +1,80 @@
+
+/* ===== Remove table striping ===== */
+.no-stripe { 
+  --bs-table-striped-bg: transparent !important;
+  --bs-table-hover-bg: transparent !important;
+}
+
+
+
+
+/* ===== Section Banner ===== */
+.section-banner {
+  /* Layout */
+  position: relative;
+  width: 100vw;
+  margin-bottom: 4rem !important;
+  margin-top: 4rem !important;
+  margin-left: calc(-50vw + 50%);
+  padding: 3rem 2rem !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  /* Visuals (customizable via CSS vars) */
+  --sb-bg: #0f172a;          /* background */
+  --sb-fg: #ffffff;          /* text color */
+  --sb-accent: #38bdf8;      /* small accent line or icon */
+  --sb-radius: 16px;
+  --sb-shadow: 0 6px 18px rgba(0,0,0,.12);
+
+  background: var(--sb-bg);
+  color: var(--sb-fg);
+}
+
+
+/* Text container centered in banner */
+.banner-text-container {
+  text-align: center;
+  max-width: 80vw;
+}
+
+/* Title + subtitle */
+.section-banner .sb-title {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  line-height: 1.2;
+  font-weight: 700;
+  margin: 0 0 .25rem 0;
+  letter-spacing: .2px;
+}
+
+.section-banner .sb-subtitle {
+  font-size: clamp(1rem, 2.3vw, 1.5rem);
+  line-height: 1.5;
+  opacity: .95;
+  margin: .25rem 0 0 0;
+}
+
+
+/* Accent line that sits between title and subtitle */
+.sb-accent {
+  width: 100%;
+  height: 4px;
+  background: var(--sb-accent);
+  border-radius: 999px;
+  margin: 1rem auto; 
+}
+
+
+
+
+
+/* Accent color helpers */
+.section-banner.-teal   { --sb-accent: #14b8a6; }
+.section-banner.-rose   { --sb-accent: #fb7185; }
+.section-banner.-amber  { --sb-accent: #f59e0b; }
+.section-banner.-violet { --sb-accent: #8b5cf6; }
+
+
+
