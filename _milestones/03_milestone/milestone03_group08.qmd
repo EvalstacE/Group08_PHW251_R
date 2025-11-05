@@ -30,6 +30,11 @@ pacman::p_load(
   knitr, kableExtra, janitor, reactable, MMWRweek
 )
 
+# Source all helper functions
+func_dir <- here::here("_functions")
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+purrr::walk(r_files, source)
+
 ```
 
 

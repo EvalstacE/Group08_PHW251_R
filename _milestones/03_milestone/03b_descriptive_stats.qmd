@@ -1,0 +1,10 @@
+
+## Descriptive Statistics: Morbidity Datasets
+
+```{r, include = FALSE}
+raw_ca_df <- read.csv(file = here("_data/raw_data/raw_ca_df.csv"))
+raw_la_cnty_df <- read.csv(file = here("_data/raw_data/raw_la_cnty_df.csv"))
+raw_pop_df <- read.csv(file = here("_data/raw_data/raw_pop_df.csv"))
+```
+
+

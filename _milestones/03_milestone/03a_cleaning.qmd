@@ -2,12 +2,20 @@
 
 ## Aligning Column Names
 
-We first ensured that all column names referring to the same variables were consistent across the three databases, using the provided code book as a reference. This step improved both the efficiency of subsequent analyses and the readability of the data dictionary developed and presented later in this report. We add in a "county" field to teh la_cnty_df to be able to join with the California database for later analyses. 
+We first ensured that all column names referring to the same variables were consistent across the three databases, using the provided code book as a reference. This step improved both the efficiency of subsequent analyses and the readability of the data dictionary developed and presented later in this report. We add in a "county" field to the la_cnty_df to be able to join with the California database to create a single morbidity dataset for later analyses. 
 
 ```{r}
-#| code-fold: true
+
+##-- California dataset
+ca_df <- raw_ca_df %>% select(-dt_diagnosis) %>%
+  mutate(
+    county = clean(county) %>% 
+      str_remove("\\s*[Cc]ounty$") %>% 
+      str_trim()
+    )
 
 
+##-- LA county dataset
 la_cnty_df <- raw_la_cnty_df %>%
   rename(
     "age_cat" = "age_category", 
@@ -19,16 +27,14 @@ la_cnty_df <- raw_la_cnty_df %>%
     "new_severe" = "severe_new",
     "cumulative_severe" = "severe_cumulative"
   ) %>%
-  mutate(county = "LA County")
-
-pop_df <- raw_pop_df %>%
-  rename(
-    "race_ethnicity" = "race7"
-  )
+  mutate(county = "Los Angeles") %>%
+  relocate(county, .before = everything())
 
 
-ca_df <- raw_ca_df %>%
-  select(-dt_diagnosis)
+##-- Population dataset
+pop_df <- raw_pop_df %>% 
+  rename("race_ethnicity" = "race7")  %>%
+  mutate(county = clean(county))
 
 ```
 
@@ -73,25 +79,21 @@ The population database contains counts for six age groups, whereas the Californ
 In the original population database, counts are reported for each single year of age within every demographic subgroup (e.g., county, sex, race/ethnicity). To obtain total estimates per age group and demographic category, the single-year counts were aggregated (summed). The table below presents a subset of the original and restructured population data to illustrate the resulting summarized age groupings. 
 
 ```{r}
-#| code-fold: true
 
 pop_df <- pop_df %>%
-  group_by(
-   county, health_officer_region, sex, 
-    race_ethnicity, age_cat 
-  ) %>%
+  group_by(county, health_officer_region, 
+           sex, race_ethnicity, age_cat) %>%
   summarise(pop = sum(pop), .groups = "drop")
 
 
 pop_df_recat <- pop_df %>%
-  mutate(
-    new_age_group = 
-      if_else(age_cat %in% c("0-4", "5-11", "12-17"),"0-17", age_cat)
-    ) %>%
-  group_by(
-    county, health_officer_region, sex, 
-    race_ethnicity, new_age_group
-    ) %>%
+  mutate(new_age_group = 
+          if_else(age_cat %in% c("0-4", "5-11", "12-17"),
+              "0-17", age_cat)) %>%
+  
+  group_by(county, health_officer_region, sex, 
+           race_ethnicity, new_age_group) %>%
+  
   summarise(pop = sum(pop), .groups = "drop") %>%
   rename("age_cat" = "new_age_group")
   
@@ -109,11 +111,11 @@ pop_df_subset <- pop_df %>%
     age_cat %in% c("0-4", "5-11", "12-17"),
     race_ethnicity == "Hispanic",
     sex == "FEMALE"
-  ) %>% janitor::adorn_totals()%>%
+  ) %>% janitor::adorn_totals() %>%
   mutate(
     across(where(is.numeric), 
-            ~ ifelse(county == "Total", comma(., accuracy = 1), .)
-           )
+        ~ ifelse(county == "Total", 
+                 comma(., accuracy = 1), .))
     )
 
 
@@ -183,35 +185,10 @@ The California database includes a field called "time_int," which stores 6-digit
 
 The code book provided for the LA County database identifies a column called "dt_report" as the last day of the MMWR week for which the data are reported. However, the database provided all NA values, so this column will be removed. Instead, we will convert the infection date field into a proper 'date' format, and then utilize functions from the `MMWRweek` package to pull the year and MMWR week from that date field to create the new columns.
 
-```{r}
-
-### -- function: add MMR Week and Year 
-add_mmwr_week_columns <- function(data, date_col = "week_start") {
-  date_vector <- data[[date_col]]
-  mmwr_info <- MMWRweek::MMWRweek(date_vector)
-  data <- data %>%
-    mutate(
-      MMWRyear = factor(mmwr_info$MMWRyear),
-      MMWRweek = factor(mmwr_info$MMWRweek)
-    )
-  return(data)
-}
+We created two functions that 1) take a date field and create two new columns for the MMWR week and year, and 2) take the MMWR week and year and create two columns for the MMWR week start date and the MMWR end date:
 
 
-add_start_end_dates <- 
-  function(data, year_col = "MMWRyear", week_col = "MMWRweek") {
-    year_vec <- as.integer(as.character(data[[year_col]]))
-    week_vec <- as.integer(as.character(data[[week_col]]))
-  
-  data %>%
-    mutate(
-      start_date = MMWRweek2Date(MMWRyear = year_vec, MMWRweek = week_vec, MMWRday = 1),
-      end_date   = MMWRweek2Date(MMWRyear = year_vec, MMWRweek = week_vec, MMWRday = 7)
-    )
-  }
-
-```
-
+Cleaning date fields and creating 4 new columns: MMWR week, MMWR year, MMWR week start date, and MMWR week end date:
 
 ```{r}
 
@@ -233,7 +210,47 @@ ca_df <- ca_df %>%
   select(-time_int) %>%
   relocate(MMWRyear, MMWRweek, start_date, end_date, .before = everything())
 
+pop_df <- pop_df_recat
 
+```
+
+
+## Race / Ethnicity: 
+
+Each of the three datasets code Race / Ethnicity differently. The Calfornia dataset uses a coded number, the LA County dataset uses a longer or full text, and the population dataset uses a shorthand text. 
+
+We created a .csv that maps the codes, long text, and short text to each other: 
+
+```{r}
+race_ethnicity_map <- read.csv(file = here("_data/race_ethnicity_map.csv")) %>%
+  mutate(
+    race_long = clean(race_long),
+    race_short = clean(race_short)
+  )
+```
+
+
+
+```{r}
+
+ca_df <- ca_df %>%
+  rename("race_coded" = "race_ethnicity") %>%
+  left_join(race_ethnicity_map, by = "race_coded")%>%
+  relocate(race_coded, race_short, race_long, .after = sex)
+
+
+la_cnty_df <- la_cnty_df %>%
+  mutate(race_long = clean(race_ethnicity)) %>%
+  select(-race_ethnicity) %>%
+  left_join(race_ethnicity_map, by = "race_long") %>%
+  relocate(race_coded, race_short, race_long, .after = sex)
+
+
+pop_df <- pop_df %>%
+  mutate(race_short = clean(race_ethnicity)) %>%
+  select(-race_ethnicity) %>%
+  left_join(race_ethnicity_map, by = "race_short") %>%
+  relocate(race_coded, race_short, race_long, .after = sex)
 
 
 ```
@@ -242,10 +259,18 @@ ca_df <- ca_df %>%
 
 
 
+
+
+
+
 ## Final Combined Database
 
 ```{r}
-combined_df <- rbind(ca_df, la_cnty_df)
+
+combined_df <- rbind(ca_df, la_cnty_df) %>%
+  left_join(pop_df, 
+            by = c("county", "sex", "race_coded", 
+                   "race_short", "race_long", "age_cat"))
 ```
 
 
