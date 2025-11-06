@@ -27,12 +27,17 @@ to do:
   * infections/severe infections/unrecovered infections by MMWR week / county or region
 
 * Create a rate metric and summarize to include only one row per strata of interest
-
-    * age-adjusted rates - compare AAR across county / region
-    * Incidence rate / densities by age group and month?
-    * Incidence rate / densities by race/ethnicity and month?
-    
 * Aggregate the data into a new dataframe(s) to include only one row per strata of interest
+
+  * crude rates (# / 100,000 population) per demographic: county, health officer region, sex, race / ethnicity
+
+
+
+* maybe do age-adjusted / other adjusted rates later...
+  * age-adjusted rates - compare AAR across county / region
+  * Incidence rate / densities by age group and month?
+  * Incidence rate / densities by race/ethnicity and month?
+    
 
 
 \newpage
