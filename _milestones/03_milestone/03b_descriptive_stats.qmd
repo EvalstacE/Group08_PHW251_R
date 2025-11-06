@@ -8,7 +8,7 @@ df <- read.csv(file = here("_data/cleaned_data/combined_df.csv"))
 
 ##--individual, cleaned dfs:
 ca_df <- read.csv(file = here("_data/cleaned_data/cleaned_ca_df.csv"))
-la_cnty_df <- read.csv(file = here("_data/cleaned_data/cleaned_la_df.csv"))
+la_cnty_df <- read.csv(file = here("_data/cleaned_data/cleaned_la_cnty_df.csv"))
 pop_df <- read.csv(file = here("_data/cleaned_data/cleaned_pop_df.csv"))
 
 ```
@@ -34,42 +34,84 @@ to do:
 * Aggregate the data into a new dataframe(s) to include only one row per strata of interest
 
 
-```{r, eval = FALSE}
+## By County and Health Officer Region
 
-by_cnty_week <- df %>%
-  group_by(mmwr_year, mmwr_week, county, health_officer_region) %>%
-  summarise(
-    total_new = sum(new_infections),
-    total_cum_infected = sum(cumulative_infected),
-    total_new_severe = sum(new_severe),
-    total_cum_severe = sum(cumulative_severe),
-    total_new_unrec = sum(new_unrecovered),
-    total_cum_unrec = sum(cumulative_unrecovered),
-    .groups = "drop"
-  ) %>%
-  arrange(county, mmwr_year, mmwr_week)
+```{r}
 
 
-by_cnty_year <- df %>%
-  group_by(health_officer_region, county) %>%
-  summarise(
-    total_cnty_pop = first(total_cnty_pop),
-    total_infected = max(cumulative_infected),
-    total_inf_prop = total_infected / total_cnty_pop,
-    inf_rate_100k = round((total_inf_prop * 10^4),1),
-    total_severe = max(cumulative_severe),
-    total_sev_prop = total_severe / total_cnty_pop,
-    sev_rate_100k = round((total_sev_prop * 10^4),1),
-    total_unrec = max(cumulative_unrecovered),
-    total_unrec_prop = total_unrec / total_cnty_pop,
-    unrec_rate_100k = round((total_unrec_prop * 10^4),1),    
-    .groups = "drop"
-  ) %>%
+by_cnty_week <- 
+  counts_week_groups(
+      df = df, mmwr_year, mmwr_week, 
+      county, health_officer_region
+    )
+
+by_cnty_pop <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_cnty_pop, 
+      health_officer_region, county
+    ) %>%
   arrange(health_officer_region, county)
+
+
+by_HOR_week <- 
+  counts_week_groups(df = df, mmwr_year, mmwr_week, health_officer_region)
+
+by_HOR_pop <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_cnty_pop, 
+      health_officer_region, county
+    ) %>%
+  arrange(health_officer_region, county)
+
+
+
+
 
 
 ```
 
 
+
+
+## By Sex
+
+* initial note: males have higher infection rate; but females have higher rates of severe infections and unrecovered
+
+```{r}
+
+
+by_sex_cnty <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_sex_pop, 
+      health_officer_region, county, sex
+    ) %>%
+  arrange(health_officer_region, county, sex)
+
+
+by_sex_total <-
+  calc_total_rates_pop(df = df, pop_col = total_sex_pop, sex) 
+
+```
+
+
+## By Race and Ethnicity 
+
+* initial note: Hispanic population has highest infection rate, severe infection rate, and unrecovered rate -- all across the board -- this community is being impacted the most.
+
+```{r}
+
+
+by_race_cnty <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_race_pop, 
+      health_officer_region, county, race_long
+    ) %>%
+  arrange(health_officer_region, county, race_long)
+
+
+by_race_total <-
+  calc_total_rates_pop(df = df, pop_col = total_race_pop, race_long) 
+
+```
 
 

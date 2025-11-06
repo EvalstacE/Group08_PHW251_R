@@ -20,3 +20,4 @@ pop,integer,estimated population by age group for year 2023,,0 - 980387
 total_cnty_pop,integer,total population estimate by county,,1165 - 9825708
 total_race_pop,integer,total county population by race/ethnicity,,0 - 4089110
 total_sex_pop,integer,total county pouplation by sex,,548 - 5049625
+total_HOR_pop,integer,total population by Health Officer Region,,683715 - 12802429

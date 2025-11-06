@@ -70,5 +70,3 @@ raw_pop_df <- read.csv(file = here("_data/raw_data/raw_pop_df.csv"))
 :::
 
 
-
-{{< include 03b_descriptive_stats.qmd >}

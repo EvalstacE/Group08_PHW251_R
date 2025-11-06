@@ -351,8 +351,9 @@ pop_df <- pop_df_recat %>%
   group_by(county, health_officer_region, race_coded, race_short, race_long) %>%
     mutate(total_race_pop = sum(pop)) %>% ungroup() %>%
   group_by(county, health_officer_region, sex) %>%
-    mutate(total_sex_pop = sum(pop)) %>% ungroup()
-
+    mutate(total_sex_pop = sum(pop)) %>% ungroup() %>%
+  group_by(health_officer_region) %>%
+    mutate(total_HOR_pop = sum(pop)) %>% ungroup()
 ```
 
 
@@ -439,12 +440,12 @@ combined_df <- rbind(ca_df, la_cnty_df) %>%
 
 ```{r}
 
-#-- final cleaned dataframes stored in "_data/cleaned_data/" directory
+# final cleaned dataframes stored in "_data/cleaned_data/" directory
 
-##--write.csv(combined_df, file = here("_data/cleaned_data/combined_df.csv"), row.names = FALSE)
-##--write.csv(ca_df, file = here("_data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)
-##--write.csv(la_cnty_df, file = here("_data/cleaned_data/cleaned_la_cnty_df.csv"), row.names = FALSE)
-##--write.csv(pop_df, file = here("_data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)
+#--write.csv(combined_df, file = here("_data/cleaned_data/combined_df.csv"), row.names = FALSE)
+#--write.csv(ca_df, file = here("_data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)
+#--write.csv(la_cnty_df, file = here("_data/cleaned_data/cleaned_la_cnty_df.csv"), row.names = FALSE)
+#--write.csv(pop_df, file = here("_data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)
 
 ```
 
