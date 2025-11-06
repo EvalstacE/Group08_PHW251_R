@@ -1,10 +1,16 @@
 
 ## Descriptive Statistics: Morbidity Datasets
 
-```{r, include = FALSE}
-raw_ca_df <- read.csv(file = here("_data/raw_data/raw_ca_df.csv"))
-raw_la_cnty_df <- read.csv(file = here("_data/raw_data/raw_la_cnty_df.csv"))
-raw_pop_df <- read.csv(file = here("_data/raw_data/raw_pop_df.csv"))
+```{r}
+
+##--combined df (CA + LA + Population)
+df <- read.csv(file = here("_data/cleaned_data/combined_df.csv"))
+
+##--individual, cleaned dfs:
+ca_df <- read.csv(file = here("_data/cleaned_data/cleaned_ca_df.csv"))
+la_cnty_df <- read.csv(file = here("_data/cleaned_data/cleaned_la_df.csv"))
+pop_df <- read.csv(file = here("_data/cleaned_data/cleaned_pop_df.csv"))
+
 ```
 
 

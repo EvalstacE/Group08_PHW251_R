@@ -1,0 +1,87 @@
+/* ===== Table Styles ===== */
+/* ===== Remove table striping ===== */
+.no-stripe { 
+  --bs-table-striped-bg: transparent !important;
+  --bs-table-hover-bg: transparent !important;
+}
+
+
+
+
+/* ===== Section Banner ===== */
+.section-banner {
+  position: relative;
+  width: 100vw;
+  margin-bottom: 3rem !important;
+  margin-top: 3rem !important;
+  margin-left: calc(-50vw + 50%);
+  padding: 2rem 0rem !important; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  /* Visuals */
+  --sb-bg: #0f172a;
+  --sb-fg: #ffffff;
+  --sb-accent: #38bdf8;
+  --sb-radius: 16px;
+  --sb-shadow: 0 6px 18px rgba(0,0,0,.12);
+
+  background: var(--sb-bg);
+  color: var(--sb-fg);
+}
+
+/* Text container inline-flex  */
+.banner-text-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;               
+  text-align: center;
+  flex-wrap: wrap;         
+  max-width: 90vw;
+}
+
+/* Title + subtitle inline */
+.section-banner .sb-title {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin: 0;
+}
+
+.section-banner .sb-subtitle {
+  font-size: clamp(1.2rem, 2.3vw, 1.5rem);
+  opacity: .95;
+  margin: 0;
+}
+
+/* vertical line */
+.sb-accent {
+  width: 3px;
+  height: 2.5em;
+  background: var(--sb-accent);
+  border-radius: 999px;
+  margin: 0;              
+}
+
+
+/* Accent color helpers */
+.section-banner.-lime   { --sb-accent: #c1ff72; }
+.section-banner.-amber  { --sb-accent: #f47d59; }
+.section-banner.-red    { --sb-accent: #ff3131; }
+.section-banner.-yellow { --sb-accent: #ffde59; }
+.section-banner.-violet { --sb-accent: #cd89dc; }
+
+
+
+
+
+
+/* Column highlight box */
+.column-box {
+  background-color: #f1f0ea;     
+  border-radius: 8px;           
+  padding: 1rem 1.25rem;    
+}

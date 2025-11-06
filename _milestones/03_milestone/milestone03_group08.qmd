@@ -9,7 +9,7 @@ format:
     code-fold: show
     code-copy: true
     code-overflow: wrap
-    css: "../styles.css"
+    css: "../../_www/styles.css"
 execute:
   message: false
   warning: false
@@ -67,7 +67,6 @@ raw_pop_df <- read.csv(file = here("_data/raw_data/raw_pop_df.csv"))
 
 <div class="banner-text-container">
   <div class="sb-title">Descriptive Statistics</div>
-  <div class="sb-accent"></div>
 </div>
 
 :::
