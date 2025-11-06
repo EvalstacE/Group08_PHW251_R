@@ -2396,7 +2396,7 @@ border: 0;
 
 
 
-<style type="text/css">.no-stripe { --bs-table-striped-bg: transparent !important;--bs-table-hover-bg: transparent !important;}.section-banner {position: relative;width: 100vw;margin-bottom: 3rem !important;margin-top: 3rem !important;margin-left: calc(-50vw + 50%);padding: 2rem 0rem !important; display: flex;justify-content: center;align-items: center;overflow: hidden;--sb-bg: #0f172a;--sb-fg: #ffffff;--sb-accent: #38bdf8;--sb-radius: 16px;--sb-shadow: 0 6px 18px rgba(0,0,0,.12);background: var(--sb-bg);color: var(--sb-fg);}.banner-text-container {display: inline-flex;align-items: center;justify-content: center;gap: 1rem; text-align: center;flex-wrap: wrap; max-width: 90vw;}.section-banner .sb-title {font-size: clamp(1.5rem, 3vw, 2.25rem);font-weight: 700;letter-spacing: .2px;margin: 0;}.section-banner .sb-subtitle {font-size: clamp(1.2rem, 2.3vw, 1.5rem);opacity: .95;margin: 0;}.sb-accent {width: 3px;height: 2.5em;background: var(--sb-accent);border-radius: 999px;margin: 0; }.section-banner.-lime { --sb-accent: #c1ff72; }.section-banner.-amber { --sb-accent: #f47d59; }.section-banner.-red { --sb-accent: #ff3131; }.section-banner.-yellow { --sb-accent: #ffde59; }.section-banner.-violet { --sb-accent: #cd89dc; }.column-box {background-color: #f1f0ea; border-radius: 8px; padding: 1rem 1.25rem; }</style>
+<style type="text/css">.no-stripe { --bs-table-striped-bg: transparent !important;--bs-table-hover-bg: transparent !important;}.section-banner {position: relative;width: 100vw;margin-bottom: 2rem !important;margin-top: 2rem !important;margin-left: calc(-50vw + 50%);padding: 2rem 0rem !important; display: flex;justify-content: center;align-items: center;overflow: hidden;--sb-bg: #0f172a;--sb-fg: #ffffff;--sb-accent: #38bdf8;--sb-radius: 16px;--sb-shadow: 0 6px 18px rgba(0,0,0,.12);background: var(--sb-bg);color: var(--sb-fg);}.banner-text-container {display: inline-flex;align-items: center;justify-content: center;gap: 1rem; text-align: center;flex-wrap: wrap; max-width: 90vw;}.section-banner .sb-title {font-size: clamp(1.5rem, 3vw, 2.25rem);font-weight: 700;letter-spacing: .2px;margin: 0;}.section-banner .sb-subtitle {font-size: clamp(1.2rem, 2.3vw, 1.5rem);opacity: .95;margin: 0;}.sb-accent {width: 3px;height: 2.5em;background: var(--sb-accent);border-radius: 999px;margin: 0; }.section-banner.-lime { --sb-accent: #c1ff72; }.section-banner.-amber { --sb-accent: #f47d59; }.section-banner.-red { --sb-accent: #ff3131; }.section-banner.-yellow { --sb-accent: #ffde59; }.section-banner.-violet { --sb-accent: #cd89dc; }.column-box {background-color: #f1f0ea; border-radius: 8px; padding: 1rem 1.25rem; }</style>
 </head>
 
 <body class="fullcontent quarto-light">
@@ -2441,12 +2441,6 @@ border: 0;
 <div class="sb-title">
 Preparing Data for Analysis
 </div>
-<div class="sb-accent">
-
-</div>
-<div class="sb-subtitle">
-Cleaning and Restructuring
-</div>
 </div>
 </div>
 <section id="aligning-column-names" class="level2">
@@ -2468,23 +2462,21 @@ Cleaning and Restructuring
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">##-- LA county dataset</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>la_cnty_df <span class="ot">&lt;-</span> raw_la_cnty_df <span class="sc">%&gt;%</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;age_cat&quot;</span> <span class="ot">=</span> <span class="st">&quot;age_category&quot;</span>, </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;race_ethnicity&quot;</span> <span class="ot">=</span> <span class="st">&quot;race_eth&quot;</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;new_infections&quot;</span> <span class="ot">=</span> <span class="st">&quot;dx_new&quot;</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;cumulative_infected&quot;</span> <span class="ot">=</span> <span class="st">&quot;infected_cumulative&quot;</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;new_unrecovered&quot;</span> <span class="ot">=</span> <span class="st">&quot;unrecovered_new&quot;</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;cumulative_unrecovered&quot;</span> <span class="ot">=</span> <span class="st">&quot;unrecovered_cumulative&quot;</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;new_severe&quot;</span> <span class="ot">=</span> <span class="st">&quot;severe_new&quot;</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;cumulative_severe&quot;</span> <span class="ot">=</span> <span class="st">&quot;severe_cumulative&quot;</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county =</span> <span class="st">&quot;Los Angeles&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(county, <span class="at">.before =</span> <span class="fu">everything</span>()) </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="do">##-- Population dataset</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>pop_df <span class="ot">&lt;-</span> raw_pop_df <span class="sc">%&gt;%</span> </span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;race_ethnicity&quot;</span> <span class="ot">=</span> <span class="st">&quot;race7&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county =</span> <span class="fu">clean</span>(county))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;age_cat&quot;</span> <span class="ot">=</span> <span class="st">&quot;age_category&quot;</span>, </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;race_ethnicity&quot;</span> <span class="ot">=</span> <span class="st">&quot;race_eth&quot;</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;new_infections&quot;</span> <span class="ot">=</span> <span class="st">&quot;dx_new&quot;</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;cumulative_infected&quot;</span> <span class="ot">=</span> <span class="st">&quot;infected_cumulative&quot;</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;new_unrecovered&quot;</span> <span class="ot">=</span> <span class="st">&quot;unrecovered_new&quot;</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;cumulative_unrecovered&quot;</span> <span class="ot">=</span> <span class="st">&quot;unrecovered_cumulative&quot;</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;new_severe&quot;</span> <span class="ot">=</span> <span class="st">&quot;severe_new&quot;</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;cumulative_severe&quot;</span> <span class="ot">=</span> <span class="st">&quot;severe_cumulative&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county =</span> <span class="st">&quot;Los Angeles&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(county, <span class="at">.before =</span> <span class="fu">everything</span>()) </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">##-- Population dataset</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>pop_df <span class="ot">&lt;-</span> raw_pop_df <span class="sc">%&gt;%</span> </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;race_ethnicity&quot;</span> <span class="ot">=</span> <span class="st">&quot;race7&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county =</span> <span class="fu">clean</span>(county))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
@@ -2609,9 +2601,9 @@ Cleaning and Restructuring
 <h3 class="anchored" data-anchor-id="infection-dates">Infection Dates</h3>
 <div class="columns" style="display: flex; gap: 2rem; justify-content: space-between;">
 <div class="column" style="width:40%;">
-<p>To support date-based analyses, infection records will be aggregated by <strong>MMWR week and year</strong>. For both the Los Angeles County and California datasets, we will generate two new columns: <strong>MMWRyear</strong> and <strong>MMWRweek</strong>, then remove the original date-based fields. We will also add columns <strong>start_date</strong> and <strong>end_date</strong> to serve as reference points should we need them later.</p>
-<p>In the California dataset, the field <strong>time_int</strong> encodes the year and MMWR week as a six-digit integer (YYYYWW). To create the new fields, we extract the first four digits as MMWRyear and the last two digits as MMWRweek, then drop the original time_int column.</p>
-<p>In the Los Angeles County dataset, the codebook identifies a field <strong>dt_report</strong> as the last day of the MMWR week. However, this field contained only missing values, so it was removed. Instead, we convert the infection date field, <strong>dt_dx</strong> to a proper date format, and then use the <code>MMWRweek</code> package to derive the MMWRyear and MMWRweek.</p>
+<p>To support date-based analyses, infection records will be aggregated by <strong>MMWR week and year</strong>. For both the Los Angeles County and California datasets, we will generate two new columns: <strong>mmwr_year</strong> and <strong>mmwr_week</strong>, then remove the original date-based fields. We will also add columns <strong>start_date</strong> and <strong>end_date</strong> to serve as reference points should we need them later.</p>
+<p>In the California dataset, the field <strong>time_int</strong> encodes the year and MMWR week as a six-digit integer (YYYYWW). To create the new fields, we extract the first four digits as mmwr_year and the last two digits as mmwr_week, then drop the original time_int column.</p>
+<p>In the Los Angeles County dataset, the codebook identifies a field <strong>dt_report</strong> as the last day of the MMWR week. However, this field contained only missing values, so it was removed. Instead, we convert the infection date field, <strong>dt_dx</strong> to a proper date format, and then use the <code>MMWRweek</code> package to derive the mmwr_year and mmwr_week.</p>
 </div><div class="column" style="width:50%;">
 <div class="cell">
 <details open class="code-fold">
@@ -2625,18 +2617,18 @@ Cleaning and Restructuring
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">add_mmwr_week_columns</span>(<span class="at">date_col =</span> <span class="st">&quot;DATE_FIX&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">add_start_end_dates</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(DATE_FIX, dt_dx)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(MMWRyear, MMWRweek, start_date, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(mmwr_year, mmwr_week, start_date, </span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>         end_date, <span class="at">.before =</span> <span class="fu">everything</span>()) <span class="sc">%&gt;%</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(county, <span class="at">.before =</span> age_cat)</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>ca_df <span class="ot">&lt;-</span> ca_df <span class="sc">%&gt;%</span></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="do">##--pull MMWR week and year from time_int field</span></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">MMWRyear =</span> time_int <span class="sc">%/%</span> <span class="dv">100</span>, </span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">MMWRweek =</span> time_int <span class="sc">%%</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">mmwr_year =</span> <span class="fu">factor</span>(time_int <span class="sc">%/%</span> <span class="dv">100</span>), </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">mmwr_week =</span> <span class="fu">factor</span>(time_int <span class="sc">%%</span> <span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">add_start_end_dates</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span>time_int) <span class="sc">%&gt;%</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(MMWRyear, MMWRweek, start_date, </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(mmwr_year, mmwr_week, start_date, </span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>         end_date, <span class="at">.before =</span> <span class="fu">everything</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -2644,7 +2636,7 @@ Cleaning and Restructuring
 </div>
 <p>To streamline this process, we created two helper functions:</p>
 <ul>
-<li><code>add_mmwr_week_columns()</code> : takes date column and adds two fields: MMWRyear and MMWRweek</li>
+<li><code>add_mmwr_week_columns()</code> : takes date column and adds two fields: mmwr_year and mmwr_week</li>
 <li><code>add_start_end_dates()</code> : uses those values to generate corresponding MMWR week start and end dates</li>
 </ul>
 <div class="column-box">
@@ -2654,13 +2646,13 @@ Cleaning and Restructuring
 <table class="table table-bordered caption-top table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 14px;">MMWRyear</span></th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 14px;">MMWRweek</span></th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 14px;">start_date</span></th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 14px;">end_date</span></th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;">county</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;">age_cat</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;">new_infections</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">mmwr_year</span></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">mmwr_week</span></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">start_date</span></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">end_date</span></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">county</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">age_cat</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">new_infections</th>
 </tr>
 </thead>
 <tbody>
@@ -2701,27 +2693,22 @@ Cleaning and Restructuring
 </section>
 <section id="race-and-ethnicity" class="level2">
 <h2 class="anchored" data-anchor-id="race-and-ethnicity">Race and Ethnicity:</h2>
-<p>Each of the three datasets defines Race / Ethnicity differently. The California dataset uses numeric codes, the Los Angeles County dataset uses full text labels, and the population dataset uses abbreviated text. Leaving them as they are, the inconsistencies would make it impossible to merge or compare records across sources.</p>
-<p>To resolve this, we created a crosswalk file (<strong>race_ethnicity_map.csv</strong>) that aligns the three formats. This mapping links each coded value to its corresponding long and short text forms. By joining this crosswalk to each dataset, we ensure that all three contain a consistent set of race and ethnicity variables: each with a numeric code, a short label, and a descriptive label. This structure supports cleaner joins, consistent groupings in visualizations, and clearer reporting later in the analysis.</p>
+<p>Each of the three datasets defines Race / Ethnicity differently. The California dataset uses numeric codes, the Los Angeles County dataset uses full text labels, and the population dataset uses abbreviated text.</p>
+<p>To resolve this, we created a crosswalk file (<strong>race_ethnicity_map.csv</strong>) that aligns the three formats. By joining this crosswalk to each dataset, we ensure that all three contain a consistent set of race and ethnicity variables: each with the numeric code, the abbreviated text, and the full text label.</p>
 <div class="cell">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ca_df <span class="ot">&lt;-</span> ca_df <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;race_coded&quot;</span> <span class="ot">=</span> <span class="st">&quot;race_ethnicity&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(race_ethnicity_map, <span class="at">by =</span> <span class="st">&quot;race_coded&quot;</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(race_coded, race_short, race_long, <span class="at">.after =</span> sex)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>la_cnty_df <span class="ot">&lt;-</span> la_cnty_df <span class="sc">%&gt;%</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race_long =</span> <span class="fu">clean</span>(race_ethnicity)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>race_ethnicity) <span class="sc">%&gt;%</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(race_ethnicity_map, <span class="at">by =</span> <span class="st">&quot;race_long&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(race_coded, race_short, race_long, <span class="at">.after =</span> sex)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>pop_df <span class="ot">&lt;-</span> pop_df_recat <span class="sc">%&gt;%</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race_short =</span> <span class="fu">clean</span>(race_ethnicity)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>race_ethnicity) <span class="sc">%&gt;%</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(race_ethnicity_map, <span class="at">by =</span> <span class="st">&quot;race_short&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(race_coded, race_short, race_long, <span class="at">.after =</span> sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race_coded =</span> <span class="fu">as.character</span>(race_coded)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(race_ethnicity_map, <span class="at">by =</span> <span class="st">&quot;race_coded&quot;</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(race_coded, race_short, race_long, <span class="at">.after =</span> sex)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>la_cnty_df <span class="ot">&lt;-</span> la_cnty_df <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race_long =</span> <span class="fu">clean</span>(race_ethnicity)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>race_ethnicity) <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(race_ethnicity_map, <span class="at">by =</span> <span class="st">&quot;race_long&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(race_coded, race_short, race_long, <span class="at">.after =</span> sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="race-and-ethnicity-crosswalk-table" class="level3">
@@ -2784,27 +2771,267 @@ Cleaning and Restructuring
 <div style="page-break-after: always;"></div>
 </section>
 </section>
-<section id="final-combined-database" class="level2">
-<h2 class="anchored" data-anchor-id="final-combined-database">Final Combined Database</h2>
+<section id="population-counts-by-demographic" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="population-counts-by-demographic">Population Counts by Demographic</h2>
+<p>To calculate infection rates by demographic groups (such as county, health officer region, sex, or race/ethnicity), we first summarize total population counts for each demographic category within the population dataframe. The population dataset is then joined to both the master database (which merges all three datasets) and the individual California and Los Angeles datasets.</p>
+<p>By creating and maintaining these summarized population counts, we avoid having to recalculate them each time we focus on a different demographic group. For example, once this population dataset is joined to the California data, we can easily calculate population-adjusted infection rates that allow valid comparisons across counties with differing population sizes.</p>
 <div class="cell">
 <details open class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>combined_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(ca_df, la_cnty_df) <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(pop_df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;county&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;race_coded&quot;</span>, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;race_short&quot;</span>, <span class="st">&quot;race_long&quot;</span>, <span class="st">&quot;age_cat&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(health_officer_region,  <span class="at">.after =</span> county) <span class="sc">%&gt;%</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(pop, <span class="at">.after =</span> race_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pop_df <span class="ot">&lt;-</span> pop_df_recat <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">##-- join population database to the race/ethnicity map</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race_short =</span> <span class="fu">clean</span>(race_ethnicity)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>race_ethnicity) <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(race_ethnicity_map, <span class="at">by =</span> <span class="st">&quot;race_short&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(race_coded, race_short, race_long, <span class="at">.after =</span> sex) <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">##-- calculate population totals by demographic</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(county, health_officer_region) <span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">total_cnty_pop =</span> <span class="fu">sum</span>(pop)) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(county, health_officer_region, race_coded, race_short, race_long) <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">total_race_pop =</span> <span class="fu">sum</span>(pop)) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(county, health_officer_region, sex) <span class="sc">%&gt;%</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">total_sex_pop =</span> <span class="fu">sum</span>(pop)) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>saved each cleaned database (and the combined one), prior to starting analyses / descriptive stats:</p>
+<section id="table-2-calculating-infection-rate-by-100000-population-example" class="level3 column-box">
+<h3 class="anchored" data-anchor-id="table-2-calculating-infection-rate-by-100000-population-example">Table 2: Calculating Infection Rate by 100,000 Population Example</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-bordered caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">County</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Total Population</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Total Infected</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Proportion Infected</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Infection Rate per 100K</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Alameda</td>
+<td style="text-align: center;">1656037</td>
+<td style="text-align: center;">12427</td>
+<td style="text-align: center;">0.0075041</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">75.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Alpine</td>
+<td style="text-align: center;">1165</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">0.0214592</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">214.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Amador</td>
+<td style="text-align: center;">40122</td>
+<td style="text-align: center;">767</td>
+<td style="text-align: center;">0.0191167</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">191.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="final-combined-database" class="level2">
+<h2 class="anchored" data-anchor-id="final-combined-database">Final Combined Database</h2>
+<p>After reconciling all column names across the 3 datasets, standardizing age group, race/ethnicity, and infection date variables, we merge them together to generate a final, complete database and begin our descriptive explorations and analyses.</p>
 <div class="cell">
 <details open class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(la_cnty_df, file = here(&quot;_data/cleaned_data/cleaned_la_df.csv&quot;), row.names = FALSE)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(ca_df, file = here(&quot;_data/cleaned_data/cleaned_ca_df.csv&quot;), row.names = FALSE)</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(pop_df, file = here(&quot;_data/cleaned_data/cleaned_pop_df.csv&quot;), row.names = FALSE)</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(combined_df, file = here(&quot;_data/cleaned_data/combined_df.csv&quot;), row.names = FALSE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>combined_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(ca_df, la_cnty_df) <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(health_officer_region,  <span class="at">.after =</span> county) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(pop, <span class="at">.after =</span> race_long) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_cat =</span> <span class="fu">factor</span>(age_cat, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;0-17&quot;</span>, <span class="st">&quot;18-49&quot;</span>, <span class="st">&quot;50-64&quot;</span>, <span class="st">&quot;65+&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+</div>
+<div class="cell">
+<details open class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#-- final cleaned dataframes stored in &quot;_data/cleaned_data/&quot; directory</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">##--write.csv(combined_df, file = here(&quot;_data/cleaned_data/combined_df.csv&quot;), row.names = FALSE)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">##--write.csv(ca_df, file = here(&quot;_data/cleaned_data/cleaned_ca_df.csv&quot;), row.names = FALSE)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">##--write.csv(la_cnty_df, file = here(&quot;_data/cleaned_data/cleaned_la_cnty_df.csv&quot;), row.names = FALSE)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="do">##--write.csv(pop_df, file = here(&quot;_data/cleaned_data/cleaned_pop_df.csv&quot;), row.names = FALSE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div style="page-break-after: always;"></div>
+<div class="section-banner">
+<div class="banner-text-container">
+<div class="sb-title">
+Final Data Dictionary
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-bordered caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;">variable</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;">class</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;">definition</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;">n_unique</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 14px!important; color: #ffffff;">example.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">end_date</td>
+<td style="text-align: center;">Date</td>
+<td style="text-align: center;">last date of Epi week</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">format: 2023-06-03</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">start_date</td>
+<td style="text-align: center;">Date</td>
+<td style="text-align: center;">first date of Epi week</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">format: 2023-05-28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">county</td>
+<td style="text-align: center;">character</td>
+<td style="text-align: center;">county of residence of cases</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">Alameda</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">health_officer_region</td>
+<td style="text-align: center;">character</td>
+<td style="text-align: center;">California Health Officer Region</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">Bay Area</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">race_coded</td>
+<td style="text-align: center;">character</td>
+<td style="text-align: center;">race category codes</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">1:07</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">race_long</td>
+<td style="text-align: center;">character</td>
+<td style="text-align: center;">race category full text</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">Black, Non-Hispanic</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">race_short</td>
+<td style="text-align: center;">character</td>
+<td style="text-align: center;">race category abbreviated text</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">Black NH</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">sex</td>
+<td style="text-align: center;">character</td>
+<td style="text-align: center;">sex categorization</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">FEMALE, MALE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">age_cat</td>
+<td style="text-align: center;">factor</td>
+<td style="text-align: center;">age category</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0-17, 18-49, 50-64, 65+</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">mmwr_week</td>
+<td style="text-align: center;">factor</td>
+<td style="text-align: center;">epi week 40 in 2022 to epi week 23 in 2023</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">22:52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mmwr_year</td>
+<td style="text-align: center;">factor</td>
+<td style="text-align: center;">year</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2023</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">cumulative_infected</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">total number of diagnosed individuals</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">0 - 137804</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">cumulative_severe</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">total number infected requiring hospitalization</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">0 - 4060</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">cumulative_unrecovered</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">total number unrecovered after a week of diagnosis</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">0 - 16920</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">new_infections</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">newly diagnosed individuals</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">0 - 12110</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">new_severe</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">newly identified cases requiring hospitalization</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">0 - 352</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">new_unrecovered</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">newly reported as unrecovered</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">0 - 1436</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">pop</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">estimated population by age group for year 2023</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">0 - 980387</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">total_cnty_pop</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">total population estimate by county</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">1165 - 9825708</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">total_race_pop</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">total county population by race/ethnicity</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">0 - 4089110</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">total_sex_pop</td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">total county pouplation by sex</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">548 - 5049625</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div style="page-break-after: always;"></div>
 <div class="section-banner">

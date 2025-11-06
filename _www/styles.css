@@ -12,8 +12,8 @@
 .section-banner {
   position: relative;
   width: 100vw;
-  margin-bottom: 3rem !important;
-  margin-top: 3rem !important;
+  margin-bottom: 2rem !important;
+  margin-top: 2rem !important;
   margin-left: calc(-50vw + 50%);
   padding: 2rem 0rem !important; 
   display: flex;

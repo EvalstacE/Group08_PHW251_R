@@ -34,3 +34,42 @@ to do:
 * Aggregate the data into a new dataframe(s) to include only one row per strata of interest
 
 
+```{r, eval = FALSE}
+
+by_cnty_week <- df %>%
+  group_by(mmwr_year, mmwr_week, county, health_officer_region) %>%
+  summarise(
+    total_new = sum(new_infections),
+    total_cum_infected = sum(cumulative_infected),
+    total_new_severe = sum(new_severe),
+    total_cum_severe = sum(cumulative_severe),
+    total_new_unrec = sum(new_unrecovered),
+    total_cum_unrec = sum(cumulative_unrecovered),
+    .groups = "drop"
+  ) %>%
+  arrange(county, mmwr_year, mmwr_week)
+
+
+by_cnty_year <- df %>%
+  group_by(health_officer_region, county) %>%
+  summarise(
+    total_cnty_pop = first(total_cnty_pop),
+    total_infected = max(cumulative_infected),
+    total_inf_prop = total_infected / total_cnty_pop,
+    inf_rate_100k = round((total_inf_prop * 10^4),1),
+    total_severe = max(cumulative_severe),
+    total_sev_prop = total_severe / total_cnty_pop,
+    sev_rate_100k = round((total_sev_prop * 10^4),1),
+    total_unrec = max(cumulative_unrecovered),
+    total_unrec_prop = total_unrec / total_cnty_pop,
+    unrec_rate_100k = round((total_unrec_prop * 10^4),1),    
+    .groups = "drop"
+  ) %>%
+  arrange(health_officer_region, county)
+
+
+```
+
+
+
+
