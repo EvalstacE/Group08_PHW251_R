@@ -4,15 +4,15 @@ add_mmwr_week_columns <- function(data, date_col = "week_start") {
   mmwr_info <- MMWRweek::MMWRweek(date_vector)
   data <- data %>%
     mutate(
-      MMWRyear = factor(mmwr_info$MMWRyear),
-      MMWRweek = factor(mmwr_info$MMWRweek)
+      mmwr_year = factor(mmwr_info$MMWRyear),
+      mmwr_week = factor(mmwr_info$MMWRweek)
     )
   return(data)
 }
 
 ### -- function: add start and end dates of MMWR week
 add_start_end_dates <- 
-  function(data, year_col = "MMWRyear", week_col = "MMWRweek") {
+  function(data, year_col = "mmwr_year", week_col = "mmwr_week") {
     year_vec <- as.integer(as.character(data[[year_col]]))
     week_vec <- as.integer(as.character(data[[week_col]]))
     
