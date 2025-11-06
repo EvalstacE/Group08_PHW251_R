@@ -3,10 +3,11 @@
 
 ```{r}
 
-##--combined df (CA + LA + Population)
+# Bring in final combined database
+##-- CA + LA + Population
 df <- read.csv(file = here("_data/cleaned_data/combined_df.csv"))
 
-##--individual, cleaned dfs:
+##-- final individual, cleaned databases:
 ca_df <- read.csv(file = here("_data/cleaned_data/cleaned_ca_df.csv"))
 la_cnty_df <- read.csv(file = here("_data/cleaned_data/cleaned_la_cnty_df.csv"))
 pop_df <- read.csv(file = here("_data/cleaned_data/cleaned_pop_df.csv"))
@@ -34,78 +35,220 @@ to do:
 * Aggregate the data into a new dataframe(s) to include only one row per strata of interest
 
 
-## By County and Health Officer Region
+\newpage
 
-```{r}
+## Calculating Crude Rates
 
+see functions found in: "_functions/calc_total_rates_pop.R"
+
++ add explanation / documentation of functions here and what they do
+
+
+
+\newpage
+
+### Infection Rates by Health Officer Region
+
+
+```{r, echo = FALSE}
+
+by_HOR_week <- 
+  counts_week_groups(
+      df = df, mmwr_year, mmwr_week, 
+      health_officer_region
+  ) 
+
+by_HOR_pop <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_HOR_pop, 
+      health_officer_region
+  )
+
+```
+
+
+```{r, echo = FALSE}
+
+by_HOR_pop %>%
+  select(
+    health_officer_region,
+    total_pop,
+    matches("_rate($|_)")
+  ) %>% arrange(desc(sev_rate_100k)) %>%
+  
+  kbl(escape = FALSE, align = "c") %>%
+  row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
+  
+  column_spec(4, 
+       bold = TRUE, 
+       background = "#5ce1e6"
+       ) %>%  
+  
+  kable_styling(bootstrap_options = c("bordered"))
+
+```
+
+
+```{r, eval = FALSE}
+
+by_HOR_week <- 
+  counts_week_groups(
+      df = df, mmwr_year, mmwr_week, 
+      health_officer_region
+  ) 
+
+by_HOR_pop <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_HOR_pop, 
+      health_officer_region
+  )
+
+```
+
+\newpage
+
+
+### Top 10 Highest Severe Infection Rates by County
+
+```{r, echo = FALSE}
 
 by_cnty_week <- 
   counts_week_groups(
       df = df, mmwr_year, mmwr_week, 
       county, health_officer_region
-    )
+  ) 
 
 by_cnty_pop <-
   calc_total_rates_pop(
       df = df, pop_col = total_cnty_pop, 
       health_officer_region, county
-    ) %>%
-  arrange(health_officer_region, county)
-
-
-by_HOR_week <- 
-  counts_week_groups(df = df, mmwr_year, mmwr_week, health_officer_region)
-
-by_HOR_pop <-
-  calc_total_rates_pop(
-      df = df, pop_col = total_cnty_pop, 
-      health_officer_region, county
-    ) %>%
-  arrange(health_officer_region, county)
-
-
-
-
-
+  ) %>% arrange(health_officer_region, county)
 
 ```
 
 
+```{r, echo = FALSE}
+
+by_cnty_pop %>%
+  select(
+    county,
+    total_pop,
+    matches("_rate($|_)")
+  ) %>% arrange(desc(sev_rate_100k)) %>%
+  slice_head(n=10) %>%
+  
+  kbl(escape = FALSE, align = "c") %>%
+  row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
+  
+  column_spec(4, 
+       bold = TRUE, 
+       background = "#5ce1e6"
+       ) %>%  
+  
+  kable_styling(bootstrap_options = c("bordered"))
+
+```
 
 
-## By Sex
+```{r, eval = FALSE}
+
+by_cnty_week <- 
+  counts_week_groups(
+      df = df, mmwr_year, mmwr_week, 
+      county, health_officer_region
+  ) 
+
+by_cnty_pop <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_cnty_pop, 
+      health_officer_region, county
+  ) %>% arrange(health_officer_region, county)
+
+```
+
+\newpage
+
+### By Sex
 
 * initial note: males have higher infection rate; but females have higher rates of severe infections and unrecovered
 
-```{r}
-
+```{r, echo = FALSE}
 
 by_sex_cnty <-
   calc_total_rates_pop(
       df = df, pop_col = total_sex_pop, 
       health_officer_region, county, sex
-    ) %>%
-  arrange(health_officer_region, county, sex)
-
+  ) %>% arrange(health_officer_region, county, sex)
 
 by_sex_total <-
-  calc_total_rates_pop(df = df, pop_col = total_sex_pop, sex) 
+  calc_total_rates_pop(
+      df = df, pop_col = total_sex_pop, sex
+  ) 
 
 ```
 
 
-## By Race and Ethnicity 
+```{r, echo = FALSE}
+
+by_sex_total %>%
+  select(
+    sex,
+    total_pop,
+    matches("_rate($|_)")
+  ) %>% arrange(desc(sev_rate_100k)) %>%
+  slice_head(n=10) %>%
+  
+  kbl(escape = FALSE, align = "c") %>%
+  row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
+  
+  column_spec(4, 
+       bold = TRUE, 
+       background = "#5ce1e6"
+       ) %>%  
+  
+  kable_styling(bootstrap_options = c("bordered"))
+
+```
+
+
+```{r, eval = FALSE}
+
+by_sex_cnty <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_sex_pop, 
+      health_officer_region, county, sex
+  ) %>% arrange(health_officer_region, county, sex)
+
+by_sex_total <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_sex_pop, sex
+  ) 
+
+```
+
+
+
+\newpage
+
+### By Race and Ethnicity 
 
 * initial note: Hispanic population has highest infection rate, severe infection rate, and unrecovered rate -- all across the board -- this community is being impacted the most.
 
-```{r}
-
+```{r, echo = FALSE}
 
 by_race_cnty <-
   calc_total_rates_pop(
       df = df, pop_col = total_race_pop, 
-      health_officer_region, county, race_long
-    ) %>%
+      health_officer_region, county, race_long) %>%
   arrange(health_officer_region, county, race_long)
 
 
@@ -115,3 +258,43 @@ by_race_total <-
 ```
 
 
+```{r, echo = FALSE}
+
+by_race_total %>%
+  select(
+    race_long,
+    total_pop,
+    matches("_rate($|_)")
+  ) %>% arrange(desc(sev_rate_100k)) %>%
+  slice_head(n=10) %>%
+  
+  kbl(escape = FALSE, align = "c") %>%
+  row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
+  
+  column_spec(4, 
+       bold = TRUE, 
+       background = "#5ce1e6"
+       ) %>%  
+  
+  kable_styling(bootstrap_options = c("bordered"))
+
+```
+
+
+
+```{r, eval = FALSE}
+
+by_race_cnty <-
+  calc_total_rates_pop(
+      df = df, pop_col = total_race_pop, 
+      health_officer_region, county, race_long) %>%
+  arrange(health_officer_region, county, race_long)
+
+
+by_race_total <-
+  calc_total_rates_pop(df = df, pop_col = total_race_pop, race_long) 
+
+```

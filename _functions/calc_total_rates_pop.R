@@ -31,7 +31,7 @@ counts_week_groups <- function(df, mmwr_year, mmwr_week, ...) {
       total_cum_unrec = sum(cumulative_unrecovered, na.rm = TRUE),
       .groups = "drop"
     ) %>%
-    arrange({{ mmwr_year }}, {{ mmwr_week }}, ...)
+    arrange(..., {{ mmwr_year }}, {{ mmwr_week }})
 }
 
 

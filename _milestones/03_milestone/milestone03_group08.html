@@ -3051,6 +3051,374 @@ Descriptive Statistics
 </div>
 </div>
 </section>
+<section id="descriptive-statistics-morbidity-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-statistics-morbidity-datasets">Descriptive Statistics: Morbidity Datasets</h2>
+<div class="cell">
+<details open class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bring in final combined database</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">##-- CA + LA + Population</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&quot;_data/cleaned_data/combined_df.csv&quot;</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">##-- final individual, cleaned databases:</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ca_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&quot;_data/cleaned_data/cleaned_ca_df.csv&quot;</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>la_cnty_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&quot;_data/cleaned_data/cleaned_la_cnty_df.csv&quot;</span>))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>pop_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&quot;_data/cleaned_data/cleaned_pop_df.csv&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>to do:</p>
+<ul>
+<li><p>Overall descriptive stats:</p>
+<ul>
+<li><p>infections by age group / county / region / race/ethnicity</p></li>
+<li><p>severe infections by age group / county / region / race/ethnicity</p></li>
+<li><p>unrecovered infections by age group / county / region / race/ethnicity</p></li>
+<li><p>infections/severe infections/unrecovered infections by MMWR week</p></li>
+<li><p>infections/severe infections/unrecovered infections by MMWR week / county or region</p></li>
+</ul></li>
+<li><p>Create a rate metric and summarize to include only one row per strata of interest</p>
+<ul>
+<li>age-adjusted rates - compare AAR across county / region</li>
+<li>Incidence rate / densities by age group and month?</li>
+<li>Incidence rate / densities by race/ethnicity and month?</li>
+</ul></li>
+<li><p>Aggregate the data into a new dataframe(s) to include only one row per strata of interest</p></li>
+</ul>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="calculating-crude-rates" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-crude-rates">Calculating Crude Rates</h2>
+<p>see functions found in: “_functions/calc_total_rates_pop.R”</p>
+<ul>
+<li>add explanation / documentation of functions here and what they do</li>
+</ul>
+<div style="page-break-after: always;"></div>
+<section id="infection-rates-by-health-officer-region" class="level3">
+<h3 class="anchored" data-anchor-id="infection-rates-by-health-officer-region">Infection Rates by Health Officer Region</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-bordered caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">health_officer_region</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">total_pop</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">inf_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">sev_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">unrec_rate_100k</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Greater Sierra Sacramento</td>
+<td style="text-align: center;">2973210</td>
+<td style="text-align: center;">1184.0</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">72.3</td>
+<td style="text-align: center;">303.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Los Angeles</td>
+<td style="text-align: center;">9825708</td>
+<td style="text-align: center;">1402.5</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">41.3</td>
+<td style="text-align: center;">172.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Rural North</td>
+<td style="text-align: center;">683715</td>
+<td style="text-align: center;">434.2</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">31.4</td>
+<td style="text-align: center;">129.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Central California</td>
+<td style="text-align: center;">4432134</td>
+<td style="text-align: center;">902.8</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">23.8</td>
+<td style="text-align: center;">100.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Southern California</td>
+<td style="text-align: center;">12802429</td>
+<td style="text-align: center;">626.2</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">17.3</td>
+<td style="text-align: center;">73.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Bay Area</td>
+<td style="text-align: center;">8391874</td>
+<td style="text-align: center;">189.5</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">11.4</td>
+<td style="text-align: center;">48.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details open class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>by_HOR_week <span class="ot">&lt;-</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">counts_week_groups</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> df, mmwr_year, mmwr_week, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      health_officer_region</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>by_HOR_pop <span class="ot">&lt;-</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calc_total_rates_pop</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> df, <span class="at">pop_col =</span> total_HOR_pop, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      health_officer_region</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="top-10-highest-severe-infection-rates-by-county" class="level3">
+<h3 class="anchored" data-anchor-id="top-10-highest-severe-infection-rates-by-county">Top 10 Highest Severe Infection Rates by County</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-bordered caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">county</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">total_pop</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">inf_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">sev_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">unrec_rate_100k</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Inyo</td>
+<td style="text-align: center;">18731</td>
+<td style="text-align: center;">4623.4</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">427.1</td>
+<td style="text-align: center;">1590.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Imperial</td>
+<td style="text-align: center;">179639</td>
+<td style="text-align: center;">10494.4</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">338.5</td>
+<td style="text-align: center;">1364.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Sierra</td>
+<td style="text-align: center;">3152</td>
+<td style="text-align: center;">2918.8</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">317.3</td>
+<td style="text-align: center;">1269.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Alpine</td>
+<td style="text-align: center;">1165</td>
+<td style="text-align: center;">2145.9</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">257.5</td>
+<td style="text-align: center;">1373.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Tehama</td>
+<td style="text-align: center;">64677</td>
+<td style="text-align: center;">3110.8</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">218.0</td>
+<td style="text-align: center;">926.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Plumas</td>
+<td style="text-align: center;">18955</td>
+<td style="text-align: center;">3001.8</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">211.0</td>
+<td style="text-align: center;">933.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Calaveras</td>
+<td style="text-align: center;">44605</td>
+<td style="text-align: center;">2475.1</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">190.6</td>
+<td style="text-align: center;">784.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Mariposa</td>
+<td style="text-align: center;">16860</td>
+<td style="text-align: center;">2437.7</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">189.8</td>
+<td style="text-align: center;">806.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Modoc</td>
+<td style="text-align: center;">8446</td>
+<td style="text-align: center;">2439.0</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">189.4</td>
+<td style="text-align: center;">923.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">San Luis Obispo</td>
+<td style="text-align: center;">280251</td>
+<td style="text-align: center;">2158.8</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">173.4</td>
+<td style="text-align: center;">707.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details open class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>by_cnty_week <span class="ot">&lt;-</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">counts_week_groups</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> df, mmwr_year, mmwr_week, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      county, health_officer_region</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>by_cnty_pop <span class="ot">&lt;-</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calc_total_rates_pop</span>(</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> df, <span class="at">pop_col =</span> total_cnty_pop, </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      health_officer_region, county</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(health_officer_region, county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="by-sex" class="level3">
+<h3 class="anchored" data-anchor-id="by-sex">By Sex</h3>
+<ul>
+<li>initial note: males have higher infection rate; but females have higher rates of severe infections and unrecovered</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-bordered caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">sex</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">total_pop</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">inf_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">sev_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">unrec_rate_100k</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">849329</td>
+<td style="text-align: center;">15316.8</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">478.0</td>
+<td style="text-align: center;">1992.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">MALE</td>
+<td style="text-align: center;">806708</td>
+<td style="text-align: center;">17082.3</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">419.6</td>
+<td style="text-align: center;">1784.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details open class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>by_sex_cnty <span class="ot">&lt;-</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calc_total_rates_pop</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> df, <span class="at">pop_col =</span> total_sex_pop, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>      health_officer_region, county, sex</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(health_officer_region, county, sex)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>by_sex_total <span class="ot">&lt;-</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calc_total_rates_pop</span>(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> df, <span class="at">pop_col =</span> total_sex_pop, sex</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="by-race-and-ethnicity" class="level3">
+<h3 class="anchored" data-anchor-id="by-race-and-ethnicity">By Race and Ethnicity</h3>
+<ul>
+<li>initial note: Hispanic population has highest infection rate, severe infection rate, and unrecovered rate – all across the board – this community is being impacted the most.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-bordered caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">race_long</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">total_pop</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">inf_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">sev_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">unrec_rate_100k</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Hispanic (any race)</td>
+<td style="text-align: center;">335452</td>
+<td style="text-align: center;">41080.1</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">1015.3</td>
+<td style="text-align: center;">4295.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">White, Non-Hispanic</td>
+<td style="text-align: center;">485940</td>
+<td style="text-align: center;">11033.5</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">835.5</td>
+<td style="text-align: center;">3481.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">American Indian or Alaska Native, Non-Hispanic</td>
+<td style="text-align: center;">4569</td>
+<td style="text-align: center;">11775.0</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">744.1</td>
+<td style="text-align: center;">2626.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Black, Non-Hispanic</td>
+<td style="text-align: center;">157817</td>
+<td style="text-align: center;">11989.2</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">621.0</td>
+<td style="text-align: center;">2577.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Asian, Non-Hispanic</td>
+<td style="text-align: center;">568612</td>
+<td style="text-align: center;">5079.7</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">345.9</td>
+<td style="text-align: center;">1400.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Native Hawaiian or Pacific Islander, Non-Hispanic</td>
+<td style="text-align: center;">14710</td>
+<td style="text-align: center;">6233.9</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">163.2</td>
+<td style="text-align: center;">666.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Multiracial (two or more of above races), Non-Hispanic</td>
+<td style="text-align: center;">88937</td>
+<td style="text-align: center;">6127.9</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">133.8</td>
+<td style="text-align: center;">579.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details open class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>by_race_cnty <span class="ot">&lt;-</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calc_total_rates_pop</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> df, <span class="at">pop_col =</span> total_race_pop, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      health_officer_region, county, race_long) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(health_officer_region, county, race_long)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>by_race_total <span class="ot">&lt;-</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calc_total_rates_pop</span>(<span class="at">df =</span> df, <span class="at">pop_col =</span> total_race_pop, race_long) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
 
 </main>
 <!-- /main column -->
