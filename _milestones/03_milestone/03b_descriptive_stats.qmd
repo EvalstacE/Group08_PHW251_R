@@ -14,3 +14,23 @@ pop_df <- read.csv(file = here("_data/cleaned_data/cleaned_pop_df.csv"))
 ```
 
 
+to do: 
+
+* Overall descriptive stats: 
+
+  * infections by age group / county / region / race/ethnicity 
+  * severe infections by age group / county / region / race/ethnicity
+  * unrecovered infections by age group / county / region / race/ethnicity
+  
+  * infections/severe infections/unrecovered infections by MMWR week
+  * infections/severe infections/unrecovered infections by MMWR week / county or region
+
+* Create a rate metric and summarize to include only one row per strata of interest
+
+    * age-adjusted rates - compare AAR across county / region
+    * Incidence rate / densities by age group and month?
+    * Incidence rate / densities by race/ethnicity and month?
+    
+* Aggregate the data into a new dataframe(s) to include only one row per strata of interest
+
+
