@@ -24,16 +24,14 @@ ca_df <- raw_ca_df %>% select(-dt_diagnosis) %>%
 
 ##-- LA county dataset
 la_cnty_df <- raw_la_cnty_df %>%
-  rename(
-    "age_cat" = "age_category", 
-    "race_ethnicity" = "race_eth",
-    "new_infections" = "dx_new",
-    "cumulative_infected" = "infected_cumulative",
-    "new_unrecovered" = "unrecovered_new",
-    "cumulative_unrecovered" = "unrecovered_cumulative",
-    "new_severe" = "severe_new",
-    "cumulative_severe" = "severe_cumulative"
-  ) %>%
+  rename("age_cat" = "age_category", 
+        "race_ethnicity" = "race_eth",
+        "new_infections" = "dx_new",
+        "cumulative_infected" = "infected_cumulative",
+        "new_unrecovered" = "unrecovered_new",
+        "cumulative_unrecovered" = "unrecovered_cumulative",
+        "new_severe" = "severe_new",
+        "cumulative_severe" = "severe_cumulative") %>%
   mutate(county = "Los Angeles") %>%
   relocate(county, .before = everything()) 
 
@@ -132,6 +130,7 @@ pop_recat_subset <- pop_df_recat %>%
 
 
 <div class="column-box">
+
 ### Table 1: Reconciling Age Group Categories and Population Counts
 
 **Original Age Groups:**
@@ -189,11 +188,12 @@ pop_recat_subset %>%
 :::: {.columns style="display: flex; gap: 2rem; justify-content: space-between;"}
 ::: {.column width="40%"}
 
-To support date-based analyses, infection records will be aggregated by **MMWR week and year**. For both the Los Angeles County and California datasets, we will generate two new columns: **MMWRyear** and **MMWRweek**, then remove the original date-based fields. We will also add columns **start_date** and **end_date** to serve as reference points should we need them later. 
+To support date-based analyses, infection records will be aggregated by **MMWR week and year**. For both the Los Angeles County and California datasets, we will generate two new columns: **mmwr_year** and **mmwr_week**, then remove the original date-based fields. We will also add columns **start_date** and **end_date** to serve as reference points should we need them later. 
 
-In the California dataset, the field **time_int** encodes the year and MMWR week as a six-digit integer (YYYYWW). To create the new fields, we extract the first four digits as MMWRyear and the last two digits as MMWRweek, then drop the original time_int column.
+In the California dataset, the field **time_int** encodes the year and MMWR week as a six-digit integer (YYYYWW). To create the new fields, we extract the first four digits as mmwr_year and the last two digits as mmwr_week, then drop the original time_int column.
 
-In the Los Angeles County dataset, the codebook identifies a field **dt_report** as the last day of the MMWR week. However, this field contained only missing values, so it was removed. Instead, we convert the infection date field, **dt_dx** to a proper date format, and then use the `MMWRweek` package to derive the MMWRyear and MMWRweek.
+In the Los Angeles County dataset, the codebook identifies a field **dt_report** as the last day of the MMWR week. However, this field contained only missing values, so it was removed. Instead, we convert the infection date field, **dt_dx** to a proper date format, and then use the `MMWRweek` package to derive the mmwr_year and mmwr_week.
+
 
 
 :::
@@ -210,18 +210,18 @@ mutate(DATE_FIX =
 add_mmwr_week_columns(date_col = "DATE_FIX") %>%
 add_start_end_dates() %>%
 select(-c(DATE_FIX, dt_dx)) %>%
-relocate(MMWRyear, MMWRweek, start_date, 
+relocate(mmwr_year, mmwr_week, start_date, 
          end_date, .before = everything()) %>%
 relocate(county, .before = age_cat)
 
 ca_df <- ca_df %>%
 ##--pull MMWR week and year from time_int field
 mutate(
-  MMWRyear = time_int %/% 100, 
-  MMWRweek = time_int %% 100) %>%
+  mmwr_year = factor(time_int %/% 100), 
+  mmwr_week = factor(time_int %% 100)) %>%
 add_start_end_dates() %>%
 select(-time_int) %>%
-relocate(MMWRyear, MMWRweek, start_date, 
+relocate(mmwr_year, mmwr_week, start_date, 
          end_date, .before = everything())
 
 ```
@@ -230,17 +230,20 @@ relocate(MMWRyear, MMWRweek, start_date,
 :::
 ::::
 
+
 To streamline this process, we created two helper functions:
 
-* `add_mmwr_week_columns()` : takes date column and adds two fields: MMWRyear and MMWRweek
+* `add_mmwr_week_columns()` : takes date column and adds two fields: mmwr_year and mmwr_week
 * `add_start_end_dates()` : uses those values to generate corresponding MMWR week start and end dates
+
 
 <div class="column-box">
 **The dataframes now have a structure that looks like this:** 
+
 ```{r, echo = FALSE}
 
 la_cnty_slice <- la_cnty_df %>%
-  select(MMWRyear, MMWRweek, start_date, end_date, county, age_cat, new_infections) %>%
+  select(mmwr_year, mmwr_week, start_date, end_date, county, age_cat, new_infections) %>%
   slice_head(n=3)
 
 la_cnty_slice %>%
@@ -250,13 +253,13 @@ la_cnty_slice %>%
     bold = TRUE,
     color = "#0f172a",
     background = "#ffde59",
-    font_size = 14
+    font_size = 16
   ), 1:4) %>%
   kbl(escape = FALSE, align = "c") %>%
   row_spec(0, 
-         bold = TRUE, 
-         background = "#0f172a",
-         extra_css = "font-size: 14px!important;color:#ffffff;") %>%
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
   kable_styling(bootstrap_options = c("bordered"))
   
 ```
@@ -264,22 +267,22 @@ la_cnty_slice %>%
 </div>
 
 
-
 \newpage
 
 
 ## Race and Ethnicity: 
 
-Each of the three datasets defines Race / Ethnicity differently. The California dataset uses numeric codes, the Los Angeles County dataset uses full text labels, and the population dataset uses abbreviated text. Leaving them as they are, the inconsistencies would make it impossible to merge or compare records across sources. 
+Each of the three datasets defines Race / Ethnicity differently. The California dataset uses numeric codes, the Los Angeles County dataset uses full text labels, and the population dataset uses abbreviated text. 
 
-To resolve this, we created a crosswalk file (**race_ethnicity_map.csv**) that aligns the three formats. This mapping links each coded value to its corresponding long and short text forms. By joining this crosswalk to each dataset, we ensure that all three contain a consistent set of race and ethnicity variables: each with a numeric code, a short label, and a descriptive label. This structure supports cleaner joins, consistent groupings in visualizations, and clearer reporting later in the analysis. 
+To resolve this, we created a crosswalk file (**race_ethnicity_map.csv**) that aligns the three formats. By joining this crosswalk to each dataset, we ensure that all three contain a consistent set of race and ethnicity variables: each with the numeric code, the abbreviated text, and the full text label.
 
 
 ```{r, echo = FALSE}
 race_ethnicity_map <- read.csv(file = here("_data/race_ethnicity_map.csv")) %>%
   mutate(
     race_long = clean(race_long),
-    race_short = clean(race_short)
+    race_short = clean(race_short),
+    race_coded = as.character(race_coded)
   )
 
 ```
@@ -289,6 +292,7 @@ race_ethnicity_map <- read.csv(file = here("_data/race_ethnicity_map.csv")) %>%
 
 ca_df <- ca_df %>%
   rename("race_coded" = "race_ethnicity") %>%
+  mutate(race_coded = as.character(race_coded)) %>%
   left_join(race_ethnicity_map, by = "race_coded")%>%
   relocate(race_coded, race_short, race_long, .after = sex)
 
@@ -308,6 +312,7 @@ pop_df <- pop_df_recat %>%
 ```
 
 
+
 ### Race and Ethnicity Crosswalk Table:
 
 ```{r, echo = FALSE}
@@ -325,57 +330,51 @@ race_ethnicity_map %>%
 
 
 
+\newpage
+
+
+## Final Combined Database
+
+After reconciling all column names across the 3 datasets, standardizing age group, race/ethnicity, and infection date variables, we merge them together to generate a final, complete database and begin our descriptive explorations and analyses. 
+```{r}
+
+combined_df <- rbind(ca_df, la_cnty_df) %>%
+  left_join(pop_df, by = c("county", "sex", "race_coded", 
+            "race_short", "race_long", "age_cat")) %>%
+  relocate(health_officer_region,  .after = county) %>%
+  relocate(pop, .after = race_long) %>%
+  mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
+
+```
 
 
 \newpage
 
 
+::: {.section-banner}
 
-## Final Combined Database
+<div class="banner-text-container">
+  <div class="sb-title">Final Data Dictionary</div>
+</div>
 
-Now that we have reconciled all column names across the 3 datasets, standardized age group, race/ethnicity, and infection date variables, we are ready to merge them together to generate a final, complete database that is ready to begin our descriptive exploration and analyses. 
-
-```{r}
-
-combined_df <- rbind(ca_df, la_cnty_df) %>%
-  left_join(
-    pop_df, 
-    by = c("county", "sex", "race_coded", 
-            "race_short", "race_long", "age_cat")
-    ) %>%
-  relocate(health_officer_region,  .after = county) %>%
-  relocate(pop, .after = race_long)
-
-```
+:::
 
 
 ```{r, echo = FALSE}
 
-final_cols <- combined_df %>%
-  summarise(
-    across(everything(),
-           list(class = ~ class(.x)[1],
-                type  = ~ typeof(.x)))
-  ) %>%
-  pivot_longer(
-    everything(),
-    names_to = c("variable", ".value"),
-    names_sep = "_"
-  )
+final_summary <- summarize_df(combined_df, examples_n = 4)
+#write.csv(final_summary, file = here("_data/final_summary.csv"), row.names = FALSE)
+
+data_dictionary <- read.csv(file = here("_data/final_codebook.csv"))
+
+data_dictionary %>% 
+  kbl(align = "c") %>%
+  kable_styling(bootstrap_options = c("bordered")) %>%
+  row_spec(0, 
+           bold = TRUE, 
+           background = "#0f172a",
+           extra_css = "font-size: 14px!important;color:#ffffff;")
 
 ```
-
-
-
-saved each cleaned database (and the combined one), prior to starting analyses / descriptive stats: 
-
-```{r}
-
-#write.csv(la_cnty_df, file = here("_data/cleaned_data/cleaned_la_df.csv"), row.names = FALSE)
-#write.csv(ca_df, file = here("_data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)
-#write.csv(pop_df, file = here("_data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)
-#write.csv(combined_df, file = here("_data/cleaned_data/combined_df.csv"), row.names = FALSE)
-```
-
 
 

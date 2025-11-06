@@ -49,8 +49,6 @@ raw_pop_df <- read.csv(file = here("_data/raw_data/raw_pop_df.csv"))
 
 <div class="banner-text-container">
   <div class="sb-title">Preparing Data for Analysis</div>
-  <div class="sb-accent"></div>
-  <div class="sb-subtitle">Cleaning and Restructuring</div>
 </div>
 
 :::
