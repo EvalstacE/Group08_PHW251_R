@@ -1,0 +1,19 @@
+variable,class,definition,n_unique,examples
+end_date,Date,last date of Epi week,31,format: 2023-06-03
+start_date,Date,first date of Epi week,31,format: 2023-05-28
+county,character,county of residence of cases,58,"Alameda, Alpine, Amador, Butte"
+health_officer_region,character,California Health Officer Region,6,"Bay Area, Greater Sierra Sacramento, Central California, Rural North"
+race_coded,character,race category codes,7,"1, 2, 3, 4, 5, 6, 7"
+race_long,character,race category full text,7,"White, Non-Hispanic, Black, Non-Hispanic, American Indian or Alaska Native"
+race_short,character,race category abbreviated text,7,"WhiteTE NH, Black NH, AIAN NH, Asian NH"
+sex,character,sex categorization,2,"FEMALE, MALE"
+age_cat,factor,age category,4,"0-17, 18-49, 50-64, 65+"
+mmwr_week,factor,epi week 40 in 2022 to epi week 23 in 2023,31,"22, 23, 24, 25, 26, 27, 28"
+mmwr_year,factor,year,1,2023
+cumulative_infected,integer,total number of diagnosed individuals,NA,0 - 137804
+cumulative_severe,integer,total number of identified individuals having severe disease requiring hospitalization,NA,0 - 4060
+cumulative_unrecovered,integer,total number of people reported as unrecovered after a week of being diagnosed,NA,0 - 16920
+new_infections,integer,newly diagnosed individuals,NA,0 - 12110
+new_severe,integer,newly identified individuals having severe disease requiring hospitalization,NA,0 - 352
+new_unrecovered,integer,newly people reported as unrecovered after a week of being diagnosed,NA,0 - 1436
+pop,integer,estimated population by age group for year 2023,NA,0 - 980387
