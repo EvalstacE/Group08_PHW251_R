@@ -1,0 +1,77 @@
+
+
+## Final Combined Database
+
+```{r, include = FALSE}
+#| label: setup
+#| include: false
+#| warning: false
+#| message: false
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra, janitor, reactable, MMWRweek
+)
+
+# Source all helper functions
+func_dir <- here::here("_functions")
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+purrr::walk(r_files, source)
+
+
+# === Load all CSVs from _data/tbl_outputs_03 ===
+data_dir <- here::here("_data", "tbl_outputs_03")
+
+csv_files <- list.files(
+  path = data_dir,
+  pattern = "\\.csv$",
+  full.names = TRUE
+)
+
+# Read and assign each CSV to an object named after its file
+purrr::walk(csv_files, function(file_path) {
+  # Extract clean base name (no extension)
+  obj_name <- tools::file_path_sans_ext(basename(file_path))
+  # Read file
+  df <- readr::read_csv(file_path, show_col_types = FALSE)
+  # Assign to the global environment so all chapters can access
+  assign(obj_name, df, envir = knitr::knit_global())
+})
+
+
+```
+
+
+After reconciling all column names across the 3 datasets, standardizing age group, race/ethnicity, and infection date variables, we merge them together to generate a final, complete database and begin our descriptive explorations and analyses. 
+
+```{r, eval = FALSE}
+
+step2_ca_df <- read.csv(file = here("_data/tbl_outputs_03/step2_ca_df.csv"))
+step2_la_cnty_df <- read.csv(file = here("_data/tbl_outputs_03/step2_la_cnty_df.csv"))
+step2_pop_df <- read.csv(file = here("_data/tbl_outputs_03/step2_pop_df.csv"))
+
+
+combined_df <- rbind(step2_ca_df, step2_la_cnty_df) %>%
+  relocate(health_officer_region,  .after = county) %>%
+  relocate(pop, .after = race_long) %>%
+  mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
+
+```
+
+
+```{r}
+
+# final cleaned dataframes stored in "_data/cleaned_data/" directory
+
+#--write.csv(combined_df, file = here("_data/cleaned_data/combined_df.csv"), row.names = FALSE)
+#--write.csv(ca_df, file = here("_data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)
+#--write.csv(la_cnty_df, file = here("_data/cleaned_data/cleaned_la_cnty_df.csv"), row.names = FALSE)
+#--write.csv(pop_df, file = here("_data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)
+
+```
+
+
+

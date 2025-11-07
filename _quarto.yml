@@ -20,14 +20,14 @@ book:
     
     - part: "Data Preparation"
       chapters: 
-        - _milestones/03_milestone/03a_aligning_columns.qmd
-        - _milestones/03_milestone/03b_restructuring_variables.qmd
-        - _milestones/03_milestone/03c_creating_final_datasets.qmd
-        - _milestones/03_milestone/03d_final_data_dictionary.qmd        
+        - milestones/03_milestone/03a_aligning_columns.qmd
+        - milestones/03_milestone/03b_restructuring_variables.qmd
+        - milestones/03_milestone/03c_creating_final_datasets.qmd
+        - milestones/03_milestone/03d_final_data_dictionary.qmd        
         
     - part: "Descriptive Exploration"
       chapters: 
-        - _milestones/03_milestone/03e_descriptive_stats.qmd
+        - milestones/03_milestone/03e_descriptive_stats.qmd
 
 sidebar:
   style: docked
