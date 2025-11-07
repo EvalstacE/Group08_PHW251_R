@@ -80,7 +80,7 @@ pop_df <- raw_pop_df %>%
 |
 |
 
-![](www/cleaned_col_tbl.png){width="75%"}
+![](../../www/cleaned_col_tbl.png){width="75%"}
 
 
 

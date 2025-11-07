@@ -1,7 +1,7 @@
 project:
   type: book
   output-dir: docs
-  
+  resources: [".nojekyll"]
   
 website:
   site-url: https://evalstace.github.io/Group08_PHW251_R/
@@ -25,10 +25,6 @@ book:
     - part: "Descriptive Exploration"
       chapters: 
         - milestones/03_milestone/03e_descriptive_stats.qmd
-
-sidebar:
-  style: docked
-  search: true
 
 page-navigation: true
 
