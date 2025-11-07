@@ -35,6 +35,8 @@ format:
     code-copy: true
     code-overflow: wrap
     css: "www/styles.css"
+    toc: false
+    number-depth: 2
     
 execute:
   message: false
