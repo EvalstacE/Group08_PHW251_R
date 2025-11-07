@@ -12,6 +12,7 @@ You are an employee of the California Department of Public Health working on inf
 Your supervisors are interested to know the course of the outbreak, if it is disproportionately affecting certain demographic or geographic populations and how prevention and treatment resources should be allocated.
 
 **Data**
+
 You have been given three datasets: 
 
   * **Dataset one (sim_novelid_CA.csv)** contains weekly data about cases and case severity by demographic categories (age category, race, sex) and geographic categories (county) for California counties (except for Los Angeles county); 

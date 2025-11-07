@@ -59,29 +59,30 @@ In the original population database, counts are reported for each single year of
 ::: {.column width="55%"}
 
 
-```{r, eval = FALSE}
-
-step1_ca_df <- read.csv(file = here("data/tbl_outputs_03/step1_ca_df.csv"))
-step1_la_cnty_df <- read.csv(file = here("data/tbl_outputs_03/step1_la_cnty_df.csv"))
-step1_pop_df <- read.csv(file = here("data/tbl_outputs_03/step1_pop_df.csv"))
-
-```
-
 
 ```{r}
 
 step2_pop_df <- step1_pop_df %>%
-  group_by(county, health_officer_region, 
-           sex, race_ethnicity, age_cat) %>%
+  group_by(
+      county, health_officer_region, 
+      sex, race_ethnicity, age_cat
+  ) %>%
   summarise(pop = sum(pop), .groups = "drop")
 
+#-aggregate population counts 
+##--to 4 age category format:
 step2_pop_df_recat <- step1_pop_df %>%
-  mutate(new_age_group = 
-          if_else(age_cat %in% 
-              c("0-4", "5-11", "12-17"),
-              "0-17", age_cat)) %>%
-  group_by(county, health_officer_region, sex, 
-           race_ethnicity, new_age_group) %>%
+  mutate(
+    new_age_group = 
+      if_else(
+        age_cat %in% 
+          c("0-4", "5-11", "12-17"),
+              "0-17", age_cat)
+  ) %>%
+  group_by(
+      county, health_officer_region, sex, 
+      race_ethnicity, new_age_group
+  ) %>%
   summarise(pop = sum(pop), .groups = "drop") %>%
   rename("age_cat" = "new_age_group")
   
