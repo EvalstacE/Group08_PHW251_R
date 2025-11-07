@@ -23,9 +23,9 @@ r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
 purrr::walk(r_files, source)
 
 
-step1_ca_df <- read.csv(file = here("_milestones/03_milestone/step1_tbl_outputs/step1_ca_df.csv"))
-step1_la_cnty_df <- read.csv(file = here("_milestones/03_milestone/step1_tbl_outputs/step1_la_cnty_df.csv"))
-step1_pop_df <- read.csv(file = here("_milestones/03_milestone/step1_tbl_outputs/step1_pop_df.csv"))
+step1_ca_df <- read.csv(file = here("step1_tbl_outputs/step1_ca_df.csv"))
+step1_la_cnty_df <- read.csv(file = here("step1_tbl_outputs/step1_la_cnty_df.csv"))
+step1_pop_df <- read.csv(file = here("step1_tbl_outputs/step1_pop_df.csv"))
 
 ```
 

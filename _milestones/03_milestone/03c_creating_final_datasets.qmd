@@ -29,9 +29,9 @@ After reconciling all column names across the 3 datasets, standardizing age grou
 
 ```{r, eval = FALSE}
 
-step2_ca_df <- read.csv(file = here("_milestones/03_milestone/step2_tbl_outputs/step2_ca_df.csv"))
-step2_la_cnty_df <- read.csv(file = here("_milestones/03_milestone/step2_tbl_outputs/step2_la_cnty_df.csv"))
-step2_pop_df <- read.csv(file = here("_milestones/03_milestone/step2_tbl_outputs/step2_pop_df.csv"))
+step2_ca_df <- read.csv(file = here("step2_tbl_outputs/step2_ca_df.csv"))
+step2_la_cnty_df <- read.csv(file = here("step2_tbl_outputs/step2_la_cnty_df.csv"))
+step2_pop_df <- read.csv(file = here("step2_tbl_outputs/step2_pop_df.csv"))
 
 
 combined_df <- rbind(step2_ca_df, step2_la_cnty_df) %>%
