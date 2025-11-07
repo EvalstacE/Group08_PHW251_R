@@ -1,7 +1,6 @@
 # Infection Dates
 
 ```{r}
-#| label: setup
 #| include: false
 #| warning: false
 #| message: false

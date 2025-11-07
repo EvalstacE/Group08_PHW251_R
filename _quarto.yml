@@ -8,11 +8,15 @@ website:
 
 book:
   bread-crumbs: false
-  reader-mode: true
+  reader-mode: false
   back-to-top-navigation: true
   title: "Simulated Infectious Disease Outbreak in California"
   author: "Group 8: Erin Curlee, Val Stacey, Ana Terzo"
   date: "11/11/2025"  
+  sidebar:
+    style: docked
+    pinned: true
+
   chapters:
     - index.qmd
     - part: "Data Preparation"
@@ -34,7 +38,7 @@ page-navigation: true
 format: 
   html:
     theme: cosmo
-    code-fold: show
+    code-fold: true
     code-copy: true
     code-overflow: wrap
     css: "www/styles.css"

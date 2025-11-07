@@ -85,3 +85,26 @@
   border-radius: 8px;           
   padding: 1rem 1.25rem;    
 }
+
+
+
+
+
+
+
+
+/* quarto book sidebar options */
+.headroom,
+.quarto-title-block .headroom {
+  position: sticky !important;
+  top: 0 !important;
+  transform: none !important;
+}
+
+/* Keep the left sidebar fixed */
+.sidebar, .quarto-sidebar {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  overflow-y: auto !important;
+}
