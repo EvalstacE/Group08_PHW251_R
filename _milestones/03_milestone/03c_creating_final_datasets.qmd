@@ -2,7 +2,7 @@
 
 ## Final Combined Database
 
-```{r}
+```{r, include = FALSE}
 #| label: setup
 #| include: false
 #| warning: false
@@ -22,6 +22,26 @@ r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
 purrr::walk(r_files, source)
 
 
+# === Load all CSVs from _data/tbl_outputs_03 ===
+data_dir <- here::here("_data", "tbl_outputs_03")
+
+csv_files <- list.files(
+  path = data_dir,
+  pattern = "\\.csv$",
+  full.names = TRUE
+)
+
+# Read and assign each CSV to an object named after its file
+purrr::walk(csv_files, function(file_path) {
+  # Extract clean base name (no extension)
+  obj_name <- tools::file_path_sans_ext(basename(file_path))
+  # Read file
+  df <- readr::read_csv(file_path, show_col_types = FALSE)
+  # Assign to the global environment so all chapters can access
+  assign(obj_name, df, envir = knitr::knit_global())
+})
+
+
 ```
 
 
@@ -29,9 +49,9 @@ After reconciling all column names across the 3 datasets, standardizing age grou
 
 ```{r, eval = FALSE}
 
-step2_ca_df <- read.csv(file = here("step2_tbl_outputs/step2_ca_df.csv"))
-step2_la_cnty_df <- read.csv(file = here("step2_tbl_outputs/step2_la_cnty_df.csv"))
-step2_pop_df <- read.csv(file = here("step2_tbl_outputs/step2_pop_df.csv"))
+step2_ca_df <- read.csv(file = here("_data/tbl_outputs_03/step2_ca_df.csv"))
+step2_la_cnty_df <- read.csv(file = here("_data/tbl_outputs_03/step2_la_cnty_df.csv"))
+step2_pop_df <- read.csv(file = here("_data/tbl_outputs_03/step2_pop_df.csv"))
 
 
 combined_df <- rbind(step2_ca_df, step2_la_cnty_df) %>%

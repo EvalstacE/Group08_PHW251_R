@@ -3,7 +3,7 @@
 ## Restructuring Variables 
 
 
-```{r}
+```{r, include = FALSE}
 #| label: setup
 #| include: false
 #| warning: false
@@ -23,9 +23,24 @@ r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
 purrr::walk(r_files, source)
 
 
-step1_ca_df <- read.csv(file = here("step1_tbl_outputs/step1_ca_df.csv"))
-step1_la_cnty_df <- read.csv(file = here("step1_tbl_outputs/step1_la_cnty_df.csv"))
-step1_pop_df <- read.csv(file = here("step1_tbl_outputs/step1_pop_df.csv"))
+# === Load all CSVs from _data/tbl_outputs_03 ===
+data_dir <- here::here("_data", "tbl_outputs_03")
+
+csv_files <- list.files(
+  path = data_dir,
+  pattern = "\\.csv$",
+  full.names = TRUE
+)
+
+# Read and assign each CSV to an object named after its file
+purrr::walk(csv_files, function(file_path) {
+  # Extract clean base name (no extension)
+  obj_name <- tools::file_path_sans_ext(basename(file_path))
+  # Read file
+  df <- readr::read_csv(file_path, show_col_types = FALSE)
+  # Assign to the global environment so all chapters can access
+  assign(obj_name, df, envir = knitr::knit_global())
+})
 
 ```
 
@@ -42,6 +57,16 @@ In the original population database, counts are reported for each single year of
 
 :::
 ::: {.column width="55%"}
+
+
+```{r, eval = FALSE}
+
+step1_ca_df <- read.csv(file = here("_data/tbl_outputs_03/step1_ca_df.csv"))
+step1_la_cnty_df <- read.csv(file = here("_data/tbl_outputs_03/step1_la_cnty_df.csv"))
+step1_pop_df <- read.csv(file = here("_data/tbl_outputs_03/step1_pop_df.csv"))
+
+```
+
 
 ```{r}
 
