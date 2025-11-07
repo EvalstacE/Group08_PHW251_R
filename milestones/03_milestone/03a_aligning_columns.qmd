@@ -1,5 +1,5 @@
 
-## Aligning Column Names
+# Aligning Column Names
 
 ```{r}
 #| label: setup
@@ -16,7 +16,7 @@ pacman::p_load(
 )
 
 # Source all helper functions
-func_dir <- here::here("_functions")
+func_dir <- here::here("functions")
 r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
 purrr::walk(r_files, source)
 
@@ -39,9 +39,9 @@ After completing these adjustments --- renaming columns in the Los Angeles Count
 ```{r, eval = FALSE}
 
 #- Raw, provided datasets:
-raw_ca_df <- read.csv(file = here("_data/raw_data/raw_ca_df.csv"))
-raw_la_cnty_df <- read.csv(file = here("_data/raw_data/raw_la_cnty_df.csv"))
-raw_pop_df <- read.csv(file = here("_data/raw_data/raw_pop_df.csv"))
+raw_ca_df <- read.csv(file = here("data/raw_data/raw_ca_df.csv"))
+raw_la_cnty_df <- read.csv(file = here("data/raw_data/raw_la_cnty_df.csv"))
+raw_pop_df <- read.csv(file = here("data/raw_data/raw_pop_df.csv"))
 
 ##-- California dataset:
 ca_df <- raw_ca_df %>% select(-dt_diagnosis) %>%
@@ -80,7 +80,7 @@ pop_df <- raw_pop_df %>%
 |
 |
 
-![](../../_www/cleaned_col_tbl.png){width="75%"}
+![](www/cleaned_col_tbl.png){width="75%"}
 
 
 

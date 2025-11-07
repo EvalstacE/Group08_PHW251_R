@@ -1,6 +1,6 @@
 
 
-## Final Data Dictionary
+# Final Data Dictionary
 
 ```{r}
 #| label: setup
@@ -17,7 +17,7 @@ pacman::p_load(
 )
 
 # Source all helper functions
-func_dir <- here::here("_functions")
+func_dir <- here::here("functions")
 r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
 purrr::walk(r_files, source)
 
@@ -27,7 +27,7 @@ purrr::walk(r_files, source)
 
 ```{r}
 
-data_dictionary <- read.csv(file = here("_data/final_codebook.csv"))
+data_dictionary <- read.csv(file = here("data/final_codebook.csv"))
 
 data_dictionary %>% 
 kbl(align = "c", 

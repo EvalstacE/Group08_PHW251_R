@@ -1,8 +1,8 @@
 
 
-## Final Combined Database
+# Final Combined Database
 
-```{r, include = FALSE}
+```{r}
 #| label: setup
 #| include: false
 #| warning: false
@@ -17,13 +17,13 @@ pacman::p_load(
 )
 
 # Source all helper functions
-func_dir <- here::here("_functions")
+func_dir <- here::here("functions")
 r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
 purrr::walk(r_files, source)
 
 
 # === Load all CSVs from _data/tbl_outputs_03 ===
-data_dir <- here::here("_data", "tbl_outputs_03")
+data_dir <- here::here("data", "tbl_outputs_03")
 
 csv_files <- list.files(
   path = data_dir,
@@ -49,9 +49,9 @@ After reconciling all column names across the 3 datasets, standardizing age grou
 
 ```{r, eval = FALSE}
 
-step2_ca_df <- read.csv(file = here("_data/tbl_outputs_03/step2_ca_df.csv"))
-step2_la_cnty_df <- read.csv(file = here("_data/tbl_outputs_03/step2_la_cnty_df.csv"))
-step2_pop_df <- read.csv(file = here("_data/tbl_outputs_03/step2_pop_df.csv"))
+step2_ca_df <- read.csv(file = here("data/tbl_outputs_03/step2_ca_df.csv"))
+step2_la_cnty_df <- read.csv(file = here("data/tbl_outputs_03/step2_la_cnty_df.csv"))
+step2_pop_df <- read.csv(file = here("data/tbl_outputs_03/step2_pop_df.csv"))
 
 
 combined_df <- rbind(step2_ca_df, step2_la_cnty_df) %>%
@@ -64,12 +64,12 @@ combined_df <- rbind(step2_ca_df, step2_la_cnty_df) %>%
 
 ```{r}
 
-# final cleaned dataframes stored in "_data/cleaned_data/" directory
+# final cleaned dataframes stored in "data/cleaned_data/" directory
 
-#--write.csv(combined_df, file = here("_data/cleaned_data/combined_df.csv"), row.names = FALSE)
-#--write.csv(ca_df, file = here("_data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)
-#--write.csv(la_cnty_df, file = here("_data/cleaned_data/cleaned_la_cnty_df.csv"), row.names = FALSE)
-#--write.csv(pop_df, file = here("_data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)
+#--write.csv(combined_df, file = here("data/cleaned_data/combined_df.csv"), row.names = FALSE)
+#--write.csv(ca_df, file = here("data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)
+#--write.csv(la_cnty_df, file = here("data/cleaned_data/cleaned_la_cnty_df.csv"), row.names = FALSE)
+#--write.csv(pop_df, file = here("data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)
 
 ```
 

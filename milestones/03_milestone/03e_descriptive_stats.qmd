@@ -1,5 +1,5 @@
 
-## Descriptive Statistics: Morbidity Datasets
+# Descriptive Statistics: Morbidity Datasets
 
 
 ```{r}
@@ -17,7 +17,7 @@ pacman::p_load(
 )
 
 # Source all helper functions
-func_dir <- here::here("_functions")
+func_dir <- here::here("functions")
 r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
 purrr::walk(r_files, source)
 
@@ -28,12 +28,12 @@ purrr::walk(r_files, source)
 
 # Bring in final combined database
 ##-- CA + LA + Population
-df <- read.csv(file = here("_data/cleaned_data/combined_df.csv"))
+df <- read.csv(file = here("data/cleaned_data/combined_df.csv"))
 
 ##-- final individual, cleaned databases:
-ca_df <- read.csv(file = here("_data/cleaned_data/cleaned_ca_df.csv"))
-la_cnty_df <- read.csv(file = here("_data/cleaned_data/cleaned_la_cnty_df.csv"))
-pop_df <- read.csv(file = here("_data/cleaned_data/cleaned_pop_df.csv"))
+ca_df <- read.csv(file = here("data/cleaned_data/cleaned_ca_df.csv"))
+la_cnty_df <- read.csv(file = here("data/cleaned_data/cleaned_la_cnty_df.csv"))
+pop_df <- read.csv(file = here("data/cleaned_data/cleaned_pop_df.csv"))
 
 ```
 
