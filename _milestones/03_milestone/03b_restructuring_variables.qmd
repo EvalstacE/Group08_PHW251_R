@@ -2,6 +2,34 @@
 
 ## Restructuring Variables 
 
+
+```{r}
+#| label: setup
+#| include: false
+#| warning: false
+#| message: false
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra, janitor, reactable, MMWRweek
+)
+
+# Source all helper functions
+func_dir <- here::here("_functions")
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+purrr::walk(r_files, source)
+
+
+step1_ca_df <- read.csv(file = here("_milestones/03_milestone/step1_tbl_outputs/step1_ca_df.csv"))
+step1_la_cnty_df <- read.csv(file = here("_milestones/03_milestone/step1_tbl_outputs/step1_la_cnty_df.csv"))
+step1_pop_df <- read.csv(file = here("_milestones/03_milestone/step1_tbl_outputs/step1_pop_df.csv"))
+
+```
+
+
 ### Age Groups
 
 :::: {.columns style="display: flex; gap: 2rem; justify-content: space-between;"}
@@ -17,12 +45,12 @@ In the original population database, counts are reported for each single year of
 
 ```{r}
 
-pop_df <- pop_df %>%
+step2_pop_df <- step1_pop_df %>%
   group_by(county, health_officer_region, 
            sex, race_ethnicity, age_cat) %>%
   summarise(pop = sum(pop), .groups = "drop")
 
-pop_df_recat <- pop_df %>%
+step2_pop_df_recat <- step1_pop_df %>%
   mutate(new_age_group = 
           if_else(age_cat %in% 
               c("0-4", "5-11", "12-17"),
@@ -42,7 +70,7 @@ pop_df_recat <- pop_df %>%
 
 ```{r, echo = FALSE}
 
-pop_df_subset <- pop_df %>%
+pop_df_subset <- step2_pop_df %>%
   select(-health_officer_region) %>%
   filter(
     county == "Alameda",
@@ -57,7 +85,7 @@ pop_df_subset <- pop_df %>%
     )
 
 
-pop_recat_subset <- pop_df_recat %>%
+pop_recat_subset <- step2_pop_df_recat %>%
   select(-health_officer_region) %>%
   filter(
     county == "Alameda",
@@ -145,7 +173,20 @@ In the Los Angeles County dataset, the codebook identifies a field **dt_report**
 
 ```{r}
 
-la_cnty_df <- la_cnty_df %>%
+##-- California dataset:
+step2_ca_df <- step1_ca_df %>%
+##--pull MMWR week and year from time_int field
+mutate(
+  mmwr_year = factor(time_int %/% 100), 
+  mmwr_week = factor(time_int %% 100)) %>%
+add_start_end_dates() %>%
+select(-time_int) %>%
+relocate(mmwr_year, mmwr_week, start_date, 
+         end_date, .before = everything())
+
+
+##-- LA county dataset:
+step2_la_cnty_df <- step1_la_cnty_df %>%
 ##--restructure to proper date format
 mutate(DATE_FIX = 
   as.Date(parse_date_time(dt_dx, "%d%b%Y"), 
@@ -158,15 +199,6 @@ relocate(mmwr_year, mmwr_week, start_date,
          end_date, .before = everything()) %>%
 relocate(county, .before = age_cat)
 
-ca_df <- ca_df %>%
-##--pull MMWR week and year from time_int field
-mutate(
-  mmwr_year = factor(time_int %/% 100), 
-  mmwr_week = factor(time_int %% 100)) %>%
-add_start_end_dates() %>%
-select(-time_int) %>%
-relocate(mmwr_year, mmwr_week, start_date, 
-         end_date, .before = everything())
 
 ```
 
@@ -186,7 +218,7 @@ To streamline this process, we created two helper functions:
 
 ```{r, echo = FALSE}
 
-la_cnty_slice <- la_cnty_df %>%
+la_cnty_slice <- step2_la_cnty_df %>%
   select(mmwr_year, mmwr_week, start_date, end_date, county, age_cat, new_infections) %>%
   slice_head(n=3)
 
@@ -234,13 +266,13 @@ race_ethnicity_map <- read.csv(file = here("_data/race_ethnicity_map.csv")) %>%
 
 ```{r}
 
-ca_df <- ca_df %>%
+step2_ca_df <- step2_ca_df %>%
   rename("race_coded" = "race_ethnicity") %>%
   mutate(race_coded = as.character(race_coded)) %>%
   left_join(race_ethnicity_map, by = "race_coded")%>%
   relocate(race_coded, race_short, race_long, .after = sex)
 
-la_cnty_df <- la_cnty_df %>%
+step2_la_cnty_df <- step2_la_cnty_df %>%
   mutate(race_long = clean(race_ethnicity)) %>%
   select(-race_ethnicity) %>%
   left_join(race_ethnicity_map, by = "race_long") %>%
@@ -279,7 +311,7 @@ By creating and maintaining these summarized population counts, we avoid having 
 
 ```{r}
 
-pop_df <- pop_df_recat %>%
+step2_pop_df <- step2_pop_df_recat %>%
   
 ##-- join population database to the race/ethnicity map
   mutate(race_short = clean(race_ethnicity)) %>%
@@ -306,21 +338,21 @@ pop_df <- pop_df_recat %>%
 
 ```{r, echo = FALSE}
 
-ca_df <- ca_df %>%
-  left_join(pop_df, by = c("county", "sex", "race_coded", 
+step2_ca_df <- step2_ca_df %>%
+  left_join(step2_pop_df, by = c("county" ,"sex", "race_coded", 
             "race_short", "race_long", "age_cat")) %>%
   relocate(health_officer_region,  .after = county) %>%
   relocate(pop, .after = race_long) %>%
   mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
 
-la_cnty_df <- la_cnty_df %>%
-  left_join(pop_df, by = c("county", "sex", "race_coded", 
+step2_la_cnty_df <- step2_la_cnty_df %>%
+  left_join(step2_pop_df, by = c("county", "sex", "race_coded", 
             "race_short", "race_long", "age_cat")) %>%
   relocate(health_officer_region,  .after = county) %>%
   relocate(pop, .after = race_long) %>%
   mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
 
-by_cnty_year <- ca_df %>%
+by_cnty_year <- step2_ca_df %>%
   group_by(health_officer_region, county) %>%
   summarise(
     total_cnty_pop = first(total_cnty_pop),
@@ -363,6 +395,6 @@ cnty_slice %>%
 
 </div>
 
-\newpage
+
 
 

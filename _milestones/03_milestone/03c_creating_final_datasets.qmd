@@ -1,105 +1,40 @@
 
 
-## Population Counts by Demographic
-
-To calculate infection rates by demographic groups (such as county, health officer region, sex, or race/ethnicity), we first summarize total population counts for each demographic category within the population dataframe. The population dataset is then joined to both the master database (which merges all three datasets) and the individual California and Los Angeles datasets.
-
-By creating and maintaining these summarized population counts, we avoid having to recalculate them each time we focus on a different demographic group. For example, once this population dataset is joined to the California data, we can easily calculate population-adjusted infection rates that allow valid comparisons across counties with differing population sizes. 
+## Final Combined Database
 
 ```{r}
+#| label: setup
+#| include: false
+#| warning: false
+#| message: false
 
-pop_df <- pop_df_recat %>%
-  
-##-- join population database to the race/ethnicity map
-  mutate(race_short = clean(race_ethnicity)) %>%
-  select(-race_ethnicity) %>%
-  left_join(race_ethnicity_map, by = "race_short") %>%
-  relocate(race_coded, race_short, race_long, .after = sex) %>%
-  
-##-- calculate population totals by demographic
-  group_by(county, health_officer_region) %>%
-    mutate(total_cnty_pop = sum(pop)) %>% ungroup() %>%
-  group_by(county, health_officer_region, race_coded, race_short, race_long) %>%
-    mutate(total_race_pop = sum(pop)) %>% ungroup() %>%
-  group_by(county, health_officer_region, sex) %>%
-    mutate(total_sex_pop = sum(pop)) %>% ungroup() %>%
-  group_by(health_officer_region) %>%
-    mutate(total_HOR_pop = sum(pop)) %>% ungroup()
-```
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra, janitor, reactable, MMWRweek
+)
 
+# Source all helper functions
+func_dir <- here::here("_functions")
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+purrr::walk(r_files, source)
 
-
-<div class="column-box">
-
-### Table 2: Calculating Infection Rate by 100,000 Population Example
-
-```{r, echo = FALSE}
-
-ca_df <- ca_df %>%
-  left_join(pop_df, by = c("county", "sex", "race_coded", 
-            "race_short", "race_long", "age_cat")) %>%
-  relocate(health_officer_region,  .after = county) %>%
-  relocate(pop, .after = race_long) %>%
-  mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
-
-la_cnty_df <- la_cnty_df %>%
-  left_join(pop_df, by = c("county", "sex", "race_coded", 
-            "race_short", "race_long", "age_cat")) %>%
-  relocate(health_officer_region,  .after = county) %>%
-  relocate(pop, .after = race_long) %>%
-  mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
-
-by_cnty_year <- ca_df %>%
-  group_by(health_officer_region, county) %>%
-  summarise(
-    total_cnty_pop = first(total_cnty_pop),
-    total_infected = max(cumulative_infected),
-    total_inf_prop = total_infected / total_cnty_pop,
-    inf_rate_100k = round((total_inf_prop * 10^4),1),
-    .groups = "drop"
-  )
 
 ```
 
-
-```{r, echo = FALSE}
-
-cnty_slice <- by_cnty_year %>%
-  select(-health_officer_region) %>%
-  group_by(county) %>%
-  slice(1) %>%
-  ungroup() %>%
-  slice_head(n=3)
-
-cnty_slice %>%
-  kbl(escape = FALSE, align = "c",
-    col.names = c("County", "Total Population", 
-                  "Total Infected", "Proportion Infected", 
-                  "Infection Rate per 100K")) %>%
-  row_spec(0, 
-       bold = TRUE, 
-       background = "#0f172a",
-       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
-  
-  column_spec(5, 
-       bold = TRUE, 
-       background = "#5ce1e6"
-       ) %>%  
-  
-  kable_styling(bootstrap_options = c("bordered"))
-
-```
-
-
-
-
-## Final Combined Database
 
 After reconciling all column names across the 3 datasets, standardizing age group, race/ethnicity, and infection date variables, we merge them together to generate a final, complete database and begin our descriptive explorations and analyses. 
 
-```{r}
+```{r, eval = FALSE}
 
-combined_df <- rbind(ca_df, la_cnty_df) %>%
+step2_ca_df <- read.csv(file = here("_milestones/03_milestone/step2_tbl_outputs/step2_ca_df.csv"))
+step2_la_cnty_df <- read.csv(file = here("_milestones/03_milestone/step2_tbl_outputs/step2_la_cnty_df.csv"))
+step2_pop_df <- read.csv(file = here("_milestones/03_milestone/step2_tbl_outputs/step2_pop_df.csv"))
+
+
+combined_df <- rbind(step2_ca_df, step2_la_cnty_df) %>%
   relocate(health_officer_region,  .after = county) %>%
   relocate(pop, .after = race_long) %>%
   mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
@@ -118,34 +53,5 @@ combined_df <- rbind(ca_df, la_cnty_df) %>%
 
 ```
 
-
-\newpage
-
-
-::: {.section-banner}
-
-<div class="banner-text-container">
-  <div class="sb-title">Final Data Dictionary</div>
-</div>
-
-:::
-
-
-```{r, echo = FALSE}
-
-final_summary <- summarize_df(combined_df, examples_n = 4)
-#write.csv(final_summary, file = here("_data/final_summary.csv"), row.names = FALSE)
-
-data_dictionary <- read.csv(file = here("_data/final_codebook.csv"))
-
-data_dictionary %>% 
-  kbl(align = "c") %>%
-  kable_styling(bootstrap_options = c("bordered")) %>%
-  row_spec(0, 
-           bold = TRUE, 
-           background = "#0f172a",
-           extra_css = "font-size: 14px!important;color:#ffffff;")
-
-```
 
 

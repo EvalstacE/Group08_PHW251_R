@@ -1,0 +1,100 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Simulated Infectious Disease Outbreak in California",
+    "section": "",
+    "text": "Code\n# load packages\npacman::p_load(\n  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr,\n  classInt, tidycensus, sf, here, stringr, svglite, rmapshaper, readxl,\n  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr,\n  DataExplorer, knitr, kableExtra, janitor, reactable, MMWRweek\n)\n\n# source helper functions\nfunc_dir &lt;- \"_functions\"\n\nr_files &lt;- list.files(func_dir, pattern = \"\\\\.R$\", full.names = TRUE)\n\n# source into knit global env\npurrr::walk(\n  r_files,\n  ~ base::source(.x, local = knitr::knit_global(), encoding = \"UTF-8\")\n)\n\nmessage(\"✅ _common.R sourced (packages loaded, helpers available).\")",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>load packages</span>"
+    ]
+  },
+  {
+    "objectID": "_milestones/03_milestone/03a_aligning_columns.html",
+    "href": "_milestones/03_milestone/03a_aligning_columns.html",
+    "title": "2  Aligning Column Names",
+    "section": "",
+    "text": "We brought in the raw datasets provided and first ensured that all column names referring to the same variables were consistent across the three databases, using the provided codebook as a reference. Standardizing these names improved both the efficiency of subsequent analyses and the clarity of the data dictionary developed later in this report.\nTo facilitate merging, we added a county field to the Los Angeles County database so that both datasets share the same set of columns, allowing them to be joined or appended to create a single statewide morbidity dataset for later analyses.\nAfter completing these adjustments — renaming columns in the Los Angeles County database and adding the county field — the remaining tasks involve reconciling the age category and race/ethnicity variable, and standardizing how the timing of infection is identified using MMWR weeks (see Figure 1 below).\n\n\n\nCode\n#- Raw, provided datasets:\nraw_ca_df &lt;- read.csv(file = here(\"_data/raw_data/raw_ca_df.csv\"))\nraw_la_cnty_df &lt;- read.csv(file = here(\"_data/raw_data/raw_la_cnty_df.csv\"))\nraw_pop_df &lt;- read.csv(file = here(\"_data/raw_data/raw_pop_df.csv\"))\n\n##-- California dataset:\nca_df &lt;- raw_ca_df %&gt;% select(-dt_diagnosis) %&gt;%\n  mutate(county = clean(county) %&gt;% \n          str_remove(\"\\\\s*[Cc]ounty$\") %&gt;% \n          str_trim())\n\n##-- LA county dataset:\nla_cnty_df &lt;- raw_la_cnty_df %&gt;%\n  rename(\"age_cat\" = \"age_category\", \n        \"race_ethnicity\" = \"race_eth\",\n        \"new_infections\" = \"dx_new\",\n        \"cumulative_infected\" = \"infected_cumulative\",\n        \"new_unrecovered\" = \"unrecovered_new\",\n        \"cumulative_unrecovered\" = \"unrecovered_cumulative\",\n        \"new_severe\" = \"severe_new\",\n        \"cumulative_severe\" = \"severe_cumulative\") %&gt;%\n  mutate(county = \"Los Angeles\") %&gt;%\n  relocate(county, .before = everything()) \n\n##-- Population dataset:\npop_df &lt;- raw_pop_df %&gt;% \n  rename(\"race_ethnicity\" = \"race7\") %&gt;%\n  mutate(county = clean(county))\n\n\n\n\n\n\n2.0.1 Figure 1. Aligning Column Names",
+    "crumbs": [
+      "Data Preparation",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Aligning Column Names</span>"
+    ]
+  },
+  {
+    "objectID": "_milestones/03_milestone/03b_restructuring_variables.html",
+    "href": "_milestones/03_milestone/03b_restructuring_variables.html",
+    "title": "3  Restructuring Variables",
+    "section": "",
+    "text": "3.0.1 Age Groups",
+    "crumbs": [
+      "Data Preparation",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Restructuring Variables</span>"
+    ]
+  },
+  {
+    "objectID": "_milestones/03_milestone/03b_restructuring_variables.html#race-and-ethnicity",
+    "href": "_milestones/03_milestone/03b_restructuring_variables.html#race-and-ethnicity",
+    "title": "3  Restructuring Variables",
+    "section": "3.1 Race and Ethnicity:",
+    "text": "3.1 Race and Ethnicity:\nEach of the three datasets defines Race / Ethnicity differently. The California dataset uses numeric codes, the Los Angeles County dataset uses full text labels, and the population dataset uses abbreviated text.\nTo resolve this, we created a crosswalk file (race_ethnicity_map.csv) that aligns the three formats. By joining this crosswalk to each dataset, we ensure that all three contain a consistent set of race and ethnicity variables: each with the numeric code, the abbreviated text, and the full text label.\n\n\nCode\nstep2_ca_df &lt;- step2_ca_df %&gt;%\n  rename(\"race_coded\" = \"race_ethnicity\") %&gt;%\n  mutate(race_coded = as.character(race_coded)) %&gt;%\n  left_join(race_ethnicity_map, by = \"race_coded\")%&gt;%\n  relocate(race_coded, race_short, race_long, .after = sex)\n\nstep2_la_cnty_df &lt;- step2_la_cnty_df %&gt;%\n  mutate(race_long = clean(race_ethnicity)) %&gt;%\n  select(-race_ethnicity) %&gt;%\n  left_join(race_ethnicity_map, by = \"race_long\") %&gt;%\n  relocate(race_coded, race_short, race_long, .after = sex)\n\n\n\n3.1.1 Race and Ethnicity Crosswalk Table:\n\n\n\n\n\nrace_coded\nrace_long\nrace_short\n\n\n\n\n1\nWhite, Non-Hispanic\nWhiteTE NH\n\n\n2\nBlack, Non-Hispanic\nBlack NH\n\n\n3\nAmerican Indian or Alaska Native, Non-Hispanic\nAIAN NH\n\n\n4\nAsian, Non-Hispanic\nAsian NH\n\n\n5\nNative Hawaiian or Pacific Islander, Non-Hispanic\nNHPI NH\n\n\n6\nMultiracial (two or more of above races), Non-Hispanic\nMR NH\n\n\n7\nHispanic (any race)\nHispanic\n\n\n9\nUnknown\nUnknown",
+    "crumbs": [
+      "Data Preparation",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Restructuring Variables</span>"
+    ]
+  },
+  {
+    "objectID": "_milestones/03_milestone/03b_restructuring_variables.html#population-counts-by-demographic",
+    "href": "_milestones/03_milestone/03b_restructuring_variables.html#population-counts-by-demographic",
+    "title": "3  Restructuring Variables",
+    "section": "3.2 Population Counts by Demographic",
+    "text": "3.2 Population Counts by Demographic\nTo calculate infection rates by demographic groups (such as county, health officer region, sex, or race/ethnicity), we first summarize total population counts for each demographic category within the population dataframe. The population dataset is then joined to both the master database (which merges all three datasets) and the individual California and Los Angeles datasets.\nBy creating and maintaining these summarized population counts, we avoid having to recalculate them each time we focus on a different demographic group. For example, once this population dataset is joined to the California data, we can easily calculate population-adjusted infection rates that allow valid comparisons across counties with differing population sizes.\n\n\nCode\nstep2_pop_df &lt;- step2_pop_df_recat %&gt;%\n  \n##-- join population database to the race/ethnicity map\n  mutate(race_short = clean(race_ethnicity)) %&gt;%\n  select(-race_ethnicity) %&gt;%\n  left_join(race_ethnicity_map, by = \"race_short\") %&gt;%\n  relocate(race_coded, race_short, race_long, .after = sex) %&gt;%\n  \n##-- calculate population totals by demographic\n  group_by(county, health_officer_region) %&gt;%\n    mutate(total_cnty_pop = sum(pop)) %&gt;% ungroup() %&gt;%\n  group_by(county, health_officer_region, race_coded, race_short, race_long) %&gt;%\n    mutate(total_race_pop = sum(pop)) %&gt;% ungroup() %&gt;%\n  group_by(county, health_officer_region, sex) %&gt;%\n    mutate(total_sex_pop = sum(pop)) %&gt;% ungroup() %&gt;%\n  group_by(health_officer_region) %&gt;%\n    mutate(total_HOR_pop = sum(pop)) %&gt;% ungroup()\n\n\n\n3.2.1 Table 2: Calculating Infection Rate by 100,000 Population Example\n\n\n\n\n\nCounty\nTotal Population\nTotal Infected\nProportion Infected\nInfection Rate per 100K\n\n\n\n\nAlameda\n1656037\n12427\n0.0075041\n75.0\n\n\nAlpine\n1165\n25\n0.0214592\n214.6\n\n\nAmador\n40122\n767\n0.0191167\n191.2",
+    "crumbs": [
+      "Data Preparation",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Restructuring Variables</span>"
+    ]
+  },
+  {
+    "objectID": "_milestones/03_milestone/03c_creating_final_datasets.html",
+    "href": "_milestones/03_milestone/03c_creating_final_datasets.html",
+    "title": "4  Final Combined Database",
+    "section": "",
+    "text": "After reconciling all column names across the 3 datasets, standardizing age group, race/ethnicity, and infection date variables, we merge them together to generate a final, complete database and begin our descriptive explorations and analyses.\n\n\nCode\nstep2_ca_df &lt;- read.csv(file = here(\"_milestones/03_milestone/step2_tbl_outputs/step2_ca_df.csv\"))\nstep2_la_cnty_df &lt;- read.csv(file = here(\"_milestones/03_milestone/step2_tbl_outputs/step2_la_cnty_df.csv\"))\nstep2_pop_df &lt;- read.csv(file = here(\"_milestones/03_milestone/step2_tbl_outputs/step2_pop_df.csv\"))\n\n\ncombined_df &lt;- rbind(step2_ca_df, step2_la_cnty_df) %&gt;%\n  relocate(health_officer_region,  .after = county) %&gt;%\n  relocate(pop, .after = race_long) %&gt;%\n  mutate(age_cat = factor(age_cat, levels = c(\"0-17\", \"18-49\", \"50-64\", \"65+\")))\n\n\n\n\nCode\n# final cleaned dataframes stored in \"_data/cleaned_data/\" directory\n\n#--write.csv(combined_df, file = here(\"_data/cleaned_data/combined_df.csv\"), row.names = FALSE)\n#--write.csv(ca_df, file = here(\"_data/cleaned_data/cleaned_ca_df.csv\"), row.names = FALSE)\n#--write.csv(la_cnty_df, file = here(\"_data/cleaned_data/cleaned_la_cnty_df.csv\"), row.names = FALSE)\n#--write.csv(pop_df, file = here(\"_data/cleaned_data/cleaned_pop_df.csv\"), row.names = FALSE)",
+    "crumbs": [
+      "Data Preparation",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Final Combined Database</span>"
+    ]
+  },
+  {
+    "objectID": "_milestones/03_milestone/03d_final_data_dictionary.html",
+    "href": "_milestones/03_milestone/03d_final_data_dictionary.html",
+    "title": "5  Final Data Dictionary",
+    "section": "",
+    "text": "Code\ndata_dictionary &lt;- read.csv(file = here(\"_data/final_codebook.csv\"))\n\ndata_dictionary %&gt;% \nkbl(align = \"c\", \n      col.names = c(\"Variable Name\", \"Class/Type\", \"Definition\", \n                    \"Number of Unique Values\", \"Example Format\")\n) %&gt;%\nkable_styling(bootstrap_options = c(\"bordered\")\n) %&gt;%\nrow_spec(0, \n         bold = TRUE, \n         background = \"#0f172a\",\n         extra_css = \"font-size: 16px!important;color:#ffffff;\")\n\n\n\n\n\nVariable Name\nClass/Type\nDefinition\nNumber of Unique Values\nExample Format\n\n\n\n\nend_date\nDate\nlast date of Epi week\n31\nformat: 2023-06-03\n\n\nstart_date\nDate\nfirst date of Epi week\n31\nformat: 2023-05-28\n\n\ncounty\ncharacter\ncounty of residence of cases\n58\nAlameda\n\n\nhealth_officer_region\ncharacter\nCalifornia Health Officer Region\n6\nBay Area\n\n\nrace_coded\ncharacter\nrace category codes\n7\n1:07\n\n\nrace_long\ncharacter\nrace category full text\n7\nBlack, Non-Hispanic\n\n\nrace_short\ncharacter\nrace category abbreviated text\n7\nBlack NH\n\n\nsex\ncharacter\nsex categorization\n2\nFEMALE, MALE\n\n\nage_cat\nfactor\nage category\n4\n0-17, 18-49, 50-64, 65+\n\n\nmmwr_week\nfactor\nepi week 40 in 2022 to epi week 23 in 2023\n31\n22:52\n\n\nmmwr_year\nfactor\nyear\n1\n2023\n\n\ncumulative_infected\ninteger\ntotal number of diagnosed individuals\nNA\n0 - 137804\n\n\ncumulative_severe\ninteger\ntotal number infected requiring hospitalization\nNA\n0 - 4060\n\n\ncumulative_unrecovered\ninteger\ntotal number unrecovered after a week of diagnosis\nNA\n0 - 16920\n\n\nnew_infections\ninteger\nnewly diagnosed individuals\nNA\n0 - 12110\n\n\nnew_severe\ninteger\nnewly identified cases requiring hospitalization\nNA\n0 - 352\n\n\nnew_unrecovered\ninteger\nnewly reported as unrecovered\nNA\n0 - 1436\n\n\npop\ninteger\nestimated population by age group for year 2023\nNA\n0 - 980387\n\n\ntotal_cnty_pop\ninteger\ntotal population estimate by county\nNA\n1165 - 9825708\n\n\ntotal_race_pop\ninteger\ntotal county population by race/ethnicity\nNA\n0 - 4089110\n\n\ntotal_sex_pop\ninteger\ntotal county pouplation by sex\nNA\n548 - 5049625\n\n\ntotal_HOR_pop\ninteger\ntotal population by Health Officer Region\nNA\n683715 - 12802429",
+    "crumbs": [
+      "Data Preparation",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Final Data Dictionary</span>"
+    ]
+  },
+  {
+    "objectID": "_milestones/03_milestone/03e_descriptive_stats.html",
+    "href": "_milestones/03_milestone/03e_descriptive_stats.html",
+    "title": "6  Descriptive Statistics: Morbidity Datasets",
+    "section": "",
+    "text": "6.1 Calculating Crude Rates\nto do:\nsee functions found in: “_functions/calc_total_rates_pop.R”\nCode\nby_HOR_pop &lt;-\n  calc_total_rates_pop(df, pop_col = total_HOR_pop, health_officer_region)\n\n\nby_cnty_pop &lt;-\n  calc_total_rates_pop(df, pop_col = total_cnty_pop, health_officer_region, county) \n\n\nby_age_total &lt;- \n  calc_total_rates_pop(df, pop_col = pop, age_cat) \n\n\nby_sex_total &lt;-\n  calc_total_rates_pop(df, pop_col = total_sex_pop, sex) \n\n\nby_race_total &lt;-\n  calc_total_rates_pop(df, pop_col = total_race_pop, race_long)",
+    "crumbs": [
+      "Descriptive Exploration",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Descriptive Statistics: Morbidity Datasets</span>"
+    ]
+  },
+  {
+    "objectID": "_milestones/03_milestone/03e_descriptive_stats.html#calculating-crude-rates",
+    "href": "_milestones/03_milestone/03e_descriptive_stats.html#calculating-crude-rates",
+    "title": "6  Descriptive Statistics: Morbidity Datasets",
+    "section": "",
+    "text": "add explanation / documentation of functions here and what they do\n\n\n\n\n6.1.1 Infection Rates by Health Officer Region\n\n\n\n\n\nhealth_officer_region\ntotal_pop\ninf_rate_100k\nsev_rate_100k\nunrec_rate_100k\n\n\n\n\nGreater Sierra Sacramento\n2973210\n1184.0\n72.3\n303.1\n\n\nLos Angeles\n9825708\n1402.5\n41.3\n172.2\n\n\nRural North\n683715\n434.2\n31.4\n129.9\n\n\nCentral California\n4432134\n902.8\n23.8\n100.2\n\n\nSouthern California\n12802429\n626.2\n17.3\n73.4\n\n\nBay Area\n8391874\n189.5\n11.4\n48.2\n\n\n\n\n\n\n\n\n6.1.2 Top 10 Highest Severe Infection Rates by County\n\n\n\n\n\ncounty\ntotal_pop\ninf_rate_100k\nsev_rate_100k\nunrec_rate_100k\n\n\n\n\nInyo\n18731\n4623.4\n427.1\n1590.9\n\n\nImperial\n179639\n10494.4\n338.5\n1364.4\n\n\nSierra\n3152\n2918.8\n317.3\n1269.0\n\n\nAlpine\n1165\n2145.9\n257.5\n1373.4\n\n\nTehama\n64677\n3110.8\n218.0\n926.1\n\n\nPlumas\n18955\n3001.8\n211.0\n933.8\n\n\nCalaveras\n44605\n2475.1\n190.6\n784.7\n\n\nMariposa\n16860\n2437.7\n189.8\n806.6\n\n\nModoc\n8446\n2439.0\n189.4\n923.5\n\n\nSan Luis Obispo\n280251\n2158.8\n173.4\n707.6\n\n\n\n\n\n\n\n\n6.1.3 Age Group\n\n\n\n\n\nage_cat\ntotal_pop\ninf_rate_100k\nsev_rate_100k\nunrec_rate_100k\n\n\n\n\n0-17\n34155\n51456.6\n55.6\n1124.3\n\n\n18-49\n99574\n138393.6\n1611.9\n7271.0\n\n\n50-64\n51121\n49251.8\n289.5\n2652.5\n\n\n65+\n57881\n86733.1\n7014.4\n29232.4\n\n\n\n\n\n\n\n\n6.1.4 By Sex\n\ninitial note: males have higher infection rate; but females have higher rates of severe infections and unrecovered\n\n\n\n\n\n\nsex\ntotal_pop\ninf_rate_100k\nsev_rate_100k\nunrec_rate_100k\n\n\n\n\nFEMALE\n849329\n15316.8\n478.0\n1992.2\n\n\nMALE\n806708\n17082.3\n419.6\n1784.0\n\n\n\n\n\n\n\n\n6.1.5 By Race and Ethnicity\n\ninitial note: Hispanic population has highest infection rate, severe infection rate, and unrecovered rate – all across the board – this community is being impacted the most.\n\n\n\n\n\n\nrace_long\ntotal_pop\ninf_rate_100k\nsev_rate_100k\nunrec_rate_100k\n\n\n\n\nHispanic (any race)\n335452\n41080.1\n1015.3\n4295.7\n\n\nWhite, Non-Hispanic\n485940\n11033.5\n835.5\n3481.9\n\n\nAmerican Indian or Alaska Native, Non-Hispanic\n4569\n11775.0\n744.1\n2626.4\n\n\nBlack, Non-Hispanic\n157817\n11989.2\n621.0\n2577.0\n\n\nAsian, Non-Hispanic\n568612\n5079.7\n345.9\n1400.1\n\n\nNative Hawaiian or Pacific Islander, Non-Hispanic\n14710\n6233.9\n163.2\n666.2\n\n\nMultiracial (two or more of above races), Non-Hispanic\n88937\n6127.9\n133.8\n579.1",
+    "crumbs": [
+      "Descriptive Exploration",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Descriptive Statistics: Morbidity Datasets</span>"
+    ]
+  }
+]

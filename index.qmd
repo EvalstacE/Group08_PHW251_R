@@ -1,4 +1,23 @@
+```{r}
+# load packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr,
+  classInt, tidycensus, sf, here, stringr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr,
+  DataExplorer, knitr, kableExtra, janitor, reactable, MMWRweek
+)
 
-# HOME {.unnumbered}
+# source helper functions
+func_dir <- "_functions"
 
-This is the landing page.
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+
+# source into knit global env
+purrr::walk(
+  r_files,
+  ~ base::source(.x, local = knitr::knit_global(), encoding = "UTF-8")
+)
+
+message("✅ _common.R sourced (packages loaded, helpers available).")
+```
+
