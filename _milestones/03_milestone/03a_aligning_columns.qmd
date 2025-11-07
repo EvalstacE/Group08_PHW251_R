@@ -1,0 +1,426 @@
+
+
+## Aligning Column Names
+
+:::: {.columns style="display: flex; gap: 2rem; justify-content: space-between;"}
+::: {.column width="35%"}
+
+We first ensured that all column names referring to the same variables were consistent across the three databases, using the provided codebook as a reference. Standardizing these names improved both the efficiency of subsequent analyses and the clarity of the data dictionary developed later in this report.
+
+To facilitate merging, we added a county field to the Los Angeles County database so that both datasets share the same set of columns, allowing them to be joined or appended to create a single statewide morbidity dataset for later analyses.
+
+After completing these adjustments --- renaming columns in the Los Angeles County database and adding the county field --- the remaining tasks involve reconciling the age category and race/ethnicity variable, and standardizing how the timing of infection is identified using MMWR weeks (see **Figure 1** below).
+
+
+:::
+::: {.column width="60%"}
+
+```{r}
+##-- California dataset
+ca_df <- raw_ca_df %>% select(-dt_diagnosis) %>%
+  mutate(county = clean(county) %>% 
+          str_remove("\\s*[Cc]ounty$") %>% 
+          str_trim())
+
+##-- LA county dataset
+la_cnty_df <- raw_la_cnty_df %>%
+  rename("age_cat" = "age_category", 
+        "race_ethnicity" = "race_eth",
+        "new_infections" = "dx_new",
+        "cumulative_infected" = "infected_cumulative",
+        "new_unrecovered" = "unrecovered_new",
+        "cumulative_unrecovered" = "unrecovered_cumulative",
+        "new_severe" = "severe_new",
+        "cumulative_severe" = "severe_cumulative") %>%
+  mutate(county = "Los Angeles") %>%
+  relocate(county, .before = everything()) 
+
+##-- Population dataset
+pop_df <- raw_pop_df %>% 
+  rename("race_ethnicity" = "race7") %>%
+  mutate(county = clean(county))
+
+```
+
+
+:::
+::::
+
+\newpage
+
+### Figure 1. Aligning Column Names
+
+|
+|
+
+![](../../_www/cleaned_col_tbl.png){width="75%"}
+
+
+\newpage
+
+## Restructuring Variables 
+
+### Age Groups
+
+:::: {.columns style="display: flex; gap: 2rem; justify-content: space-between;"}
+::: {.column width="40%"}
+
+The population database contains counts for six age groups, whereas the California and LA County databases use four. Because the groupings align --- “0–4,” “5–11,” and “12–17” in the population database correspond to the “0–17” group in the others --- we summarized the population counts to match the four age-group format. 
+
+In the original population database, counts are reported for each single year of age within every demographic subgroup (e.g., county, sex, race/ethnicity). To obtain total estimates per age group and demographic category, the single-year counts were aggregated (summed). **Table 1** below presents a subset of the original and restructured population data to illustrate the resulting summarized age groupings. 
+
+
+:::
+::: {.column width="55%"}
+
+```{r}
+
+pop_df <- pop_df %>%
+  group_by(county, health_officer_region, 
+           sex, race_ethnicity, age_cat) %>%
+  summarise(pop = sum(pop), .groups = "drop")
+
+pop_df_recat <- pop_df %>%
+  mutate(new_age_group = 
+          if_else(age_cat %in% 
+              c("0-4", "5-11", "12-17"),
+              "0-17", age_cat)) %>%
+  group_by(county, health_officer_region, sex, 
+           race_ethnicity, new_age_group) %>%
+  summarise(pop = sum(pop), .groups = "drop") %>%
+  rename("age_cat" = "new_age_group")
+  
+```
+
+
+:::
+::::
+
+
+
+```{r, echo = FALSE}
+
+pop_df_subset <- pop_df %>%
+  select(-health_officer_region) %>%
+  filter(
+    county == "Alameda",
+    age_cat %in% c("0-4", "5-11", "12-17"),
+    race_ethnicity == "Hispanic",
+    sex == "FEMALE"
+  ) %>% janitor::adorn_totals() %>%
+  mutate(
+    across(where(is.numeric), 
+        ~ ifelse(county == "Total", 
+                 comma(., accuracy = 1), .))
+    )
+
+
+pop_recat_subset <- pop_df_recat %>%
+  select(-health_officer_region) %>%
+  filter(
+    county == "Alameda",
+    age_cat == "0-17",
+    race_ethnicity == "Hispanic",
+    sex == "FEMALE"
+  ) %>%
+  mutate(pop = comma(pop, accuracy = 1))
+
+
+```
+
+
+<div class="column-box">
+
+### Table 1: Reconciling Age Group Categories and Population Counts
+
+**Original Age Groups:**
+```{r, echo = FALSE}
+pop_df_subset %>% 
+  kbl(align = "c",
+      col.names = c("County", "Sex", "Race / Ethnicity", "Age Group", "Population")
+      ) %>%
+  row_spec(0, 
+           bold = TRUE, 
+           background = "#0f172a",
+           extra_css = "font-size: 16px!important;color:#ffffff;") %>%
+  row_spec(4, 
+      bold = TRUE, 
+      background = "#5ce1e6", 
+      extra_css = "font-size: 16px!important;"
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "condensed", "bordered"))
+```
+
+
+|
+
+
+**New, Aggregate Age Group:**
+```{r, echo = FALSE}
+pop_recat_subset %>% 
+  kbl(align = "c",
+      col.names = c("County", "Sex", "Race / Ethnicity", "Age Group", "Population"),
+      table.attr = 'class="table table-bordered no-stripe"'
+      ) %>%
+  kable_styling(bootstrap_options = c("bordered")) %>%
+  row_spec(0, 
+           bold = TRUE, 
+           background = "#0f172a",
+           extra_css = "font-size: 16px!important;color:#ffffff;") %>%
+  row_spec(1, background = "#ffffff") %>%
+  column_spec(5, 
+      bold = TRUE, 
+      background = "#5ce1e6", 
+      extra_css = "font-size: 16px!important;"
+  )
+  
+```
+
+
+</div>
+
+
+\newpage
+
+
+
+
+### Infection Dates
+
+:::: {.columns style="display: flex; gap: 2rem; justify-content: space-between;"}
+::: {.column width="40%"}
+
+To support date-based analyses, infection records will be aggregated by **MMWR week and year**. For both the Los Angeles County and California datasets, we will generate two new columns: **mmwr_year** and **mmwr_week**, then remove the original date-based fields. We will also add columns **start_date** and **end_date** to serve as reference points should we need them later. 
+
+In the California dataset, the field **time_int** encodes the year and MMWR week as a six-digit integer (YYYYWW). To create the new fields, we extract the first four digits as mmwr_year and the last two digits as mmwr_week, then drop the original time_int column.
+
+In the Los Angeles County dataset, the codebook identifies a field **dt_report** as the last day of the MMWR week. However, this field contained only missing values, so it was removed. Instead, we convert the infection date field, **dt_dx** to a proper date format, and then use the `MMWRweek` package to derive the mmwr_year and mmwr_week.
+
+
+
+:::
+::: {.column width="50%"}
+
+```{r}
+
+la_cnty_df <- la_cnty_df %>%
+##--restructure to proper date format
+mutate(DATE_FIX = 
+  as.Date(parse_date_time(dt_dx, "%d%b%Y"), 
+          format = "%Y-%m-%d")) %>% 
+##--use date to create new MMWR fields
+add_mmwr_week_columns(date_col = "DATE_FIX") %>%
+add_start_end_dates() %>%
+select(-c(DATE_FIX, dt_dx)) %>%
+relocate(mmwr_year, mmwr_week, start_date, 
+         end_date, .before = everything()) %>%
+relocate(county, .before = age_cat)
+
+ca_df <- ca_df %>%
+##--pull MMWR week and year from time_int field
+mutate(
+  mmwr_year = factor(time_int %/% 100), 
+  mmwr_week = factor(time_int %% 100)) %>%
+add_start_end_dates() %>%
+select(-time_int) %>%
+relocate(mmwr_year, mmwr_week, start_date, 
+         end_date, .before = everything())
+
+```
+
+
+:::
+::::
+
+
+To streamline this process, we created two helper functions:
+
+* `add_mmwr_week_columns()` : takes date column and adds two fields: mmwr_year and mmwr_week
+* `add_start_end_dates()` : uses those values to generate corresponding MMWR week start and end dates
+
+
+<div class="column-box">
+**The dataframes now have a structure that looks like this:** 
+
+```{r, echo = FALSE}
+
+la_cnty_slice <- la_cnty_df %>%
+  select(mmwr_year, mmwr_week, start_date, end_date, county, age_cat, new_infections) %>%
+  slice_head(n=3)
+
+la_cnty_slice %>%
+  rename_with(~cell_spec(
+    .x,
+    "html",
+    bold = TRUE,
+    color = "#0f172a",
+    background = "#ffde59",
+    font_size = 16
+  ), 1:4) %>%
+  kbl(escape = FALSE, align = "c") %>%
+  row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
+  kable_styling(bootstrap_options = c("bordered"))
+  
+```
+
+</div>
+
+
+\newpage
+
+
+## Race and Ethnicity: 
+
+Each of the three datasets defines Race / Ethnicity differently. The California dataset uses numeric codes, the Los Angeles County dataset uses full text labels, and the population dataset uses abbreviated text. 
+
+To resolve this, we created a crosswalk file (**race_ethnicity_map.csv**) that aligns the three formats. By joining this crosswalk to each dataset, we ensure that all three contain a consistent set of race and ethnicity variables: each with the numeric code, the abbreviated text, and the full text label.
+
+
+```{r, echo = FALSE}
+race_ethnicity_map <- read.csv(file = here("_data/race_ethnicity_map.csv")) %>%
+  mutate(
+    race_long = clean(race_long),
+    race_short = clean(race_short),
+    race_coded = as.character(race_coded)
+  )
+
+```
+
+
+```{r}
+
+ca_df <- ca_df %>%
+  rename("race_coded" = "race_ethnicity") %>%
+  mutate(race_coded = as.character(race_coded)) %>%
+  left_join(race_ethnicity_map, by = "race_coded")%>%
+  relocate(race_coded, race_short, race_long, .after = sex)
+
+la_cnty_df <- la_cnty_df %>%
+  mutate(race_long = clean(race_ethnicity)) %>%
+  select(-race_ethnicity) %>%
+  left_join(race_ethnicity_map, by = "race_long") %>%
+  relocate(race_coded, race_short, race_long, .after = sex)
+
+
+```
+
+
+
+### Race and Ethnicity Crosswalk Table:
+
+```{r, echo = FALSE}
+
+race_ethnicity_map %>% 
+  kbl(align = "c") %>%
+  kable_styling(bootstrap_options = c("bordered")) %>%
+  row_spec(0, 
+           bold = TRUE, 
+           background = "#0f172a",
+           extra_css = 
+           "font-size: 14px!important;color:#ffffff;") 
+```
+
+
+
+
+\newpage
+
+
+## Population Counts by Demographic
+
+To calculate infection rates by demographic groups (such as county, health officer region, sex, or race/ethnicity), we first summarize total population counts for each demographic category within the population dataframe. The population dataset is then joined to both the master database (which merges all three datasets) and the individual California and Los Angeles datasets.
+
+By creating and maintaining these summarized population counts, we avoid having to recalculate them each time we focus on a different demographic group. For example, once this population dataset is joined to the California data, we can easily calculate population-adjusted infection rates that allow valid comparisons across counties with differing population sizes. 
+
+```{r}
+
+pop_df <- pop_df_recat %>%
+  
+##-- join population database to the race/ethnicity map
+  mutate(race_short = clean(race_ethnicity)) %>%
+  select(-race_ethnicity) %>%
+  left_join(race_ethnicity_map, by = "race_short") %>%
+  relocate(race_coded, race_short, race_long, .after = sex) %>%
+  
+##-- calculate population totals by demographic
+  group_by(county, health_officer_region) %>%
+    mutate(total_cnty_pop = sum(pop)) %>% ungroup() %>%
+  group_by(county, health_officer_region, race_coded, race_short, race_long) %>%
+    mutate(total_race_pop = sum(pop)) %>% ungroup() %>%
+  group_by(county, health_officer_region, sex) %>%
+    mutate(total_sex_pop = sum(pop)) %>% ungroup() %>%
+  group_by(health_officer_region) %>%
+    mutate(total_HOR_pop = sum(pop)) %>% ungroup()
+```
+
+
+
+<div class="column-box">
+
+### Table 2: Calculating Infection Rate by 100,000 Population Example
+
+```{r, echo = FALSE}
+
+ca_df <- ca_df %>%
+  left_join(pop_df, by = c("county", "sex", "race_coded", 
+            "race_short", "race_long", "age_cat")) %>%
+  relocate(health_officer_region,  .after = county) %>%
+  relocate(pop, .after = race_long) %>%
+  mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
+
+la_cnty_df <- la_cnty_df %>%
+  left_join(pop_df, by = c("county", "sex", "race_coded", 
+            "race_short", "race_long", "age_cat")) %>%
+  relocate(health_officer_region,  .after = county) %>%
+  relocate(pop, .after = race_long) %>%
+  mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
+
+by_cnty_year <- ca_df %>%
+  group_by(health_officer_region, county) %>%
+  summarise(
+    total_cnty_pop = first(total_cnty_pop),
+    total_infected = max(cumulative_infected),
+    total_inf_prop = total_infected / total_cnty_pop,
+    inf_rate_100k = round((total_inf_prop * 10^4),1),
+    .groups = "drop"
+  )
+
+```
+
+
+```{r, echo = FALSE}
+
+cnty_slice <- by_cnty_year %>%
+  select(-health_officer_region) %>%
+  group_by(county) %>%
+  slice(1) %>%
+  ungroup() %>%
+  slice_head(n=3)
+
+cnty_slice %>%
+  kbl(escape = FALSE, align = "c",
+    col.names = c("County", "Total Population", 
+                  "Total Infected", "Proportion Infected", 
+                  "Infection Rate per 100K")) %>%
+  row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
+  
+  column_spec(5, 
+       bold = TRUE, 
+       background = "#5ce1e6"
+       ) %>%  
+  
+  kable_styling(bootstrap_options = c("bordered"))
+
+```
+
+</div>
+
+\newpage
+
+

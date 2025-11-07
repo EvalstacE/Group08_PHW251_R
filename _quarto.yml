@@ -1,0 +1,48 @@
+project:
+  type: book
+  output-dir: docs
+  
+  
+website:
+  site-url: https://evalstace.github.io/Group08_PHW251_R/
+  repo-url: https://github.com/EvalstacE/Group08_PHW251_R
+  repo-actions: [source, edit, issue]  
+
+book:
+  bread-crumbs: false
+  reader-mode: true
+  back-to-top-navigation: true
+  title: "Simulated Infectious Disease Outbreak in California"
+  author: "Group 8: Erin Curlee, Val Stacey, Ana Terzo"
+  date: "11/11/2025"  
+  chapters:
+    - index.qmd
+    
+    - part: "Data Preparation"
+      chapters: 
+        - _milestones/03_milestone/03a_aligning_columns.qmd
+        - _milestones/03_milestone/03b_restructuring_variables.qmd
+        - _milestones/03_milestone/03c_creating_final_datasets.qmd
+        
+    - part: "Descriptive Exploration"
+      chapters: 
+        - _milestones/03_milestone/03d_descriptive_stats.qmd
+
+sidebar:
+  style: docked
+  search: true
+
+page-navigation: true
+
+format: 
+  html:
+    theme: cosmo
+    self-contained: true
+    code-fold: show
+    code-copy: true
+    code-overflow: wrap
+    css: "_www/styles.css"
+    
+execute:
+  message: false
+  warning: false

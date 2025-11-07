@@ -8,12 +8,28 @@
 
 # User-specific files
 .Ruserdata
+.Rproj.user/
 
 # Example code in package build process
 *-Ex.R
+**/_extensions/
+*.utf8.md
+*.knit.md
+*_cache/
+cache/
+
+
+# RStudio Connect
+rsconnect/
 
 # Output files from R CMD build
 /*.tar.gz
+*.tar.gz
+*.Rcheck/
+*-Ex.R
+vignettes/*.html
+vignettes/*.pdf
+
 
 # Output files from R CMD check
 /*.Rcheck/
@@ -44,6 +60,5 @@ docs/
 
 # translation temp files
 po/*~
+/.quarto/
 
-# RStudio Connect folder
-rsconnect/
