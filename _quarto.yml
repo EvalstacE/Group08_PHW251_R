@@ -26,8 +26,6 @@ book:
   author: "Group 8: Erin Curlee, Val Stacey, Ana Terzo"
   date: "11/11/2025"  
   sidebar:
-    style: docked
-    pinned: true
     search: false
 
   chapters:
