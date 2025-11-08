@@ -4,7 +4,6 @@
 **Bringing in libraries, helper functions, and data files:**
 
 ```{r}
-#| label: setup
 #| warning: false
 #| message: false
 
