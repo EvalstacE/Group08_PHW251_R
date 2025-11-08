@@ -5,19 +5,7 @@
 #| warning: false
 #| message: false
 
-# Load and install packages
-pacman::p_load(
-  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
-  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
-  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
-  knitr, kableExtra, janitor, reactable, MMWRweek
-)
-
-# Source all helper functions
-func_dir <- here::here("functions")
-r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
-purrr::walk(r_files, source)
-
+source("_common.R")
 
 ```
 
