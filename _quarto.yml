@@ -35,19 +35,19 @@ book:
     - part: "Data Preparation"
       chapters: 
         - milestones/03_milestone/03a_project_setup.qmd
-        - milestones/03_milestone/03a_aligning_columns.qmd
+        - milestones/03_milestone/03b_aligning_columns.qmd
         
     - part: "Restructuring Variables"
       chapters: 
-        - milestones/03_milestone/03bb_age_groups.qmd
-        - milestones/03_milestone/03b_infection_dates.qmd
-        - milestones/03_milestone/03b_race_ethnicity.qmd
-        - milestones/03_milestone/03bb_population_counts.qmd
+        - milestones/03_milestone/03c_age_groups.qmd
+        - milestones/03_milestone/03d_infection_dates.qmd
+        - milestones/03_milestone/03e_race_ethnicity.qmd
+        - milestones/03_milestone/03f_population_counts.qmd
         
-    - milestones/03_milestone/03c_creating_final_datasets.qmd
-    - milestones/03_milestone/03d_final_data_dictionary.qmd  
+    - milestones/03_milestone/03g_creating_final_datasets.qmd
+    - milestones/03_milestone/03h_final_data_dictionary.qmd  
     
     - part: "Descriptive Exploration"
       chapters: 
-        - milestones/03_milestone/03e_descriptive_stats.qmd
+        - milestones/03_milestone/03i_descriptive_stats.qmd
 
