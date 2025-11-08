@@ -16,6 +16,8 @@ To calculate infection rates by demographic groups (such as county, health offic
 By creating and maintaining these summarized population counts, we avoid having to recalculate them each time we focus on a different demographic group. For example, once this population dataset is joined to the California data, we can easily calculate population-adjusted infection rates that allow valid comparisons across counties with differing population sizes. 
 
 ```{r, eval = FALSE}
+#| code-fold: show
+
 
 step2_pop_df <- step2_pop_df_recat %>%
   
@@ -40,6 +42,8 @@ step2_pop_df <- step2_pop_df_recat %>%
 
 
 ```{r, eval = FALSE}
+#| code-fold: show
+
 
 #--join datasets to new population dataframe
 step2_ca_df <- step2_ca_df %>%
@@ -65,7 +69,6 @@ step2_la_cnty_df <- step2_la_cnty_df %>%
 ### Table 2: Calculating Infection Rate by 100,000 Population Example
 
 ```{r}
-#| code-fold: true
 
 by_cnty_year <- step2_ca_df %>%
   group_by(health_officer_region, county) %>%

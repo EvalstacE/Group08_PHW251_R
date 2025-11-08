@@ -16,6 +16,7 @@ After reconciling all column names across the 3 datasets, standardizing age grou
 [Download Combined Database (CSV)](../../data/cleaned_data/combined_df.csv){.btn .btn-primary target="_blank"}
 
 ```{r, eval = FALSE}
+#| code-fold: show
 
 step2_ca_df <- read.csv(file = here("data/tbl_outputs_03/step2_ca_df.csv"))
 step2_la_cnty_df <- read.csv(file = here("data/tbl_outputs_03/step2_la_cnty_df.csv"))

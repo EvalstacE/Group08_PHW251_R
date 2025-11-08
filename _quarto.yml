@@ -29,6 +29,8 @@ book:
   sidebar:
     search: false
     style: docked
+    background: secondary
+    pinned: true
 
   chapters:
     - index.qmd

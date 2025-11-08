@@ -71,11 +71,11 @@ $colors: (
 
 // start theme-color-variables
 $primary:       $navy      !default;
-$secondary:     $cyan      !default;
+$secondary:     $beige     !default;
 $success:       $lime      !default;
 $info:          $yellow    !default;
 $warning:       $red       !default;
-$danger:        $orange    !default;
+$danger:        $cyan      !default;
 $light:         $white     !default;
 $dark:          $black     !default;
 // end theme-color-variables
@@ -308,7 +308,6 @@ $container-padding-x: $grid-gutter-width !default;
 
 
 
-
 // Typography
 //
 // Font, line-height, and color for body text, headings, and more.
@@ -457,10 +456,21 @@ $nav-link-hover-color:              $red !default;
    Sidebar 
    ================================ */
 
-#quarto-sidebar {
-  position: sticky; 
-  overflow-y: auto;
-  background-color: $beige;  
+// === Prevent sidebar from collapsing on scroll ===
+.sidebar {
+  position: fixed;
+  height: 100vh;              // full viewport height
+  overflow-y: auto;           // scroll within sidebar if needed
+
+  // Example: add your background color variable if defined
+  background-color: $beige;
+}
+
+// === Adjust main content so it doesn't hide behind fixed sidebar ===
+.app-main {
+
+  // offset for fixed sidebar width
+  margin-left: 25vw;           // match your sidebar width (or use 320px)
 }
 
 

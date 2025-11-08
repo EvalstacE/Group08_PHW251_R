@@ -1,3 +1,4 @@
+
 # Load and install packages
 pacman::p_load(
   dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang,
@@ -6,27 +7,26 @@ pacman::p_load(
   knitr, kableExtra, janitor, reactable, MMWRweek
 )
 
-# Source all helper functions
+# Bring in helper functions
 func_dir <- here::here("functions")
 r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
 purrr::walk(r_files, source)
 
 
-# === Load all CSVs from _data/tbl_outputs_03 ===
-data_dir <- here::here("data", "tbl_outputs_03")
-
-csv_files <- list.files(
-  path = data_dir,
-  pattern = "\\.csv$",
-  full.names = TRUE
+# Bring in datasets
+data_dirs <- c(
+  here::here("data", "tbl_outputs_03"),
+  here::here("data", "cleaned_data")
 )
 
-# Read and assign each CSV to an object named after its file
+csv_files <- purrr::map(data_dirs, ~ list.files(
+  path = .x,
+  pattern = "\\.csv$",
+  full.names = TRUE
+)) %>% unlist()
+
 purrr::walk(csv_files, function(file_path) {
-  # Extract clean base name (no extension)
   obj_name <- tools::file_path_sans_ext(basename(file_path))
-  # Read file
   df <- readr::read_csv(file_path, show_col_types = FALSE)
-  # Assign to the global environment so all chapters can access
   assign(obj_name, df, envir = knitr::knit_global())
 })

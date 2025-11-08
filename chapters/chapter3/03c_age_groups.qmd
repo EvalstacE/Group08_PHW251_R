@@ -18,6 +18,7 @@ In the original population database, counts are reported for each single year of
 
 
 ```{r}
+#| code-fold: show
 
 step2_pop_df <- step1_pop_df %>%
   group_by(
