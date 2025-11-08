@@ -1,0 +1,221 @@
+/* ===== Table Styles ===== */
+/* ===== Remove table striping ===== */
+.no-stripe { 
+  --bs-table-striped-bg: transparent !important;
+  --bs-table-hover-bg: transparent !important;
+}
+
+
+/* ==== COMPONENTS === */
+
+/* Column highlight box */
+.column-box {
+  background-color: #f1f0ea;     
+  border-radius: 8px;           
+  padding: 1rem 1.25rem;    
+}
+
+/* ===== Section Banner ===== */
+.section-banner {
+  position: relative;
+  width: 100vw;
+  margin-bottom: 2rem !important;
+  margin-top: 2rem !important;
+  margin-left: calc(-50vw + 50%);
+  padding: 2rem 0rem !important; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  /* Visuals */
+  --sb-bg: #0f172a;
+  --sb-fg: #ffffff;
+  --sb-accent: #38bdf8;
+  --sb-radius: 16px;
+  --sb-shadow: 0 6px 18px rgba(0,0,0,.12);
+
+  background: var(--sb-bg);
+  color: var(--sb-fg);
+}
+
+/* Text container inline-flex  */
+.banner-text-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;               
+  text-align: center;
+  flex-wrap: wrap;         
+  max-width: 90vw;
+}
+
+/* Title + subtitle inline */
+.section-banner .sb-title {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin: 0;
+}
+
+.section-banner .sb-subtitle {
+  font-size: clamp(1.2rem, 2.3vw, 1.5rem);
+  opacity: .95;
+  margin: 0;
+}
+
+/* vertical line */
+.sb-accent {
+  width: 3px;
+  height: 2.5em;
+  background: var(--sb-accent);
+  border-radius: 999px;
+  margin: 0;              
+}
+
+
+/* Accent color helpers */
+.section-banner.-lime   { --sb-accent: #c1ff72; }
+.section-banner.-amber  { --sb-accent: #f47d59; }
+.section-banner.-red    { --sb-accent: #ff3131; }
+.section-banner.-yellow { --sb-accent: #ffde59; }
+.section-banner.-violet { --sb-accent: #cd89dc; }
+
+
+
+/* ==== TEXT STYLES === */
+
+/* ===== Full-width background for H1 ===== */
+h1 {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  padding: 1.25rem 2rem;
+  font-weight: 700;
+}
+
+h1::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0px;  
+  margin: 0!important;
+  height: 100%;
+  width: 100%;
+  background-color: #0f172a;        /* your dark navy background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  z-index: -1;                      /* keep background behind text */
+}
+
+
+
+
+
+
+
+/* ===== QUARTO BOOK RENDER STYLES ===== */
+
+:root{
+  --sidebar-w: 300px;
+  --header-offset: 0px;
+}
+
+
+@media (min-width: 992px) {
+  #quarto-sidebar{
+    position: fixed !important;
+    top: var(--header-offset) !important;
+    left: 0 !important;
+    width: var(--sidebar-w) !important;
+    height: calc(100vh - var(--header-offset)) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+    z-index: 10; 
+  }
+}  
+
+
+.sidebar, .quarto-sidebar{
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important; 
+}
+
+
+
+/* main content area */
+main.content, 
+.quarto-content{
+    margin-left: 6rem !important;
+    margin-right: 3rem !important;
+  }
+}
+
+
+.page-columns .page-navigation {
+  margin-left: calc(var(--sidebar-w) + 24px) !important;
+}
+
+.nav-page.nav-page-previous .pagination-link{
+  margin-left: 3.5rem!important;
+}
+
+
+
+
+
+/* ===== SIDEBAR ===== */
+
+
+/* wrap text as needed */
+#quarto-sidebar .sidebar-item-text,
+#quarto-sidebar .menu-text,
+#quarto-sidebar .chapter-title,
+#quarto-sidebar .sidebar-title a{
+  white-space: normal !important;
+  overflow-wrap: break-word !important; 
+}
+
+#quarto-sidebar .sidebar-item-container{
+  min-width: 0 !important;
+}
+
+
+/* main item spacing */
+#quarto-sidebar > .sidebar-menu-container > ul.list-unstyled > li.sidebar-item,
+#quarto-sidebar > .sidebar-menu-container > ul.list-unstyled > li.sidebar-item-section{
+  margin-bottom: 0.5rem !important;
+}
+
+/* nested list item spacing */
+#quarto-sidebar ul.depth1 > li.sidebar-item{
+  padding-bottom: 0.25rem !important;
+  margin: 0 !important;
+}
+
+/* text padding */
+#quarto-sidebar .sidebar-item-text{
+  padding-top: 0.1rem !important;
+  padding-bottom: 0.1rem !important;
+  line-height: 1.3 !important;
+}
+
+/* section spacing */
+#quarto-sidebar .sidebar-item-section{
+  margin-top: 1rem !important;
+}
+
+/* dropdown section text ("part") */
+#quarto-sidebar .menu-text{
+  font-weight: 600 !important;
+  color: #0f172a !important;
+}
+
+/* chapter title text ("chapters") */
+#quarto-sidebar .chapter-title{
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  color: #334155 !important;
+}
+
