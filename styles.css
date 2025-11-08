@@ -102,9 +102,9 @@ h1::before {
   margin: 0!important;
   height: 100%;
   width: 100%;
-  background-color: #0f172a;        /* your dark navy background */
+  background-color: #0f172a;      
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  z-index: -1;                      /* keep background behind text */
+  z-index: -1;                     
 }
 
 
@@ -182,17 +182,6 @@ main.content,
 }
 
 
-/* main item spacing */
-#quarto-sidebar > .sidebar-menu-container > ul.list-unstyled > li.sidebar-item,
-#quarto-sidebar > .sidebar-menu-container > ul.list-unstyled > li.sidebar-item-section{
-  margin-bottom: 0.5rem !important;
-}
-
-/* nested list item spacing */
-#quarto-sidebar ul.depth1 > li.sidebar-item{
-  padding-bottom: 0.25rem !important;
-  margin: 0 !important;
-}
 
 /* text padding */
 #quarto-sidebar .sidebar-item-text{
