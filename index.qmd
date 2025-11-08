@@ -1,9 +1,9 @@
 
-**Project Description**
+# Project Description
 
 You have been given three datasets: dataset one contains weekly data about a novel infectious respiratory disease outbreak containing the number of cases and case severity by demographic categories (age category, race, sex) and geographic categories (county) for California counties (except for Los Angeles county); dataset two contains morbidity and population data by similar demographic and geographic categories for Los Angeles county, and dataset three populations estimates for 2023 by county and demographic categories. 
 
-**Description**
+**Our role**
 
 You are an employee of the California Department of Public Health working on infectious disease surveillance.
 
