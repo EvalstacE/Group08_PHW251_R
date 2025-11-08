@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Group 8: Erin Curlee, Val Stacey, Ana Terzo">
-<meta name="dcterms.date" content="2025-11-11">
 
-<title>Simulated Infectious Disease Outbreak in California</title>
+<title>5&nbsp; Infection Dates – Simulated Infectious Disease Outbreak in California</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,26 +20,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./milestones/03_milestone/03a_project_setup.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-17c708379e8f5af17c9635a9b478787c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../milestones/03_milestone/03e_race_ethnicity.html" rel="next">
+<link href="../../milestones/03_milestone/03c_age_groups.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-17c708379e8f5af17c9635a9b478787c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -69,9 +103,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
-<link rel="stylesheet" href="styles.css">
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-sidebar docked fullcontent quarto-light">
@@ -83,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Description</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../milestones/03_milestone/03c_age_groups.html">Restructuring Variables</a></li><li class="breadcrumb-item"><a href="../../milestones/03_milestone/03d_infection_dates.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Infection Dates</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -95,14 +133,14 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Simulated Infectious Disease Outbreak in California</a> 
+      <a href="../../">Simulated Infectious Disease Outbreak in California</a> 
     </div>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Description</span></span></a>
   </div>
 </li>
@@ -117,13 +155,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./milestones/03_milestone/03a_project_setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03a_project_setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Set-Up</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./milestones/03_milestone/03b_aligning_columns.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03b_aligning_columns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></span></a>
   </div>
 </li>
@@ -140,25 +178,25 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./milestones/03_milestone/03c_age_groups.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03c_age_groups.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Age Groups</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./milestones/03_milestone/03d_infection_dates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03d_infection_dates.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Infection Dates</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./milestones/03_milestone/03e_race_ethnicity.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03e_race_ethnicity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Race and Ethnicity</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./milestones/03_milestone/03f_population_counts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03f_population_counts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Population by Demographic</span></span></a>
   </div>
 </li>
@@ -166,13 +204,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./milestones/03_milestone/03g_creating_final_datasets.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03g_creating_final_datasets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Combined Database</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./milestones/03_milestone/03h_final_data_dictionary.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03h_final_data_dictionary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Final Data Dictionary</span></span></a>
   </div>
 </li>
@@ -187,7 +225,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./milestones/03_milestone/03i_descriptive_stats.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03i_descriptive_stats.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Descriptive Statistics: Morbidity Datasets</span></span></a>
   </div>
 </li>
@@ -200,30 +238,18 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../milestones/03_milestone/03c_age_groups.html">Restructuring Variables</a></li><li class="breadcrumb-item"><a href="../../milestones/03_milestone/03d_infection_dates.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Infection Dates</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Simulated Infectious Disease Outbreak in California</h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Infection Dates</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Group 8: Erin Curlee, Val Stacey, Ana Terzo </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">November 11, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -233,25 +259,97 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="project-description" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Project Description</h1>
-<p>You have been given three datasets: dataset one contains weekly data about a novel infectious respiratory disease outbreak containing the number of cases and case severity by demographic categories (age category, race, sex) and geographic categories (county) for California counties (except for Los Angeles county); dataset two contains morbidity and population data by similar demographic and geographic categories for Los Angeles county, and dataset three populations estimates for 2023 by county and demographic categories.</p>
-<p><strong>Our role</strong></p>
-<p>You are an employee of the California Department of Public Health working on infectious disease surveillance.</p>
-<p><strong>Research question</strong></p>
-<p>Your supervisors are interested to know the course of the outbreak, if it is disproportionately affecting certain demographic or geographic populations and how prevention and treatment resources should be allocated.</p>
-<p><strong>Data</strong></p>
-<p>You have been given three datasets:</p>
+<p>To support date-based analyses, infection records will be aggregated by <strong>MMWR week and year</strong>. For both the Los Angeles County and California datasets, we will generate two new columns: <strong>mmwr_year</strong> and <strong>mmwr_week</strong>, then remove the original date-based fields. We will also add columns <strong>start_date</strong> and <strong>end_date</strong> to serve as reference points should we need them later.</p>
+<p>In the California dataset, the field <strong>time_int</strong> encodes the year and MMWR week as a six-digit integer (YYYYWW). To create the new fields, we extract the first four digits as mmwr_year and the last two digits as mmwr_week, then drop the original time_int column.</p>
+<p>In the Los Angeles County dataset, the codebook identifies a field <strong>dt_report</strong> as the last day of the MMWR week. However, this field contained only missing values, so it was removed. Instead, we convert the infection date field, <strong>dt_dx</strong> to a proper date format, and then use the <code>MMWRweek</code> package to derive the mmwr_year and mmwr_week.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">##-- California dataset:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>step2_ca_df <span class="ot">&lt;-</span> step1_ca_df <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">##--pull MMWR week and year from time_int field</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mmwr_year =</span> <span class="fu">factor</span>(time_int <span class="sc">%/%</span> <span class="dv">100</span>), </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mmwr_week =</span> <span class="fu">factor</span>(time_int <span class="sc">%%</span> <span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">add_start_end_dates</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span>time_int) <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(mmwr_year, mmwr_week, start_date, </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>         end_date, <span class="at">.before =</span> <span class="fu">everything</span>())</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">##-- LA county dataset:</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>step2_la_cnty_df <span class="ot">&lt;-</span> step1_la_cnty_df <span class="sc">%&gt;%</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="do">##--restructure to proper date format</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">DATE_FIX =</span> </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.Date</span>(<span class="fu">parse_date_time</span>(dt_dx, <span class="st">"%d%b%Y"</span>), </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">##--use date to create new MMWR fields</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">add_mmwr_week_columns</span>(<span class="at">date_col =</span> <span class="st">"DATE_FIX"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">add_start_end_dates</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(DATE_FIX, dt_dx)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(mmwr_year, mmwr_week, start_date, </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>         end_date, <span class="at">.before =</span> <span class="fu">everything</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(county, <span class="at">.before =</span> age_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="line-block"><br>
+</div>
+<p>To streamline this process, we created two helper functions:</p>
 <ul>
-<li><p><strong>Dataset one (sim_novelid_CA.csv)</strong> contains weekly data about cases and case severity by demographic categories (age category, race, sex) and geographic categories (county) for California counties (except for Los Angeles county);</p></li>
-<li><p><strong>Dataset two (sim_novelid_LACounty.csv)</strong> contains population data by similar demographic and geographic categories for Los Angeles county.</p></li>
-<li><p><strong>Dataset three (ca_pop_2023.csv)</strong> population estimates data by demographic category and county for 2023.</p></li>
+<li><code>add_mmwr_week_columns()</code> : takes date column and adds two fields: mmwr_year and mmwr_week</li>
+<li><code>add_start_end_dates()</code> : uses those values to generate corresponding MMWR week start and end dates</li>
 </ul>
-<p><strong>Data Merging, Summarization, and Reporting: Milestones 4-6</strong></p>
-<p>For milestones 4-6, you will join these datasets together to create a single dataset with aggregated summary morbidity and/or severity metrics and calculate rates. This dataset should be used to generate print-worthy visualizations (at least one table and one graph) to be included in the final report.</p>
+<div class="column-box">
+<p><strong>The dataframes now have a structure that looks like this:</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-bordered caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">mmwr_year</span></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">mmwr_week</span></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">start_date</span></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">end_date</span></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">county</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">age_cat</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">new_infections</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2023</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">2023-05-28</td>
+<td style="text-align: center;">2023-06-03</td>
+<td style="text-align: center;">Los Angeles</td>
+<td style="text-align: center;">0-17</td>
+<td style="text-align: center;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2023</td>
+<td style="text-align: center;">23</td>
+<td style="text-align: center;">2023-06-04</td>
+<td style="text-align: center;">2023-06-10</td>
+<td style="text-align: center;">Los Angeles</td>
+<td style="text-align: center;">0-17</td>
+<td style="text-align: center;">17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2023</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">2023-06-11</td>
+<td style="text-align: center;">2023-06-17</td>
+<td style="text-align: center;">Los Angeles</td>
+<td style="text-align: center;">0-17</td>
+<td style="text-align: center;">23</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -655,10 +753,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../milestones/03_milestone/03c_age_groups.html" class="pagination-link" aria-label="Age Groups">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Age Groups</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./milestones/03_milestone/03a_project_setup.html" class="pagination-link" aria-label="Project Set-Up">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Set-Up</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../milestones/03_milestone/03e_race_ethnicity.html" class="pagination-link" aria-label="Race and Ethnicity">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Race and Ethnicity</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
