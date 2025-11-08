@@ -1,4 +1,3 @@
-
 # Population Counts by Demographic
 
 ```{r}
@@ -42,6 +41,7 @@ purrr::walk(csv_files, function(file_path) {
 ```
 
 
+
 To calculate infection rates by demographic groups (such as county, health officer region, sex, or race/ethnicity), we first summarize total population counts for each demographic category within the population dataframe. The population dataset is then joined to both the master database (which merges all three datasets) and the individual California and Los Angeles datasets.
 
 By creating and maintaining these summarized population counts, we avoid having to recalculate them each time we focus on a different demographic group. For example, once this population dataset is joined to the California data, we can easily calculate population-adjusted infection rates that allow valid comparisons across counties with differing population sizes. 
@@ -69,6 +69,7 @@ step2_pop_df <- step2_pop_df_recat %>%
 
 
 
+
 ```{r, eval = FALSE}
 
 #--join datasets to new population dataframe
@@ -87,6 +88,7 @@ step2_la_cnty_df <- step2_la_cnty_df %>%
   mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
 
 ```
+
 
 
 ::: {.column-box}
@@ -136,5 +138,7 @@ kable_styling(bootstrap_options = c("bordered"))
 
 ```
 
+
 :::
+
 

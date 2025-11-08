@@ -1,5 +1,3 @@
-
-
 # Combined Database
 
 ```{r}

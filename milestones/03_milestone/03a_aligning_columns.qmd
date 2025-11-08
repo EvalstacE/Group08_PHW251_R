@@ -1,4 +1,3 @@
-
 # Aligning Column Names
 
 ```{r}
