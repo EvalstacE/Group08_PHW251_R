@@ -1,9 +1,9 @@
-variable,class,definition,n_unique,example value
+variable,class,definition,unique_n,example value
 end_date,Date,last date of Epi week,31,format: 2023-06-03
 start_date,Date,first date of Epi week,31,format: 2023-05-28
 county,character,county of residence of cases,58,Alameda
 health_officer_region,character,California Health Officer Region,6,Bay Area
-race_coded,character,race category codes,7,1:07
+race_coded,character,race category codes,7,"1, 2, 3, 4, 5, 6, 7"
 race_long,character,race category full text,7,"Black, Non-Hispanic"
 race_short,character,race category abbreviated text,7,Black NH
 sex,character,sex categorization,2,"FEMALE, MALE"

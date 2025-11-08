@@ -102,7 +102,7 @@ race_ethnicity_map %>%
 #| code-fold: true
 
 step2_ca_df %>%
-  select(county, age_cat, sex, race_coded, race_short, race_long, new_infections)%>%
+  select(county, age_cat, sex, race_coded, race_short, race_long)%>%
   group_by(race_short)%>%
   slice_head(n=1)%>%
   rename_with(~cell_spec(

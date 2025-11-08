@@ -1,6 +1,6 @@
 
 
-# Final Combined Database
+# Combined Database
 
 ```{r}
 #| include: false
@@ -44,7 +44,10 @@ purrr::walk(csv_files, function(file_path) {
 ```
 
 
-After reconciling all column names across the 3 datasets, standardizing age group, race/ethnicity, and infection date variables, we merge them together to generate a final, complete database and begin our descriptive explorations and analyses. 
+After reconciling all column names across the 3 datasets, standardizing age group, race/ethnicity, and infection date variables, we merge them together to generate a final, complete database and begin our descriptive explorations and analyses. The final, combined database as well as the cleaned individual datasets (California, Los Angeles, and population data) are stored and saved for future reference. 
+
+
+[Download Combined Database (CSV)](../../data/cleaned_data/combined_df.csv){.btn .btn-primary target="_blank"}
 
 ```{r, eval = FALSE}
 
@@ -61,16 +64,13 @@ combined_df <- rbind(step2_ca_df, step2_la_cnty_df) %>%
 ```
 
 
+**Glimpse of database structure:**
+
 ```{r}
+#| code-fold: show
 
-# final cleaned dataframes stored in "data/cleaned_data/" directory
-
-#--write.csv(combined_df, file = here("data/cleaned_data/combined_df.csv"), row.names = FALSE)
-#--write.csv(ca_df, file = here("data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)
-#--write.csv(la_cnty_df, file = here("data/cleaned_data/cleaned_la_cnty_df.csv"), row.names = FALSE)
-#--write.csv(pop_df, file = here("data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)
+dplyr::glimpse(combined_df)
 
 ```
-
 
 

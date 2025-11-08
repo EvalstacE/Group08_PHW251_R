@@ -88,7 +88,7 @@ After completing these adjustments --- renaming columns in the Los Angeles Count
 
 |
 
-### Figure 1. Aligning Column Names
+#### Figure 1. Aligning Column Names
 
 ![](../../www/cleaned_col_tbl.png){.lightbox width="75%"}
 

@@ -3,7 +3,6 @@
 # Age Categories
 
 ```{r}
-#| label: setup
 #| include: false
 #| warning: false
 #| message: false
@@ -114,7 +113,7 @@ pop_recat_subset <- step2_pop_df_recat %>%
 
 <div class="column-box">
 
-### Table 1: Reconciling Age Group Categories and Population Counts
+#### Table 1: Reconciling Age Group Categories and Population Counts
 
 **Original Age Groups:**
 ```{r, echo = FALSE}
@@ -131,11 +130,10 @@ pop_df_subset %>%
       background = "#5ce1e6", 
       extra_css = "font-size: 16px!important;"
   ) %>%
-  kable_styling(bootstrap_options = c("striped", "condensed", "bordered"))
+  kable_styling(bootstrap_options = c("striped", "condensed", "bordered", "hover"))
 ```
 
 
-|
 
 
 **New, Aggregate Age Group:**
@@ -145,7 +143,7 @@ pop_recat_subset %>%
       col.names = c("County", "Sex", "Race / Ethnicity", "Age Group", "Population"),
       table.attr = 'class="table table-bordered no-stripe"'
       ) %>%
-  kable_styling(bootstrap_options = c("bordered")) %>%
+  kable_styling(bootstrap_options = c("striped", "condensed", "bordered", "hover")) %>%
   row_spec(0, 
            bold = TRUE, 
            background = "#0f172a",

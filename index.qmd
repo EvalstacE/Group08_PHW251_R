@@ -1,5 +1,5 @@
 
-# Project Description
+**Project Description**
 
 You have been given three datasets: dataset one contains weekly data about a novel infectious respiratory disease outbreak containing the number of cases and case severity by demographic categories (age category, race, sex) and geographic categories (county) for California counties (except for Los Angeles county); dataset two contains morbidity and population data by similar demographic and geographic categories for Los Angeles county, and dataset three populations estimates for 2023 by county and demographic categories. 
 
@@ -28,7 +28,7 @@ For milestones 4-6, you will join these datasets together to create a single dat
 
 
 
-## Project Set-Up 
+### Project Set-Up 
 
 **Bringing in libraries, helper functions, and data files:**
 

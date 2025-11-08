@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: bd2052df-8567-4c0e-ac39-2af7dfffc93c
+      url: https://evalstace.quarto.pub/simulated-infectious-disease-outbreak-in-california
