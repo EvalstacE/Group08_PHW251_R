@@ -11,7 +11,7 @@ format:
     code-fold: true
     code-copy: true
     code-overflow: wrap
-    css: "styles.css"
+    css: "/styles.css"
     toc: false
     number-depth: 2
     
@@ -49,3 +49,5 @@ book:
       chapters: 
         - milestones/03_milestone/03i_descriptive_stats.qmd
 
+website:
+  site-url: https://evalstace.github.io/Group08_PHW251_R/

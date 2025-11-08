@@ -17,6 +17,7 @@
 *.knit.md
 *_cache/
 cache/
+docs/
 
 
 # RStudio Connect
