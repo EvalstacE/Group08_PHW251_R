@@ -1,0 +1,123 @@
+# Infection Dates
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra, janitor, reactable, MMWRweek
+)
+
+# Source all helper functions
+func_dir <- here::here("functions")
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+purrr::walk(r_files, source)
+
+
+# === Load all CSVs from _data/tbl_outputs_03 ===
+data_dir <- here::here("data", "tbl_outputs_03")
+
+csv_files <- list.files(
+  path = data_dir,
+  pattern = "\\.csv$",
+  full.names = TRUE
+)
+
+# Read and assign each CSV to an object named after its file
+purrr::walk(csv_files, function(file_path) {
+  # Extract clean base name (no extension)
+  obj_name <- tools::file_path_sans_ext(basename(file_path))
+  # Read file
+  df <- readr::read_csv(file_path, show_col_types = FALSE)
+  # Assign to the global environment so all chapters can access
+  assign(obj_name, df, envir = knitr::knit_global())
+})
+
+```
+
+
+To support date-based analyses, infection records will be aggregated by **MMWR week and year**. For both the Los Angeles County and California datasets, we will generate two new columns: **mmwr_year** and **mmwr_week**, then remove the original date-based fields. We will also add columns **start_date** and **end_date** to serve as reference points should we need them later. 
+
+In the California dataset, the field **time_int** encodes the year and MMWR week as a six-digit integer (YYYYWW). To create the new fields, we extract the first four digits as mmwr_year and the last two digits as mmwr_week, then drop the original time_int column.
+
+In the Los Angeles County dataset, the codebook identifies a field **dt_report** as the last day of the MMWR week. However, this field contained only missing values, so it was removed. Instead, we convert the infection date field, **dt_dx** to a proper date format, and then use the `MMWRweek` package to derive the mmwr_year and mmwr_week.
+
+
+```{r}
+
+##-- California dataset:
+step2_ca_df <- step1_ca_df %>%
+##--pull MMWR week and year from time_int field
+mutate(
+  mmwr_year = factor(time_int %/% 100), 
+  mmwr_week = factor(time_int %% 100)) %>%
+add_start_end_dates() %>%
+select(-time_int) %>%
+relocate(mmwr_year, mmwr_week, start_date, 
+         end_date, .before = everything())
+
+
+##-- LA county dataset:
+step2_la_cnty_df <- step1_la_cnty_df %>%
+##--restructure to proper date format
+mutate(DATE_FIX = 
+  as.Date(parse_date_time(dt_dx, "%d%b%Y"), 
+          format = "%Y-%m-%d")) %>% 
+##--use date to create new MMWR fields
+add_mmwr_week_columns(date_col = "DATE_FIX") %>%
+add_start_end_dates() %>%
+select(-c(DATE_FIX, dt_dx)) %>%
+relocate(mmwr_year, mmwr_week, start_date, 
+         end_date, .before = everything()) %>%
+relocate(county, .before = age_cat)
+
+
+```
+
+
+|
+|
+
+
+To streamline this process, we created two helper functions:
+
+* `add_mmwr_week_columns()` : takes date column and adds two fields: mmwr_year and mmwr_week
+* `add_start_end_dates()` : uses those values to generate corresponding MMWR week start and end dates
+
+
+<div class="column-box">
+**The dataframes now have a structure that looks like this:** 
+
+```{r, echo = FALSE}
+
+la_cnty_slice <- step2_la_cnty_df %>%
+  select(mmwr_year, mmwr_week, start_date, end_date, county, age_cat, new_infections) %>%
+  slice_head(n=3)
+
+la_cnty_slice %>%
+  rename_with(~cell_spec(
+    .x,
+    "html",
+    bold = TRUE,
+    color = "#0f172a",
+    background = "#ffde59",
+    font_size = 16
+  ), 1:4) %>%
+  kbl(escape = FALSE, align = "c") %>%
+  row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
+  kable_styling(bootstrap_options = c("bordered"))
+  
+```
+
+</div>
+
+
+

@@ -1,0 +1,286 @@
+---
+title: "Milestone 2"
+author: "Group 8: Erin Curlee, Val Stacey, Ana Terzo"
+date: "10/06/2025"
+format: 
+  html:
+    self-contained: true
+    code-fold: show
+    code-copy: true
+    code-overflow: wrap
+execute:
+  message: false
+  warning: false
+---
+
+
+```{r}
+#| label: setup
+#| include: false
+#| warning: false
+#| message: false
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra
+)
+
+```
+
+
+
+
+# 1. Research question background and context 
+
+
+In this hypothetical exercise and research question, we are employees of the California Department of Public Health working on infectious disease surveillance of an ongoing novel infectious respiratory disease outbreak.
+
+Our supervisors are interested to know the course of the outbreak, if it is disproportionately affecting certain demographic or geographic populations and how prevention and treatment resources should be allocated.
+
+
+
+
+# 2. Dataset sources
+
+We are provided with three main datasets, all stored as .csv files within our team project's `_data/scenario_1` directory: 
+
+1. Simulated Novel Infectious Disease case reporting for California (sim_novelid_CA.csv)
+
+2. Simulated Novel Infectious Disease case reporting for Los Angeles County (sim_novelid_LACounty_pop.csv)
+
+3. California estimated population for 2023 (ca_pop_2023.csv)
+
+
+We were also provided with a reference "codebook", saved as a Microsoft Excel Workbook, that provides metadata and descriptions of each variable across the three datasets. 
+
+
+
+# 3. Importing datasets
+
+To bring in each dataset, we utilize the `read.csv()` and `here()` functions: 
+
+```{r}
+
+# Read in .csv files: 
+
+ca_df <- read.csv(file = here("_data/scenario_1/sim_novelid_CA.csv"))
+la_cnty_df <- read.csv(file = here("_data/scenario_1/sim_novelid_LACounty.csv"))
+pop_df <- read.csv(file = here("_data/scenario_1/ca_pop_2023.csv"))
+
+```
+
+
+\newpage
+
+
+# 3. Exploring datasets
+
+The first thing we do as a team is spend some time understanding the structure and contents of each dataset. We use a variety of functions such as `str()`, `colnames()`,  and others provided by the `dplyr` and `tidyr` libraries. 
+
+We created a small helper function that we can apply to each dataset that returns a dataframe for us.
+
+
+The returned summary table shows each variable, its class, the number of missing values, the number of unique values, and (if numeric or integer) summary stats: mean, median, range. It also uses the `clean_names()` function from the `janitor` library to first convert all column names to lower case and snake case. 
+
+
+```{r}
+#| code-fold: true
+
+
+summarize_df <- function(df, examples_n = 5) {
+  df %>%
+    janitor::clean_names(case = "snake") %>%
+    dplyr::summarise(
+      dplyr::across(
+        dplyr::everything(),
+        .names = "{.col}__{.fn}",
+        .fns = list(
+          class     = ~ class(.x)[1],
+          n_missing = ~ sum(is.na(.x)),
+          n_unique  = ~ dplyr::n_distinct(.x, na.rm = TRUE),
+          mean_val  = ~ if (is.numeric(.x)) round(mean(.x, na.rm = TRUE), 2) else NA_real_,
+          med_val   = ~ if (is.numeric(.x)) round(stats::median(.x, na.rm = TRUE), 2) else NA_real_,
+          range     = ~ if (is.numeric(.x) && any(!is.na(.x))) {
+            r <- range(.x, na.rm = TRUE)
+            paste0(r[1], " - ", r[2]) 
+          } else NA_character_,
+          examples  = ~ if (is.character(.x) || is.factor(.x)) {
+            u <- unique(.x); u <- u[!is.na(u)]
+            paste(head(as.character(u), examples_n), collapse = ", ")
+          } else NA_character_
+        )
+      )
+    ) %>%
+    
+    tidyr::pivot_longer(
+      dplyr::everything(),
+      names_to  = c("variable", ".value"),
+      names_sep = "__"                               
+    ) %>%
+    
+    dplyr::arrange(class, variable)
+}
+
+
+
+```
+
+
+
+\newpage
+
+
+## California Dataset
+
+
+```{r}
+#| code-fold: true
+
+
+summarize_df(ca_df)  %>%
+  kbl(caption = "California Dataset Summary", 
+      align = "cc") %>%
+  column_spec(1, bold = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"), 
+    full_width = TRUE)
+
+
+```
+
+
+
+\newpage
+
+
+
+## LA County Dataset
+
+```{r}
+#| code-fold: true
+
+
+summarize_df(la_cnty_df)  %>%
+  kbl(caption = "LA County Dataset Summary", 
+      align = "cc") %>%
+  column_spec(1, bold = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"), 
+    full_width = TRUE)
+
+
+```
+
+
+
+
+\newpage
+
+
+
+## Population Dataset
+
+```{r}
+#| code-fold: true
+
+
+summarize_df(pop_df)  %>%
+  kbl(caption = "Population Dataset Summary", 
+      align = "cc") %>%
+  column_spec(1, bold = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"), 
+    full_width = TRUE)
+
+
+```
+
+
+
+
+
+\newpage
+
+
+# Future cleaning and organizing needs: 
+
+## General: 
+
++ Create standard data dictionary and transform all datasets so that the columns that are reporting the same measurement have the same column names
+
++ standardize categories and coded values across all datasets to match
+
+
+## Notes by Variable: 
+
+**Age group**: 
+
++ Re-categorize age groups in the population dataset (6 age groups) and aggregate (sum) population counts to match the larger, 4 age-group categories in CA and LA county datasets
+
+
+**Race / ethnicity**: 
+
++ Decide on the use of coded integer or character value for race/ethnicity. 
+
++ Convert the columns in each dataset so that they all use the exact same category (either as coded integer or as the same text/character string)
+
+
+**County**: 
+
++ Decide to use either "Name [County]" pattern, or just the "County Name". 
+
++ Either remove trailing "County" from the CA dataset, or add it in for the Population dataset so that we can join them based on their values.
+
+
+
+## Time and Date-based Columns
+
+The first part of our analyses will document and visualize the overall case rate / incidence rate by county to understand the course of the outbreak. We will use "MMWR" weeks as our unit of time.
+
+For the LA County dataset, we will first add a column that identifies the MMWR week based on the diagnosis date field, and sum the counts across fields grouping by each MMWR week. 
+
+For the CA dataset, we will not rely on or use the diagnosis date field. In the codebook, it was noted that the diagnosis date calculated and used here can introduce unexpected bias. The MMWR week is already documented in this dataset and can be pulled from the "time_int" field. 
+
+
+
+
+
+
+# Application to research questions
+
+## Understanding the course of the outbreak:
+
+  * Counts of cases and severe cases will be aggregated to MMWR week level for each county
+  
+  * Explore and visualize the course of the outbreak: 
+  
+    + Line chart to display cumulative cases by week for the entire state of California as well as for each county
+    
+    + Interactive and static map(s) to visualize cumulative cases by county across California
+    
+    + Interactive map that visualizes the course of the outbreak over time across California by county (using cumulative cases by week and points in the center of counties that grow as weeks progress)
+    
+
+
+## Disease burden across different commmunities
+
+  * Pull in population counts by age group, race/ethnicity, and sex from the population dataset and join to MMWR case counts, count of severe cases, etc. 
+  
+  * Calculate age, sex, and race/ethnicity adjusted rates or relative proportions to compare the disease burden across demographic groups. We may also consider adding in a designation for each county as rural or urban and explore potential relationships among demogrpahic groups in rural vs. urban areas. 
+  
+  
+  * Document with tables, and visualize with charts or other graphics to highlight any groups that are disproportionately impacted by the disease
+
+
+
+
+## Allocation of treatment resources
+
+The analyses we perform will help us guide a proposal to prioritize the allocation of resources. Understanding the specific communities and/or the geographic areas that are being hit the hardest by this disease will help us identify top priorities for treatment resources.
+
+The ethical frameworks of distributive justice values such as social solidarity, helping the least well off first, and non-abandonment, will also be paramount to justifying our resource allocation proposal. 
+
+

@@ -1,0 +1,55 @@
+project:
+  type: book
+  output-dir: docs
+  
+  
+page-navigation: true
+
+format: 
+  html:
+    theme: cosmo
+    code-fold: true
+    code-copy: true
+    code-overflow: wrap
+    css: "www/styles.css"
+    toc: false
+    number-depth: 2
+    
+execute:
+  message: false
+  warning: false  
+  
+
+book:
+  bread-crumbs: false
+  reader-mode: false
+  back-to-top-navigation: true
+  title: "Simulated Infectious Disease Outbreak in California"
+  author: "Group 8: Erin Curlee, Val Stacey, Ana Terzo"
+  date: "11/11/2025"  
+  sidebar:
+    style: docked
+    pinned: true
+    search: false
+
+  chapters:
+    - index.qmd
+    - part: "Data Preparation"
+      chapters: 
+        - milestones/03_milestone/03a_project_setup.qmd
+        - milestones/03_milestone/03a_aligning_columns.qmd
+        
+    - part: "Restructuring Variables"
+      chapters: 
+        - milestones/03_milestone/03b_age_categories.qmd
+        - milestones/03_milestone/03b_infection_dates.qmd
+        - milestones/03_milestone/03b_race_ethnicity.qmd
+        - milestones/03_milestone/03b_pop_by_demographics.qmd
+        
+    - milestones/03_milestone/03c_creating_final_datasets.qmd
+    - milestones/03_milestone/03d_final_data_dictionary.qmd  
+    
+    - part: "Descriptive Exploration"
+      chapters: 
+        - milestones/03_milestone/03e_descriptive_stats.qmd
+

@@ -1,0 +1,82 @@
+
+
+# Final Data Dictionary
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra, janitor, reactable, MMWRweek
+)
+
+# Source all helper functions
+func_dir <- here::here("functions")
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+purrr::walk(r_files, source)
+
+
+```
+
+
+[Download Data Dictionary (CSV)](../../data/final_codebook.csv){.btn .btn-primary target="_blank"}
+
+```{r}
+
+data_dictionary <- read.csv(file = here("data/final_codebook.csv"))
+
+```
+
+
+### Categorical, Dates, and Factors:
+
+```{r}
+
+data_dictionary %>% filter(class != "integer") %>%
+kbl(
+  align = "cclcc", 
+  col.names = 
+    c("Variable Name", "Class/Type", "Definition", 
+      "Unique Values", "Example Format")
+) %>%
+kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered")
+) %>%
+row_spec(0, 
+   bold = TRUE, 
+   background = "#0f172a",
+   extra_css = "font-size: 16px!important;color:#ffffff;"
+)
+
+```
+
+
+### Numeric:
+
+```{r}
+
+data_dictionary %>% 
+  filter(class == "integer") %>%
+  select(-unique_n) %>%
+  
+kbl(
+  align = "cclc", 
+  col.names = 
+    c("Variable Name", "Class/Type", "Definition", 
+      "Range of Values")
+) %>%
+kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered")
+) %>%
+row_spec(0, 
+   bold = TRUE, 
+   background = "#0f172a",
+   extra_css = "font-size: 16px!important;color:#ffffff;"
+)
+
+```
+
+

@@ -1,0 +1,44 @@
+
+# Project Set-Up 
+
+**Bringing in libraries, helper functions, and data files:**
+
+```{r}
+#| warning: false
+#| message: false
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra, janitor, reactable, MMWRweek
+)
+
+# Source all helper functions
+func_dir <- here::here("functions")
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+purrr::walk(r_files, source)
+
+
+# === Load all CSVs from _data/tbl_outputs_03 ===
+data_dir <- here::here("data", "tbl_outputs_03")
+
+csv_files <- list.files(
+  path = data_dir,
+  pattern = "\\.csv$",
+  full.names = TRUE
+)
+
+# Read and assign each CSV to an object named after its file
+purrr::walk(csv_files, function(file_path) {
+  # Extract clean base name (no extension)
+  obj_name <- tools::file_path_sans_ext(basename(file_path))
+  # Read file
+  df <- readr::read_csv(file_path, show_col_types = FALSE)
+  # Assign to the global environment so all chapters can access
+  assign(obj_name, df, envir = knitr::knit_global())
+})
+
+```
+
