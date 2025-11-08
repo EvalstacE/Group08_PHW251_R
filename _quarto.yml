@@ -2,10 +2,6 @@ project:
   type: book
   output-dir: docs
   
-website:
-  site-url: https://evalstace.github.io/Group08_PHW251_R/
-  repo-url: https://github.com/EvalstacE/Group08_PHW251_R
-  
   
 page-navigation: true
 
