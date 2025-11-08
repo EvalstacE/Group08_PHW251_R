@@ -93,8 +93,8 @@ race_ethnicity_map %>%
 
 
 
-<div class="column-box">
 
+::: {.column-box}
 
 **Each dataset now contains 3 columns for each unique race/ethnicity format, for example:**
 
@@ -122,4 +122,4 @@ step2_ca_df %>%
 ```
 
 
-</div>
+:::

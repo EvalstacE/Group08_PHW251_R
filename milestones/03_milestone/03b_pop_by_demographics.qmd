@@ -89,7 +89,7 @@ step2_la_cnty_df <- step2_la_cnty_df %>%
 ```
 
 
-<div class="column-box">
+::: {.column-box}
 
 ### Table 2: Calculating Infection Rate by 100,000 Population Example
 
@@ -136,5 +136,5 @@ kable_styling(bootstrap_options = c("bordered"))
 
 ```
 
-</div>
+:::
 

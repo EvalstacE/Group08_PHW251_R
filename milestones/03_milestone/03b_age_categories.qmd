@@ -111,7 +111,7 @@ pop_recat_subset <- step2_pop_df_recat %>%
 ```
 
 
-<div class="column-box">
+::: {.column-box}
 
 #### Table 1: Reconciling Age Group Categories and Population Counts
 
@@ -158,6 +158,6 @@ pop_recat_subset %>%
 ```
 
 
-</div>
+:::
 
 
