@@ -11,7 +11,7 @@ format:
     code-fold: true
     code-copy: true
     code-overflow: wrap
-    css: "www/styles.css"
+    css: "styles.css"
     toc: false
     number-depth: 2
     
@@ -21,9 +21,7 @@ execute:
   
 
 book:
-  bread-crumbs: false
   reader-mode: false
-  back-to-top-navigation: true
   title: "Simulated Infectious Disease Outbreak in California"
   author: "Group 8: Erin Curlee, Val Stacey, Ana Terzo"
   date: "11/11/2025"  
