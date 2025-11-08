@@ -2,16 +2,17 @@ project:
   type: book
   output-dir: docs
   
+website:
+  site-url: https://evalstace.github.io/Group08_PHW251_R/
   
 page-navigation: true
 
 format: 
   html:
-    theme: cosmo
+    theme: [cosmo, _css/book_main_styles.scss]
     code-fold: true
     code-copy: true
     code-overflow: wrap
-    css: "/styles.css"
     toc: false
     number-depth: 2
     
@@ -27,27 +28,23 @@ book:
   date: "11/11/2025"  
   sidebar:
     search: false
+    style: docked
 
   chapters:
     - index.qmd
     - part: "Data Preparation"
       chapters: 
-        - milestones/03_milestone/03a_project_setup.qmd
-        - milestones/03_milestone/03b_aligning_columns.qmd
+        - chapters/chapter3/03a_project_setup.qmd
+        - chapters/chapter3/03b_aligning_columns.qmd
+        - chapters/chapter3/03c_age_groups.qmd
+        - chapters/chapter3/03d_infection_dates.qmd
+        - chapters/chapter3/03e_race_ethnicity.qmd
+        - chapters/chapter3/03f_population_counts.qmd
         
-    - part: "Restructuring Variables"
-      chapters: 
-        - milestones/03_milestone/03c_age_groups.qmd
-        - milestones/03_milestone/03d_infection_dates.qmd
-        - milestones/03_milestone/03e_race_ethnicity.qmd
-        - milestones/03_milestone/03f_population_counts.qmd
-        
-    - milestones/03_milestone/03g_creating_final_datasets.qmd
-    - milestones/03_milestone/03h_final_data_dictionary.qmd  
+    - chapters/chapter3/03g_creating_final_datasets.qmd
+    - chapters/chapter3/03h_final_data_dictionary.qmd  
     
     - part: "Descriptive Exploration"
       chapters: 
-        - milestones/03_milestone/03i_descriptive_stats.qmd
+        - chapters/chapter3/03i_descriptive_stats.qmd
 
-website:
-  site-url: https://evalstace.github.io/Group08_PHW251_R/
