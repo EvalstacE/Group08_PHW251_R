@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Final Data Dictionary – Simulated Infectious Disease Outbreak in California</title>
+<title>4&nbsp; Age Categories – Simulated Infectious Disease Outbreak in California</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../milestones/03_milestone/03e_descriptive_stats.html" rel="next">
-<link href="../../milestones/03_milestone/03c_creating_final_datasets.html" rel="prev">
+<link href="../../milestones/03_milestone/03b_infection_dates.html" rel="next">
+<link href="../../milestones/03_milestone/03a_aligning_columns.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../milestones/03_milestone/03d_final_data_dictionary.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Final Data Dictionary</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../milestones/03_milestone/03bb_age_groups.html">Restructuring Variables</a></li><li class="breadcrumb-item"><a href="../../milestones/03_milestone/03bb_age_groups.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Age Categories</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -178,7 +178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../milestones/03_milestone/03bb_age_groups.html" class="sidebar-item-text sidebar-link">
+  <a href="../../milestones/03_milestone/03bb_age_groups.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Age Categories</span></span></a>
   </div>
 </li>
@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../milestones/03_milestone/03d_final_data_dictionary.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../milestones/03_milestone/03d_final_data_dictionary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Final Data Dictionary</span></span></a>
   </div>
 </li>
@@ -238,11 +238,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../milestones/03_milestone/03bb_age_groups.html">Restructuring Variables</a></li><li class="breadcrumb-item"><a href="../../milestones/03_milestone/03bb_age_groups.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Age Categories</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Final Data Dictionary</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Age Categories</span></h1>
 </div>
 
 
@@ -259,234 +259,113 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><a href="../../data/final_codebook.csv" class="btn btn-primary" target="_blank">Download Data Dictionary (CSV)</a></p>
+<p>The population database contains counts for six age groups, whereas the California and LA County databases use four. Because the groupings align — “0–4,” “5–11,” and “12–17” in the population database correspond to the “0–17” group in the others — we summarized the population counts to match the four age-group format.</p>
+<p>In the original population database, counts are reported for each single year of age within every demographic subgroup (e.g., county, sex, race/ethnicity). To obtain total estimates per age group and demographic category, the single-year counts were aggregated (summed).</p>
+<p><strong>Table 1</strong> below presents a subset of the original and restructured population data to illustrate the resulting summarized age groupings.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_dictionary <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data/final_codebook.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>step2_pop_df <span class="ot">&lt;-</span> step1_pop_df <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>      county, health_officer_region, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      sex, race_ethnicity, age_cat</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">pop =</span> <span class="fu">sum</span>(pop), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#-aggregate population counts </span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">##--to 4 age category format:</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>step2_pop_df_recat <span class="ot">&lt;-</span> step1_pop_df <span class="sc">%&gt;%</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_age_group =</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        age_cat <span class="sc">%in%</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>          <span class="fu">c</span>(<span class="st">"0-4"</span>, <span class="st">"5-11"</span>, <span class="st">"12-17"</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>              <span class="st">"0-17"</span>, age_cat)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      county, health_officer_region, sex, </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      race_ethnicity, new_age_group</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">pop =</span> <span class="fu">sum</span>(pop), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"age_cat"</span> <span class="ot">=</span> <span class="st">"new_age_group"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="categorical-dates-and-factors" class="level3">
-<h3 class="anchored" data-anchor-id="categorical-dates-and-factors">Categorical, Dates, and Factors:</h3>
+<section id="table-1-reconciling-age-group-categories-and-population-counts" class="level4 column-box">
+<h4 class="anchored" data-anchor-id="table-1-reconciling-age-group-categories-and-population-counts">Table 1: Reconciling Age Group Categories and Population Counts</h4>
+<p><strong>Original Age Groups:</strong></p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_dictionary <span class="sc">%&gt;%</span> <span class="fu">filter</span>(class <span class="sc">!=</span> <span class="st">"integer"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">"cclcc"</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"Variable Name"</span>, <span class="st">"Class/Type"</span>, <span class="st">"Definition"</span>, </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Unique Values"</span>, <span class="st">"Example Format"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"bordered"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">row_spec</span>(<span class="dv">0</span>, </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>   <span class="at">bold =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>   <span class="at">background =</span> <span class="st">"#0f172a"</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>   <span class="at">extra_css =</span> <span class="st">"font-size: 16px!important;color:#ffffff;"</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
-<table class="table table-striped table-hover table-condensed table-bordered caption-top table-sm small" data-quarto-postprocess="true">
+<table class="table table-striped table-condensed table-bordered table-hover caption-top table-sm small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Variable Name</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Class/Type</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Definition</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Unique Values</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Example Format</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">County</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Sex</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Race / Ethnicity</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Age Group</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Population</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">end_date</td>
-<td style="text-align: center;">Date</td>
-<td style="text-align: left;">last date of Epi week</td>
-<td style="text-align: center;">31</td>
-<td style="text-align: center;">format: 2023-06-03</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">start_date</td>
-<td style="text-align: center;">Date</td>
-<td style="text-align: left;">first date of Epi week</td>
-<td style="text-align: center;">31</td>
-<td style="text-align: center;">format: 2023-05-28</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">county</td>
-<td style="text-align: center;">character</td>
-<td style="text-align: left;">county of residence of cases</td>
-<td style="text-align: center;">58</td>
 <td style="text-align: center;">Alameda</td>
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">Hispanic</td>
+<td style="text-align: center;">0-4</td>
+<td style="text-align: center;">11587</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">health_officer_region</td>
-<td style="text-align: center;">character</td>
-<td style="text-align: left;">California Health Officer Region</td>
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">Bay Area</td>
+<td style="text-align: center;">Alameda</td>
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">Hispanic</td>
+<td style="text-align: center;">12-17</td>
+<td style="text-align: center;">17098</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">race_coded</td>
-<td style="text-align: center;">character</td>
-<td style="text-align: left;">race category codes</td>
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">1, 2, 3, 4, 5, 6, 7</td>
+<td style="text-align: center;">Alameda</td>
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">Hispanic</td>
+<td style="text-align: center;">5-11</td>
+<td style="text-align: center;">17761</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">race_long</td>
-<td style="text-align: center;">character</td>
-<td style="text-align: left;">race category full text</td>
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">Black, Non-Hispanic</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">race_short</td>
-<td style="text-align: center;">character</td>
-<td style="text-align: left;">race category abbreviated text</td>
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">Black NH</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">sex</td>
-<td style="text-align: center;">character</td>
-<td style="text-align: left;">sex categorization</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">FEMALE, MALE</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">age_cat</td>
-<td style="text-align: center;">factor</td>
-<td style="text-align: left;">age category</td>
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0-17, 18-49, 50-64, 65+</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">mmwr_week</td>
-<td style="text-align: center;">factor</td>
-<td style="text-align: left;">epi week 40 in 2022 to epi week 23 in 2023</td>
-<td style="text-align: center;">31</td>
-<td style="text-align: center;">22:52</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">mmwr_year</td>
-<td style="text-align: center;">factor</td>
-<td style="text-align: left;">year</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">2023</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">Total</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">-</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">-</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">-</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">46,446</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-</section>
-<section id="numeric" class="level3">
-<h3 class="anchored" data-anchor-id="numeric">Numeric:</h3>
+<p><strong>New, Aggregate Age Group:</strong></p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_dictionary <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(class <span class="sc">==</span> <span class="st">"integer"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>unique_n) <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">"cclc"</span>, </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"Variable Name"</span>, <span class="st">"Class/Type"</span>, <span class="st">"Definition"</span>, </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Range of Values"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"bordered"</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">row_spec</span>(<span class="dv">0</span>, </span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>   <span class="at">bold =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>   <span class="at">background =</span> <span class="st">"#0f172a"</span>,</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>   <span class="at">extra_css =</span> <span class="st">"font-size: 16px!important;color:#ffffff;"</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
-<table class="table table-striped table-hover table-condensed table-bordered caption-top table-sm small" data-quarto-postprocess="true">
+<table class="table table-bordered no-stripe table-striped table-condensed table-hover caption-top table-sm small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Variable Name</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Class/Type</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Definition</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Range of Values</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">County</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Sex</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Race / Ethnicity</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Age Group</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Population</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">cumulative_infected</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">total number of diagnosed individuals</td>
-<td style="text-align: center;">0 - 137804</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">cumulative_severe</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">total number infected requiring hospitalization</td>
-<td style="text-align: center;">0 - 4060</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">cumulative_unrecovered</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">total number unrecovered after a week of diagnosis</td>
-<td style="text-align: center;">0 - 16920</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">new_infections</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">newly diagnosed individuals</td>
-<td style="text-align: center;">0 - 12110</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">new_severe</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">newly identified cases requiring hospitalization</td>
-<td style="text-align: center;">0 - 352</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">new_unrecovered</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">newly reported as unrecovered</td>
-<td style="text-align: center;">0 - 1436</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">pop</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">estimated population by age group for year 2023</td>
-<td style="text-align: center;">0 - 980387</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">total_cnty_pop</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">total population estimate by county</td>
-<td style="text-align: center;">1165 - 9825708</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">total_race_pop</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">total county population by race/ethnicity</td>
-<td style="text-align: center;">0 - 4089110</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">total_sex_pop</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">total county pouplation by sex</td>
-<td style="text-align: center;">548 - 5049625</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">total_HOR_pop</td>
-<td style="text-align: center;">integer</td>
-<td style="text-align: left;">total population by Health Officer Region</td>
-<td style="text-align: center;">683715 - 12802429</td>
+<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important;">Alameda</td>
+<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important;">FEMALE</td>
+<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important;">Hispanic</td>
+<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important;">0-17</td>
+<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">46,446</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-
-
 </section>
+
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -890,13 +769,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../milestones/03_milestone/03c_creating_final_datasets.html" class="pagination-link" aria-label="Combined Database">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Combined Database</span></span>
+      <a href="../../milestones/03_milestone/03a_aligning_columns.html" class="pagination-link" aria-label="Aligning Column Names">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../milestones/03_milestone/03e_descriptive_stats.html" class="pagination-link" aria-label="Descriptive Statistics: Morbidity Datasets">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Descriptive Statistics: Morbidity Datasets</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../milestones/03_milestone/03b_infection_dates.html" class="pagination-link" aria-label="Infection Dates">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Infection Dates</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
