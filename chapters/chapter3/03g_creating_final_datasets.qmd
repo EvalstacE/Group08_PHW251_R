@@ -18,17 +18,34 @@ After reconciling all column names across the 3 datasets, standardizing age grou
 ```{r, eval = FALSE}
 #| code-fold: show
 
-
-combined_df <- rbind(step2_ca_df, step2_la_cnty_df) %>%
+combined_df <- 
+  rbind(step2_ca_df, step2_la_cnty_df) %>%
   relocate(health_officer_region,  .after = county) %>%
   relocate(pop, .after = race_long) %>%
-  mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
+  mutate(
+    age_cat = 
+      factor(age_cat, 
+        levels = c("0-17", "18-49", "50-64", "65+")
+      )
+    )
+
+```
+
+|
+
+**Exports:**
+```{r}
+#| code-fold: show
+
+# Final Exports to "cleaned_data" project directory:
 
 #-write.csv(combined_df, file = here("data/cleaned_data/combined_df.csv"), row.names = FALSE)
 #-write.csv(step2_ca_df, file = here("data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)
 #_write.csv(step2_la_cnty_df, file = here("data/cleaned_data/cleaned_la_cnty_df.csv"), row.names = FALSE)
 #-write.csv(step2_pop_df, file = here("data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)
+
 ```
+
 
 
 **Glimpse of database structure:**

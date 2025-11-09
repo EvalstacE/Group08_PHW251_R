@@ -76,14 +76,14 @@ step2_la_cnty_df <- step2_la_cnty_df %>%
 ```{r}
 
 by_cnty_year <- step2_ca_df %>%
-  group_by(health_officer_region, county) %>%
-  summarise(
+group_by(health_officer_region, county) %>%
+summarise(
     total_cnty_pop = first(total_cnty_pop),
     total_infected = max(cumulative_infected),
     total_inf_prop = total_infected / total_cnty_pop,
     inf_rate_100k = round((total_inf_prop * 10^4),1),
     .groups = "drop"
-  )
+)
 
 cnty_slice <- by_cnty_year %>%
   select(-health_officer_region) %>%
@@ -95,22 +95,23 @@ cnty_slice <- by_cnty_year %>%
 
 cnty_slice %>%
 kbl(
-    escape = FALSE, 
-    align = "c",
-    col.names = 
-      c("County", "Total Population", 
-        "Total Infected", "Proportion Infected", 
-        "Infection Rate per 100K")
+     escape = FALSE, 
+      align = "c",
+  col.names = c(
+    "County", "Total Population", 
+    "Total Infected", "Proportion Infected", 
+    "Infection Rate per 100K"
+  )
 ) %>%
 row_spec(0, 
-       bold = TRUE, 
-       background = "#0f172a",
-       extra_css = "font-size: 16px!important;color:#ffffff;"
+  bold = TRUE, 
+  background = "#0f172a",
+  extra_css = 
+   "font-size: 16px!important;color:#ffffff;"
 ) %>%
-  
 column_spec(5, 
-       bold = TRUE, 
-       background = "#5ce1e6"
+  bold = TRUE, 
+  background = "#5ce1e6"
 ) %>%  
 kable_styling(bootstrap_options = c("bordered"))
 

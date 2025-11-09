@@ -16,6 +16,9 @@ To resolve this, we created a crosswalk file (**race_ethnicity_map.csv**) that a
 
 
 ```{r}
+#| code-fold: show
+
+
 race_ethnicity_map <- read.csv(file = here("data/race_ethnicity_map.csv")) %>%
   mutate(
     race_long = clean(race_long),
@@ -27,11 +30,13 @@ race_ethnicity_map <- read.csv(file = here("data/race_ethnicity_map.csv")) %>%
 
 
 ```{r, eval = FALSE}
+#| code-fold: show
+
 
 step2_ca_df <- step2_ca_df %>%
   rename("race_coded" = "race_ethnicity") %>%
   mutate(race_coded = as.character(race_coded)) %>%
-  left_join(race_ethnicity_map, by = "race_coded")%>%
+  left_join(race_ethnicity_map, by = "race_coded") %>%
   relocate(race_coded, race_short, race_long, .after = sex)
 
 step2_la_cnty_df <- step2_la_cnty_df %>%
@@ -50,13 +55,16 @@ step2_la_cnty_df <- step2_la_cnty_df %>%
 ```{r, echo = FALSE}
 
 race_ethnicity_map %>% 
-  kbl(align = "c") %>%
-  kable_styling(bootstrap_options = c("bordered")) %>%
-  row_spec(0, 
-           bold = TRUE, 
-           background = "#0f172a",
-           extra_css = 
-           "font-size: 14px!important;color:#ffffff;") 
+kbl(align = "c") %>%
+kable_styling(
+  bootstrap_options = c("bordered")
+) %>%
+row_spec(0, 
+  bold = TRUE, 
+  background = "#0f172a",
+  extra_css = 
+  "font-size: 14px!important;color:#ffffff;"
+) 
 ```
 
 
@@ -70,24 +78,34 @@ race_ethnicity_map %>%
 #| code-fold: true
 
 step2_ca_df %>%
-  select(county, age_cat, sex, race_coded, race_short, race_long)%>%
-  group_by(race_short)%>%
-  slice_head(n=1)%>%
-  arrange(race_coded) %>%
-  rename_with(~cell_spec(
+select(
+    county, age_cat, sex, race_coded, 
+    race_short, race_long
+)%>%
+group_by(race_short) %>%
+slice_head(n=1) %>%
+arrange(race_coded) %>%
+  
+rename_with(
+~cell_spec(
     .x,
     "html",
     bold = TRUE,
     color = "#0f172a",
     background = "#ffde59",
     font_size = 16
-  ), 4:6) %>%
-  kbl(escape = FALSE, align = "c") %>%
-  row_spec(0, 
-       bold = TRUE, 
-       background = "#0f172a",
-       extra_css = "font-size: 16px!important;color:#ffffff;") %>%
-  kable_styling(bootstrap_options = c("bordered"))
+  ), 4:6
+) %>%
+kbl(escape = FALSE, align = "c") %>%
+row_spec(0, 
+  bold = TRUE, 
+  background = "#0f172a",
+  extra_css = 
+   "font-size: 16px!important;color:#ffffff;"
+) %>%
+kable_styling(bootstrap_options = c("bordered"))
+
+
 ```
 
 

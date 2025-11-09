@@ -47,7 +47,7 @@ step1_pop_df <- raw_pop_df %>%
   rename("race_ethnicity" = "race7") %>%
   mutate(
     county = clean(county),
-##--fix "WhiteTE NH" typo:    
+##-- fix "WhiteTE NH" typo:    
     race_ethnicity = str_replace(race_ethnicity, "WhiteTE NH", "White NH")
   )
 
