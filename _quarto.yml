@@ -50,3 +50,5 @@ book:
       chapters: 
         - chapters/chapter3/03i_descriptive_stats.qmd
 
+  appendices:
+    - chapters/apx_library_refs.qmd

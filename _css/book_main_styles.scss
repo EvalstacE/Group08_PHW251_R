@@ -446,8 +446,8 @@ $nav-link-padding-y:                .5rem !default;
 $nav-link-padding-x:                1rem !default;
 $nav-link-font-size:                null !default;
 $nav-link-font-weight:              null !default;
-$nav-link-color:                    $pink !default;
-$nav-link-hover-color:              $red !default;
+$nav-link-color:                    $navy !default;
+$nav-link-hover-color:              $navy !default;
 
 // scss-docs-end nav-variables
 
@@ -601,4 +601,36 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
 .text-box-white { @include activity-box($white, $black); }
 
 
+
+
+
+/* === Custom Callout Header Styling with Inline Code Highlight === */
+
+.callout.callout-note {
+  .callout-header {
+    background-color: #f8fafc !important;
+    padding: 1rem 1.25rem !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+  }
+
+  .callout-title {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    margin: 0;
+  }
+
+  /* Target inline code inside header text */
+  .callout-title-text code,
+  .callout-title code {
+    background-color: #e2e8f0 !important; /* light gray chip look */
+    color: #0f172a !important;
+    font-weight: 700 !important;
+    padding: 0.2em 0.5em !important;
+    border-radius: 6px !important;
+    font-size: 1.15rem !important;
+    font-family: "Source Code Pro", monospace !important;
+    white-space: pre !important; /* keeps backtick spacing consistent */
+  }
+}
 

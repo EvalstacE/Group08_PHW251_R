@@ -9,10 +9,9 @@
 
 # Load and install packages
 pacman::p_load(
-  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang,
-  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper,
-  readxl, scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue,
-  knitr, kableExtra, janitor, reactable, MMWRweek
+  dplyr, tidyr, readr, here, janitor, lubridate,  
+  rlang, stringr, purrr, ggplot2, ggthemes, knitr,
+  kableExtra, MMWRweek
 )
 
 # Bring in helper functions

@@ -12,6 +12,7 @@ source("_common.R")
 
 
 ```{r}
+#| code-fold: show
 
 # Bring in final combined database
 df <- combined_df
