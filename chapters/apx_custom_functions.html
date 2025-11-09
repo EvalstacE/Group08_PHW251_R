@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Aligning Column Names – Simulated Infectious Disease Outbreak in California</title>
+<title>Appendix B — Custom Functions – Simulated Infectious Disease Outbreak in California</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,27 +58,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../chapters/chapter3/03c_age_groups.html" rel="next">
-<link href="../../chapters/chapter3/03a_project_setup.html" rel="prev">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ab8867fa8e1329ddba5952e497dfa3e9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/apx_library_refs.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ab8867fa8e1329ddba5952e497dfa3e9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -119,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html">Data Preparation</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/03b_aligning_columns.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/apx_custom_functions.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Custom Functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -131,14 +127,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../">Simulated Infectious Disease Outbreak in California</a> 
+      <a href="../">Simulated Infectious Disease Outbreak in California</a> 
     </div>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Project Description</span></a>
   </div>
 </li>
@@ -153,37 +149,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03a_project_setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03a_project_setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Set-Up</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03b_aligning_columns.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/chapter3/03b_aligning_columns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03c_age_groups.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03c_age_groups.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Age Groups</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03d_infection_dates.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03d_infection_dates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Infection Dates</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03e_race_ethnicity.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03e_race_ethnicity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Race and Ethnicity</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03f_population_counts.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03f_population_counts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Population by Demographic</span></span></a>
   </div>
 </li>
@@ -191,13 +187,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03g_creating_final_datasets.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03g_creating_final_datasets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Combined Database</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03h_final_data_dictionary.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03h_final_data_dictionary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Final Data Dictionary</span></span></a>
   </div>
 </li>
@@ -212,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03i_descriptive_stats.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03i_descriptive_stats.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Infection Rates by Demographic</span></span></a>
   </div>
 </li>
@@ -229,13 +225,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/apx_library_refs.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/apx_library_refs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Packages</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/apx_custom_functions.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/apx_custom_functions.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Custom Functions</span></span></a>
   </div>
 </li>
@@ -250,9 +246,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html">Data Preparation</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/03b_aligning_columns.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/apx_custom_functions.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Custom Functions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></h1>
+<h1 class="title">Appendix B — Custom Functions</h1>
 </div>
 
 
@@ -269,59 +265,202 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>We brought in the raw datasets provided and first ensured that all column names referring to the same variables were consistent across the three databases, using the provided codebook as a reference. Standardizing these names improved both the efficiency of subsequent analyses and the clarity of the data dictionary developed later in this report.</p>
-<p>To facilitate merging, we added a county field to the Los Angeles County database so that both datasets share the same set of columns, allowing them to be joined or appended to create a single statewide morbidity dataset for later analyses.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>clean()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Description:</strong></p>
+<p>Removes unwanted whitespace and formatting inconsistencies from character data.<br>
+This utility function converts the input to a character vector, trims leading and trailing spaces, and collapses multiple internal spaces into a single space.</p>
+<p><strong>Usage:</strong></p>
 <div class="cell">
-<details class="code-fold">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">##-- California dataset:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>step1_ca_df <span class="ot">&lt;-</span> raw_ca_df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>dt_diagnosis) <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">county =</span> <span class="fu">clean</span>(county) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_remove</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s*[Cc]ounty$"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_trim</span>()</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">##-- LA county dataset:</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>step1_la_cnty_df <span class="ot">&lt;-</span> raw_la_cnty_df <span class="sc">%&gt;%</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"age_cat"</span>                <span class="ot">=</span> <span class="st">"age_category"</span>, </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"race_ethnicity"</span>         <span class="ot">=</span> <span class="st">"race_eth"</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"new_infections"</span>         <span class="ot">=</span> <span class="st">"dx_new"</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"cumulative_infected"</span>    <span class="ot">=</span> <span class="st">"infected_cumulative"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"new_unrecovered"</span>        <span class="ot">=</span> <span class="st">"unrecovered_new"</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"cumulative_unrecovered"</span> <span class="ot">=</span> <span class="st">"unrecovered_cumulative"</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">"new_severe"</span>             <span class="ot">=</span> <span class="st">"severe_new"</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"cumulative_severe"</span>      <span class="ot">=</span> <span class="st">"severe_cumulative"</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county =</span> <span class="st">"Los Angeles"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(county, <span class="at">.before =</span> <span class="fu">everything</span>()) </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">##-- Population dataset:</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>step1_pop_df <span class="ot">&lt;-</span> raw_pop_df <span class="sc">%&gt;%</span> </span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"race_ethnicity"</span> <span class="ot">=</span> <span class="st">"race7"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">county =</span> <span class="fu">clean</span>(county),</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">##--fix "WhiteTE NH" typo:    </span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">race_ethnicity =</span> <span class="fu">str_replace</span>(race_ethnicity, <span class="st">"WhiteTE NH"</span>, <span class="st">"White NH"</span>)</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#-write.csv(step1_ca_df, file = here("data/tbl_outputs_03/step1_ca_df.csv"), row.names = FALSE)</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#-write.csv(step1_la_cnty_df, file = here("data/tbl_outputs_03/step1_la_cnty_df.csv"), row.names = FALSE)</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#-write.csv(step1_pop_df, file = here("data/tbl_outputs_03/step1_pop_df.csv"), row.names = FALSE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_total_rates_pop</span>(df, ..., pop_col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="line-block"><br>
+<p><strong>Details:</strong></p>
+<p>The function is designed to standardize text fields before joining, grouping, or comparison operations.</p>
+<p>It combines as.character(), stringr::str_trim(), and stringr::str_squish() for efficient whitespace cleanup.</p>
+<p><strong>Returned Value:</strong></p>
+<p>A character vector with trimmed and normalized spacing.</p>
 </div>
-<p>After completing these adjustments — renaming columns in the Los Angeles County database and adding the county field — the remaining tasks involve reconciling the age category and race/ethnicity variable, and standardizing how the timing of infection is identified using MMWR weeks (see <strong>Figure 1</strong> below).</p>
-<div class="line-block"></div>
-<section id="figure-1.-aligning-column-names" class="level4">
-<h4 class="anchored" data-anchor-id="figure-1.-aligning-column-names">Figure 1. Aligning Column Names</h4>
-<p><a href="../../www/cleaned_col_tbl.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="../../www/cleaned_col_tbl.png" class="img-fluid" style="width:75.0%"></a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>add_mmwr_week_columns()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Description:</strong></p>
+<p>This function uses the <code>MMWRweek</code> package to convert calendar dates into the standardized <strong>MMWR (Morbidity and Mortality Weekly Report)</strong> week and year format commonly used in public health surveillance. Adds two new columns (<code>mmwr_year</code> and <code>mmwr_week</code>) to a dataset based on a specified date column.This function is particularly useful for aligning time series data to standardized epidemiological reporting periods.</p>
+<p><strong>Usage:</strong></p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_mmwr_week_columns</span>(data, <span class="at">date_col =</span> <span class="st">"date"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><p><code>data</code> : A data frame containing a date field.</p></li>
+<li><p><code>date_col</code> : The column name containing the date (must be a recognizable Date class)</p></li>
+</ul>
+<p><strong>Details:</strong> The function extracts the specified date column, converts each date to its corresponding MMWR week and year using MMWRweek::MMWRweek(), and appends these as two new factor columns: mmwr_year and mmwr_week.</p>
+<p><strong>Returned Columns:</strong></p>
+<ul>
+<li><p><strong>mmwr_year:</strong> MMWR reporting year</p></li>
+<li><p><strong>mmwr_week:</strong> MMWR reporting week number</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>add_start_end_dates()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Description:</strong></p>
+<p>Adds the <strong>start</strong> and <strong>end</strong> dates corresponding to each MMWR week and year.<br>
+This function uses the <code>MMWRweek::MMWRweek2Date()</code> function to convert MMWR week-year combinations into actual calendar dates, making it easier to interpret and visualize epidemiological data over time.</p>
+<p><strong>Usage:</strong></p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_start_end_dates</span>(data, <span class="at">year_col =</span> <span class="st">"mmwr_year"</span>, <span class="at">week_col =</span> <span class="st">"mmwr_week"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>data</code>: A data frame containing MMWR week and year columns</li>
+<li><code>year_col</code>: The column name for MMWR year. Defaults to “mmwr_year”</li>
+<li><code>week_col</code>: The column name for MMWR week. Defaults to “mmwr_week”</li>
+</ul>
+<p><strong>Details:</strong></p>
+<p>The function extracts MMWR year and week values from the specified columns and converts them to corresponding start (Monday) and end (Sunday) calendar dates using the MMWRweek2Date() function from the MMWRweek package.</p>
+<p>This is useful for labeling plots, aligning data with other time series, or verifying that reporting periods match expected calendar intervals.</p>
+<p><strong>Returned Columns:</strong></p>
+<ul>
+<li><p><strong>start_date:</strong> Calendar date of the first day of the MMWR week (Monday)</p></li>
+<li><p><strong>end_date:</strong> Calendar date of the last day of the MMWR week (Sunday)</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>calc_total_rates_pop()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Description:</strong></p>
+<p>Calculates total infection counts and crude infection rates per 100,000 population for one or more grouping variables. This function is useful for standardizing rate calculations across demographic groups (e.g., by county, region, sex, or race/ethnicity).</p>
+<p><strong>Usage:</strong></p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_total_rates_pop</span>(df, ..., pop_col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><p><code>df</code> : A data frame containing cumulative infection, severe, and unrecovered counts, grouping variables, and population counts per group.</p></li>
+<li><p><code>...</code> : Column names for one or more grouping variables (comma-separated) to summarize rates by (e.g., county, sex, race_ethnicity).</p></li>
+<li><p><code>pop_col</code> : The column name containing population counts for the group(s) used to compute rates.</p></li>
+</ul>
+<p><strong>Details:</strong></p>
+<p>This function groups the input data by the specified variables and returns a summarized dataset with total counts, proportions, and rates (per 100,000 population) for infections, severe infections, and unrecovered cases.</p>
+<p><strong>Returned Columns:</strong></p>
+<ul>
+<li><p><strong>total_pop:</strong> Total population for the group</p></li>
+<li><p><strong>total_infected:</strong> Cumulative infection count</p></li>
+<li><p><strong>inf_rate_100k:</strong> Infection rate per 100,000 population</p></li>
+<li><p><strong>total_severe:</strong> Cumulative severe infections</p></li>
+<li><p><strong>sev_rate_100k:</strong> Severe infection rate per 100,000 population</p></li>
+<li><p><strong>total_unrec:</strong> Cumulative unrecovered cases</p></li>
+<li><p><strong>unrec_rate_100k:</strong> Unrecovered rate per 100,000 population</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>make_rate_table()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Description:</strong></p>
+<p>Builds a styled summary table for crude rates with optional row filtering and a highlighted rate column. The function selects grouping columns and rate columns, drops unwanted columns, sorts by a chosen metric, optionally keeps the top <code>n</code> rows, and returns a formatted <code>knitr_kable/kableExtra</code> table.</p>
+<p><strong>Usage:</strong></p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_rate_table</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  df,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  ...,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">pop_col =</span> total_pop,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">rate_pattern =</span> <span class="st">"_rate($|_)"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">drop_cols =</span> <span class="st">"unrec_rate_100k"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sort_by =</span> <span class="st">"sev_rate_100k"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">top_n =</span> <span class="cn">NULL</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">highlight_col =</span> <span class="st">"sev_rate_100k"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">highlight_bg =</span> <span class="st">"#5ce1e6"</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><p><code>df</code>: Data frame that contains grouping variables, a population column, and one or more rate columns</p></li>
+<li><p><code>...</code>: One or more grouping columns to display (for example county, health_officer_region)</p></li>
+<li><p><code>pop_col</code>: Unquoted population column to include in the table. Uses tidy-eval (e.g., total_pop)</p></li>
+<li><p><code>rate_pattern</code>: Regular expression used by dplyr::matches() to select rate columns. Default matches columns ending in _rate or <em>rate</em></p></li>
+<li><p><code>drop_cols</code>: Character vector of column names to remove after selection</p></li>
+<li><p><code>sort_by</code>: Column name (character) used for descending sort. Must exist in df after selection</p></li>
+<li><p><code>top_n</code>: Integer. If supplied, keeps only the first n rows after sorting</p></li>
+<li><p><code>highlight_col</code>: Column name (character) to visually highlight with column_spec(). If not found, no highlight is applied</p></li>
+<li><p><code>highlight_bg</code>: Hex color for the highlighted column background</p></li>
+</ul>
+<p><strong>Returned Object:</strong></p>
+<p>A kableExtra table object for display in HTML documents.</p>
+</div>
+</div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -725,49 +864,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/chapter3/03a_project_setup.html" class="pagination-link" aria-label="Project Set-Up">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Set-Up</span></span>
+      <a href="../chapters/apx_library_refs.html" class="pagination-link" aria-label="Packages">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Packages</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/chapter3/03c_age_groups.html" class="pagination-link" aria-label="Age Groups">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Age Groups</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

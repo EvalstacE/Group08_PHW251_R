@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>R Packages – Simulated Infectious Disease Outbreak in California</title>
+<title>Appendix A — Packages – Simulated Infectious Disease Outbreak in California</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,6 +29,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../chapters/apx_custom_functions.html" rel="next">
 <link href="../chapters/chapter3/03i_descriptive_stats.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -39,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ec54b9993d60cd81ea0d8f5e51174acc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ab8867fa8e1329ddba5952e497dfa3e9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -80,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">R Packages</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Packages</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -191,7 +192,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/apx_library_refs.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">R Packages</span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Packages</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/apx_custom_functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Custom Functions</span></span></a>
   </div>
 </li>
       </ul>
@@ -205,9 +212,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">R Packages</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Packages</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">R Packages</h1>
+<h1 class="title">Appendix A — Packages</h1>
 </div>
 
 
@@ -224,8 +231,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="data-wrangling" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="data-wrangling">Data Wrangling</h2>
+<section id="data-wrangling" class="level2">
+<h2 class="anchored" data-anchor-id="data-wrangling">Data Wrangling</h2>
 </section>
 <section id="readr" class="level2">
 <h2 class="anchored" data-anchor-id="readr"><code>readr</code></h2>
@@ -282,8 +289,8 @@ ul.task-list li input[type="checkbox"] {
 <p>Niemi J (2020). <em>MMWRweek: Convert Dates to MMWR Day, Week, and Year</em>. R package version 0.1.3 <a href="https://CRAN.R-project.org/package=MMWRweek" class="uri">https://CRAN.R-project.org/package=MMWRweek</a>.</p>
 </section>
 </section>
-<section id="data-visualization" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="data-visualization">Data Visualization</h2>
+<section id="data-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="data-visualization">Data Visualization</h2>
 <section id="knitr" class="level3">
 <h3 class="anchored" data-anchor-id="knitr"><code>knitr</code></h3>
 <p>Powers dynamic report generation by embedding R code and output into documents.</p>
@@ -712,6 +719,9 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../chapters/apx_custom_functions.html" class="pagination-link" aria-label="Custom Functions">
+        <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Custom Functions</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
