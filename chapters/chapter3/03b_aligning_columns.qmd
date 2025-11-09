@@ -20,7 +20,7 @@ To facilitate merging, we added a county field to the Los Angeles County databas
 ```{r, eval = FALSE}
 
 ##-- California dataset:
-ca_df <- raw_ca_df %>% select(-dt_diagnosis) %>%
+step1_ca_df <- raw_ca_df %>% select(-dt_diagnosis) %>%
   mutate(
     county = clean(county) %>% 
       str_remove("\\s*[Cc]ounty$") %>% 
@@ -28,7 +28,7 @@ ca_df <- raw_ca_df %>% select(-dt_diagnosis) %>%
   )
 
 ##-- LA county dataset:
-la_cnty_df <- raw_la_cnty_df %>%
+step1_la_cnty_df <- raw_la_cnty_df %>%
   rename(
       "age_cat"                = "age_category", 
       "race_ethnicity"         = "race_eth",
@@ -43,10 +43,18 @@ la_cnty_df <- raw_la_cnty_df %>%
   relocate(county, .before = everything()) 
 
 ##-- Population dataset:
-pop_df <- raw_pop_df %>% 
+step1_pop_df <- raw_pop_df %>% 
   rename("race_ethnicity" = "race7") %>%
-  mutate(county = clean(county))
+  mutate(
+    county = clean(county),
+##--fix "WhiteTE NH" typo:    
+    race_ethnicity = str_replace(race_ethnicity, "WhiteTE NH", "White NH")
+  )
 
+
+#-write.csv(step1_ca_df, file = here("data/tbl_outputs_03/step1_ca_df.csv"), row.names = FALSE)
+#-write.csv(step1_la_cnty_df, file = here("data/tbl_outputs_03/step1_la_cnty_df.csv"), row.names = FALSE)
+#-write.csv(step1_pop_df, file = here("data/tbl_outputs_03/step1_pop_df.csv"), row.names = FALSE)
 ```
 
 

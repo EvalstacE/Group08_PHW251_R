@@ -62,6 +62,11 @@ step2_la_cnty_df <- step2_la_cnty_df %>%
 
 ```
 
+```{r}
+#-write.csv(step2_ca_df, file = here("data/tbl_outputs_03/step2_ca_df.csv"), row.names = FALSE)
+#-write.csv(step2_la_cnty_df, file = here("data/tbl_outputs_03/step2_la_cnty_df.csv"), row.names = FALSE)
+#-write.csv(step2_pop_df, file = here("data/tbl_outputs_03/step2_pop_df.csv"), row.names = FALSE)
+```
 
 
 ::: {.column-box}
@@ -85,7 +90,8 @@ cnty_slice <- by_cnty_year %>%
   group_by(county) %>%
   slice(1) %>%
   ungroup() %>%
-  slice_head(n=3)
+  slice_head(n=3) %>%
+  arrange(desc(inf_rate_100k))
 
 cnty_slice %>%
 kbl(
