@@ -3,6 +3,10 @@
 
 ## Data Wrangling
 
+
+
+::: {.callout-tip icon=false collapse="true"}
+
 ## `readr`
 Reads text data (CSV, TSV) efficiently into R data frames (tibbles).
 
@@ -10,90 +14,148 @@ Reads text data (CSV, TSV) efficiently into R data frames (tibbles).
   Data_. R package version 2.1.5
   <https://CRAN.R-project.org/package=readr>.
   
-### `here` 
+:::
+
+
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `here` 
 Simplifies file paths by automatically locating the project root
 
   Müller K (2020). _here: A Simpler Way to Find Your Files_. R package
   version 1.0.1
   <https://CRAN.R-project.org/package=here>.
-  
 
-### `dplyr` 
+:::  
+
+
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `dplyr` 
 Core data manipulation package for filtering, selecting, summarizing, and transforming data frames.
 
   Wickham H, François R, Henry L, Müller K, Vaughan D (2023). _dplyr: A Grammar
   of Data Manipulation_. R package version 1.1.4
   <https://CRAN.R-project.org/package=dplyr>.
 
+:::
 
-### `tidyr` 
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `tidyr` 
 Reshapes data between wide and long formats.
 
   Wickham H, Vaughan D, Girlich M (2024). _tidyr: Tidy Messy Data_. R package
   version 1.3.1
   <https://CRAN.R-project.org/package=tidyr>.
 
+:::
 
-### `janitor`
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `janitor`
 Cleans variable names and performs quick data cleaning tasks
 
   Firke S (2023). _janitor: Simple Tools for Examining and Cleaning
   Dirty Data_. R package version 2.2.0
   <https://CRAN.R-project.org/package=janitor>.
 
+:::
 
-### `lubridate`
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `lubridate`
 Simplifies parsing, manipulating, and calculating with dates and times.
 
   Garrett Grolemund, Hadley Wickham (2011). Dates and Times Made Easy
   with lubridate. Journal of Statistical Software, 40(3), 1-25
   <https://www.jstatsoft.org/v40/i03/>.
 
+:::
 
-### `stringr` 
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `stringr` 
 Consistent, easy-to-use functions for working with strings and regular expressions.
 
   Wickham H (2023). _stringr: Simple, Consistent Wrappers for Common
   String Operations_. R package version 1.5.1
   <https://CRAN.R-project.org/package=stringr>.
   
-  
-### `scales`
+:::
+
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `scales`
 Provides tools for controlling how data values are mapped to aesthetics (like adding a thousandth comma separator, e.g: '1,000` instead of 1000)
 
   Wickham H, Pedersen T, Seidel D (2023). _scales: Scale Functions for
   Visualization_. R package version 1.3.0,
   <https://CRAN.R-project.org/package=scales>.
   
+:::
 
-### `purrr` 
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `purrr` 
 Functional programming tools for working with lists, iteration, and mapping operations.
 
   Wickham H, Henry L (2025). _purrr: Functional Programming Tools_. R
   package version 1.0.4
   <https://CRAN.R-project.org/package=purrr>.
   
+:::
 
-### `rlang`
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `rlang`
 Provides tools for tidy evaluation and programming with tidyverse-style functions.
 
   Henry L, Wickham H (2025). _rlang: Functions for Base Types and Core R
   and 'Tidyverse' Features_. R package version 1.1.5
   <https://CRAN.R-project.org/package=rlang>.
   
-  
-### `MMWRweek`
+:::
+
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `MMWRweek`
 Converts calendar dates to MMWR (epidemiological) weeks and years for public health analyses.
 
   Niemi J (2020). _MMWRweek: Convert Dates to MMWR Day, Week, and
   Year_. R package version 0.1.3
   <https://CRAN.R-project.org/package=MMWRweek>.
 
+:::
+
+
 
 ## Data Visualization
 
 
-### `knitr`
+::: {.callout-tip icon=false collapse="true"}
+
+## `knitr`
 Powers dynamic report generation by embedding R code and output into documents.
 
   Xie Y (2025). _knitr: A General-Purpose Package for Dynamic Report
@@ -107,21 +169,31 @@ Powers dynamic report generation by embedding R code and output into documents.
   in R. In Victoria Stodden, Friedrich Leisch and Roger D. Peng,
   editors, Implementing Reproducible Computational Research. Chapman and
   Hall/CRC. ISBN 978-1466561595
+ 
+:::
+
+
+
+::: {.callout-tip icon=false collapse="true"}
   
-  
-### `kableExtra`
+## `kableExtra`
 Extends knitr tables with advanced formatting and styling for HTML and LaTeX.  
 
   Zhu H (2024). _kableExtra: Construct Complex Table with 'kable' and
   Pipe Syntax_. R package version 1.4.0
   <https://CRAN.R-project.org/package=kableExtra>.  
   
-  
+:::
 
-### `ggplot2` 
+
+
+::: {.callout-tip icon=false collapse="true"}
+
+## `ggplot2` 
 Creates customizable, publication-quality data visualizations.
 
   H. Wickham. ggplot2: Elegant Graphics for Data Analysis.
   Springer-Verlag New York, 2016.
   <https://ggplot2.tidyverse.org>
 
+:::

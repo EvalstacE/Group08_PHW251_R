@@ -634,11 +634,16 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
 
 
 
-/* === Custom Callout Header Styling with Inline Code Highlight === */
+/* === Custom Callouts ===*/
 
-.callout.callout-note {
+
+/* base styling */
+@mixin callout-base($bg-color, $code-bg, $code-color, $border-color) {
+  border-left: 6px solid $border-color !important;
+  border-radius: 0.5rem !important;
+
   .callout-header {
-    background-color: #f8fafc !important;
+    background-color: $bg-color !important;
     padding: 1rem 1.25rem !important;
     border-bottom: 2px solid #e2e8f0 !important;
   }
@@ -650,17 +655,40 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
     margin: 0;
   }
 
-  /* Target inline code inside header text */
-  .callout-title-text code,
-  .callout-title code {
-    background-color: #e2e8f0 !important; /* light gray chip look */
-    color: #0f172a !important;
+  .callout-header code,
+  .callout-title code,
+  .callout-title-container code {
+    background-color: $code-bg !important;
+    color: $code-color !important;
     font-weight: 700 !important;
-    padding: 0.2em 0.5em !important;
-    border-radius: 6px !important;
-    font-size: 1.15rem !important;
-    font-family: "Source Code Pro", monospace !important;
-    white-space: pre !important; /* keeps backtick spacing consistent */
+    border-radius: 4px !important;
+    white-space: pre !important;
+    font-size: 1.2rem !important;
+    padding: .65rem 1rem !important;
   }
 }
 
+
+
+
+/* ($bg-color, $code-bg, $code-color, $border-color) */
+
+/* Note */
+.callout.callout-note {
+  @include callout-base($beige, $navy, $lime, $navy);
+}
+
+/* Tip */
+.callout.callout-tip {
+  @include callout-base($navy, $navy, $cyan, $cyan);
+}
+
+/* Warning */
+.callout.callout-warning {
+  @include callout-base($beige, $navy, $lime, $navy);
+}
+
+/* Important */
+.callout.callout-important {
+  @include callout-base($beige, $navy, $lime, $navy);
+}
