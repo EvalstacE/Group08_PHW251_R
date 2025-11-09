@@ -14,7 +14,7 @@ format:
     code-copy: true
     code-overflow: wrap
     toc: false
-    number-depth: 2
+    number-depth: 1
     
 execute:
   message: false
@@ -52,3 +52,4 @@ book:
 
   appendices:
     - chapters/apx_library_refs.qmd
+    - chapters/apx_custom_functions.qmd

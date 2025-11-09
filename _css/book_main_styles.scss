@@ -433,6 +433,36 @@ $mark-bg:                     $yellow !default;
 
 
 
+/* inline code style */
+p code,
+li code,
+span code,
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+  background-color: $navy!important;
+  color: $cyan!important;
+  border-radius: 4px !important;
+}
+
+
+/* === Spacing for Section Headings === */
+
+h1 {
+  margin-top: 2rem !important;
+}
+
+
+h2 {
+  margin-top: 4rem !important;
+}
+
+h3 {
+  margin-top: 4rem !important;
+}
 
 
 

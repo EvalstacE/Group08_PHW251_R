@@ -1,7 +1,7 @@
-# R Packages {.unnumbered}
+# Packages
 
 
-## Data Wrangling {.unnumbered}
+## Data Wrangling
 
 ## `readr`
 Reads text data (CSV, TSV) efficiently into R data frames (tibbles).
@@ -90,7 +90,7 @@ Converts calendar dates to MMWR (epidemiological) weeks and years for public hea
   <https://CRAN.R-project.org/package=MMWRweek>.
 
 
-## Data Visualization {.unnumbered}
+## Data Visualization
 
 
 ### `knitr`
