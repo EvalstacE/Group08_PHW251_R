@@ -1,1 +1,4 @@
 # Custom Functions
+
+* fix race_short code for WhiteTE -- should just be White
+

@@ -57,6 +57,14 @@ Consistent, easy-to-use functions for working with strings and regular expressio
   String Operations_. R package version 1.5.1
   <https://CRAN.R-project.org/package=stringr>.
   
+  
+### `scales`
+Provides tools for controlling how data values are mapped to aesthetics (like adding a thousandth comma separator, e.g: '1,000` instead of 1000)
+
+  Wickham H, Pedersen T, Seidel D (2023). _scales: Scale Functions for
+  Visualization_. R package version 1.3.0,
+  <https://CRAN.R-project.org/package=scales>.
+  
 
 ### `purrr` 
 Functional programming tools for working with lists, iteration, and mapping operations.

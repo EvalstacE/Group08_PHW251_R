@@ -3,7 +3,7 @@
 pacman::p_load(
   dplyr, tidyr, readr, here, janitor, lubridate,  
   rlang, stringr, purrr, ggplot2, ggthemes, knitr,
-  kableExtra, MMWRweek
+  kableExtra, MMWRweek, scales
 )
 
 # Bring in helper functions
