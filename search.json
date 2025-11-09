@@ -14,7 +14,7 @@
     "href": "chapters/chapter3/03a_project_setup.html",
     "title": "1  Project Set-Up",
     "section": "",
-    "text": "Bringing in libraries, helper functions, and data files:\n\n\nCode\n# Load and install packages\npacman::p_load(\n  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang,\n  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper,\n  readxl, scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue,\n  knitr, kableExtra, janitor, reactable, MMWRweek\n)\n\n# Bring in helper functions\nfunc_dir &lt;- here::here(\"functions\")\nr_files &lt;- list.files(func_dir, pattern = \"\\\\.R$\", full.names = TRUE)\npurrr::walk(r_files, source)\n\n\n# Bring in datasets\ndata_dirs &lt;- c(\n  here::here(\"data\", \"tbl_outputs_03\"),\n  here::here(\"data\", \"cleaned_data\")\n)\n\ncsv_files &lt;- purrr::map(data_dirs, ~ list.files(\n  path = .x,\n  pattern = \"\\\\.csv$\",\n  full.names = TRUE\n)) %&gt;% unlist()\n\npurrr::walk(csv_files, function(file_path) {\n  obj_name &lt;- tools::file_path_sans_ext(basename(file_path))\n  df &lt;- readr::read_csv(file_path, show_col_types = FALSE)\n  assign(obj_name, df, envir = knitr::knit_global())\n})",
+    "text": "Bringing in libraries, helper functions, and data files:\n\n\nCode\n# Load and install packages\npacman::p_load(\n  dplyr, tidyr, readr, here, janitor, lubridate,  \n  rlang, stringr, purrr, ggplot2, ggthemes, knitr,\n  kableExtra, MMWRweek, scales\n)\n\n# Bring in helper functions\nfunc_dir &lt;- here::here(\"functions\")\nr_files &lt;- list.files(func_dir, pattern = \"\\\\.R$\", full.names = TRUE)\npurrr::walk(r_files, source)\n\n\n# Bring in datasets\ndata_dirs &lt;- c(\n  here::here(\"data\", \"tbl_outputs_03\"),\n  here::here(\"data\", \"cleaned_data\")\n)\n\ncsv_files &lt;- purrr::map(data_dirs, ~ list.files(\n  path = .x,\n  pattern = \"\\\\.csv$\",\n  full.names = TRUE\n)) %&gt;% unlist()\n\npurrr::walk(csv_files, function(file_path) {\n  obj_name &lt;- tools::file_path_sans_ext(basename(file_path))\n  df &lt;- readr::read_csv(file_path, show_col_types = FALSE)\n  assign(obj_name, df, envir = knitr::knit_global())\n})",
     "crumbs": [
       "Data Preparation",
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Project Set-Up</span>"
@@ -126,6 +126,39 @@
     "crumbs": [
       "Descriptive Exploration",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Infection Rates by Demographic</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/apx_library_refs.html",
+    "href": "chapters/apx_library_refs.html",
+    "title": "R Packages",
+    "section": "",
+    "text": "Data Wrangling",
+    "crumbs": [
+      "Appendices",
+      "R Packages"
+    ]
+  },
+  {
+    "objectID": "chapters/apx_library_refs.html#readr",
+    "href": "chapters/apx_library_refs.html#readr",
+    "title": "R Packages",
+    "section": "readr",
+    "text": "readr\nReads text data (CSV, TSV) efficiently into R data frames (tibbles).\nWickham H, Hester J, Bryan J (2024). readr: Read Rectangular Text Data. R package version 2.1.5 https://CRAN.R-project.org/package=readr.\n\nhere\nSimplifies file paths by automatically locating the project root\nMüller K (2020). here: A Simpler Way to Find Your Files. R package version 1.0.1 https://CRAN.R-project.org/package=here.\n\n\ndplyr\nCore data manipulation package for filtering, selecting, summarizing, and transforming data frames.\nWickham H, François R, Henry L, Müller K, Vaughan D (2023). dplyr: A Grammar of Data Manipulation. R package version 1.1.4 https://CRAN.R-project.org/package=dplyr.\n\n\ntidyr\nReshapes data between wide and long formats.\nWickham H, Vaughan D, Girlich M (2024). tidyr: Tidy Messy Data. R package version 1.3.1 https://CRAN.R-project.org/package=tidyr.\n\n\njanitor\nCleans variable names and performs quick data cleaning tasks\nFirke S (2023). janitor: Simple Tools for Examining and Cleaning Dirty Data. R package version 2.2.0 https://CRAN.R-project.org/package=janitor.\n\n\nlubridate\nSimplifies parsing, manipulating, and calculating with dates and times.\nGarrett Grolemund, Hadley Wickham (2011). Dates and Times Made Easy with lubridate. Journal of Statistical Software, 40(3), 1-25 https://www.jstatsoft.org/v40/i03/.\n\n\nstringr\nConsistent, easy-to-use functions for working with strings and regular expressions.\nWickham H (2023). stringr: Simple, Consistent Wrappers for Common String Operations. R package version 1.5.1 https://CRAN.R-project.org/package=stringr.\n\n\nscales\nProvides tools for controlling how data values are mapped to aesthetics (like adding a thousandth comma separator, e.g: ’1,000` instead of 1000)\nWickham H, Pedersen T, Seidel D (2023). scales: Scale Functions for Visualization. R package version 1.3.0, https://CRAN.R-project.org/package=scales.\n\n\npurrr\nFunctional programming tools for working with lists, iteration, and mapping operations.\nWickham H, Henry L (2025). purrr: Functional Programming Tools. R package version 1.0.4 https://CRAN.R-project.org/package=purrr.\n\n\nrlang\nProvides tools for tidy evaluation and programming with tidyverse-style functions.\nHenry L, Wickham H (2025). rlang: Functions for Base Types and Core R and ‘Tidyverse’ Features. R package version 1.1.5 https://CRAN.R-project.org/package=rlang.\n\n\nMMWRweek\nConverts calendar dates to MMWR (epidemiological) weeks and years for public health analyses.\nNiemi J (2020). MMWRweek: Convert Dates to MMWR Day, Week, and Year. R package version 0.1.3 https://CRAN.R-project.org/package=MMWRweek.",
+    "crumbs": [
+      "Appendices",
+      "R Packages"
+    ]
+  },
+  {
+    "objectID": "chapters/apx_library_refs.html#data-visualization",
+    "href": "chapters/apx_library_refs.html#data-visualization",
+    "title": "R Packages",
+    "section": "Data Visualization",
+    "text": "Data Visualization\n\nknitr\nPowers dynamic report generation by embedding R code and output into documents.\nXie Y (2025). knitr: A General-Purpose Package for Dynamic Report Generation in R. R package version 1.50 https://yihui.org/knitr/.\nYihui Xie (2015) Dynamic Documents with R and knitr. 2nd edition. Chapman and Hall/CRC. ISBN 978-1498716963\nYihui Xie (2014) knitr: A Comprehensive Tool for Reproducible Research in R. In Victoria Stodden, Friedrich Leisch and Roger D. Peng, editors, Implementing Reproducible Computational Research. Chapman and Hall/CRC. ISBN 978-1466561595\n\n\nkableExtra\nExtends knitr tables with advanced formatting and styling for HTML and LaTeX.\nZhu H (2024). kableExtra: Construct Complex Table with ‘kable’ and Pipe Syntax. R package version 1.4.0 https://CRAN.R-project.org/package=kableExtra.\n\n\nggplot2\nCreates customizable, publication-quality data visualizations.\nH. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016. https://ggplot2.tidyverse.org",
+    "crumbs": [
+      "Appendices",
+      "R Packages"
     ]
   }
 ]

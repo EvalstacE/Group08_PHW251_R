@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Age Groups – Simulated Infectious Disease Outbreak in California</title>
+<title>R Packages – Simulated Infectious Disease Outbreak in California</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,62 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../chapters/chapter3/03d_infection_dates.html" rel="next">
-<link href="../../chapters/chapter3/03b_aligning_columns.html" rel="prev">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ec54b9993d60cd81ea0d8f5e51174acc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/chapter3/03i_descriptive_stats.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ec54b9993d60cd81ea0d8f5e51174acc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -103,10 +67,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
-
-<link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-
 
 
 </head>
@@ -120,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html">Data Preparation</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/03c_age_groups.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Age Groups</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">R Packages</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -132,14 +92,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../">Simulated Infectious Disease Outbreak in California</a> 
+      <a href="../">Simulated Infectious Disease Outbreak in California</a> 
     </div>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Project Description</span></a>
   </div>
 </li>
@@ -154,37 +114,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03a_project_setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03a_project_setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Set-Up</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03b_aligning_columns.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03b_aligning_columns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03c_age_groups.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/chapter3/03c_age_groups.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Age Groups</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03d_infection_dates.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03d_infection_dates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Infection Dates</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03e_race_ethnicity.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03e_race_ethnicity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Race and Ethnicity</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03f_population_counts.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03f_population_counts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Population by Demographic</span></span></a>
   </div>
 </li>
@@ -192,13 +152,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03g_creating_final_datasets.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03g_creating_final_datasets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Combined Database</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03h_final_data_dictionary.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03h_final_data_dictionary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Final Data Dictionary</span></span></a>
   </div>
 </li>
@@ -213,7 +173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03i_descriptive_stats.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3/03i_descriptive_stats.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Infection Rates by Demographic</span></span></a>
   </div>
 </li>
@@ -230,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/apx_library_refs.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/apx_library_refs.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">R Packages</span></a>
   </div>
 </li>
@@ -243,11 +203,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html">Data Preparation</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/03c_age_groups.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Age Groups</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/apx_library_refs.html">R Packages</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Age Groups</span></h1>
+<h1 class="title">R Packages</h1>
 </div>
 
 
@@ -264,113 +224,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The population database contains counts for six age groups, whereas the California and LA County databases use four. Because the groupings align — “0–4,” “5–11,” and “12–17” in the population database correspond to the “0–17” group in the others — we summarized the population counts to match the four age-group format.</p>
-<p>In the original population database, counts are reported for each single year of age within every demographic subgroup (e.g., county, sex, race/ethnicity). To obtain total estimates per age group and demographic category, the single-year counts were aggregated (summed).</p>
-<p><strong>Table 1</strong> below presents a subset of the original and restructured population data to illustrate the resulting summarized age groupings.</p>
-<div class="cell">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>step2_pop_df <span class="ot">&lt;-</span> step1_pop_df <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>      county, health_officer_region, </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      sex, race_ethnicity, age_cat</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">pop =</span> <span class="fu">sum</span>(pop), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#-aggregate population counts </span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">##--to 4 age category format:</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>step2_pop_df_recat <span class="ot">&lt;-</span> step1_pop_df <span class="sc">%&gt;%</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_age_group =</span> </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        age_cat <span class="sc">%in%</span> </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>          <span class="fu">c</span>(<span class="st">"0-4"</span>, <span class="st">"5-11"</span>, <span class="st">"12-17"</span>),</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>              <span class="st">"0-17"</span>, age_cat)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      county, health_officer_region, sex, </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      race_ethnicity, new_age_group</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">pop =</span> <span class="fu">sum</span>(pop), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"age_cat"</span> <span class="ot">=</span> <span class="st">"new_age_group"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<section id="table-1-reconciling-age-group-categories-and-population-counts" class="level4 column-box">
-<h4 class="anchored" data-anchor-id="table-1-reconciling-age-group-categories-and-population-counts">Table 1: Reconciling Age Group Categories and Population Counts</h4>
-<p><strong>Original Age Groups:</strong></p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-striped table-condensed table-bordered table-hover caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">County</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Sex</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Race / Ethnicity</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Age Group</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Population</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Alameda</td>
-<td style="text-align: center;">FEMALE</td>
-<td style="text-align: center;">Hispanic</td>
-<td style="text-align: center;">0-4</td>
-<td style="text-align: center;">11587</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Alameda</td>
-<td style="text-align: center;">FEMALE</td>
-<td style="text-align: center;">Hispanic</td>
-<td style="text-align: center;">12-17</td>
-<td style="text-align: center;">17098</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Alameda</td>
-<td style="text-align: center;">FEMALE</td>
-<td style="text-align: center;">Hispanic</td>
-<td style="text-align: center;">5-11</td>
-<td style="text-align: center;">17761</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">Total</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">-</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">-</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">-</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">46,446</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><strong>New, Aggregate Age Group:</strong></p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-bordered no-stripe table-striped table-condensed table-hover caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">County</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Sex</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Race / Ethnicity</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Age Group</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Population</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important;">Alameda</td>
-<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important;">FEMALE</td>
-<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important;">Hispanic</td>
-<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important;">0-17</td>
-<td style="text-align: center; background-color: rgba(255, 255, 255, 255) !important; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important; font-size: 16px!important;">46,446</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<section id="data-wrangling" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="data-wrangling">Data Wrangling</h2>
 </section>
+<section id="readr" class="level2">
+<h2 class="anchored" data-anchor-id="readr"><code>readr</code></h2>
+<p>Reads text data (CSV, TSV) efficiently into R data frames (tibbles).</p>
+<p>Wickham H, Hester J, Bryan J (2024). <em>readr: Read Rectangular Text Data</em>. R package version 2.1.5 <a href="https://CRAN.R-project.org/package=readr" class="uri">https://CRAN.R-project.org/package=readr</a>.</p>
+<section id="here" class="level3">
+<h3 class="anchored" data-anchor-id="here"><code>here</code></h3>
+<p>Simplifies file paths by automatically locating the project root</p>
+<p>Müller K (2020). <em>here: A Simpler Way to Find Your Files</em>. R package version 1.0.1 <a href="https://CRAN.R-project.org/package=here" class="uri">https://CRAN.R-project.org/package=here</a>.</p>
+</section>
+<section id="dplyr" class="level3">
+<h3 class="anchored" data-anchor-id="dplyr"><code>dplyr</code></h3>
+<p>Core data manipulation package for filtering, selecting, summarizing, and transforming data frames.</p>
+<p>Wickham H, François R, Henry L, Müller K, Vaughan D (2023). <em>dplyr: A Grammar of Data Manipulation</em>. R package version 1.1.4 <a href="https://CRAN.R-project.org/package=dplyr" class="uri">https://CRAN.R-project.org/package=dplyr</a>.</p>
+</section>
+<section id="tidyr" class="level3">
+<h3 class="anchored" data-anchor-id="tidyr"><code>tidyr</code></h3>
+<p>Reshapes data between wide and long formats.</p>
+<p>Wickham H, Vaughan D, Girlich M (2024). <em>tidyr: Tidy Messy Data</em>. R package version 1.3.1 <a href="https://CRAN.R-project.org/package=tidyr" class="uri">https://CRAN.R-project.org/package=tidyr</a>.</p>
+</section>
+<section id="janitor" class="level3">
+<h3 class="anchored" data-anchor-id="janitor"><code>janitor</code></h3>
+<p>Cleans variable names and performs quick data cleaning tasks</p>
+<p>Firke S (2023). <em>janitor: Simple Tools for Examining and Cleaning Dirty Data</em>. R package version 2.2.0 <a href="https://CRAN.R-project.org/package=janitor" class="uri">https://CRAN.R-project.org/package=janitor</a>.</p>
+</section>
+<section id="lubridate" class="level3">
+<h3 class="anchored" data-anchor-id="lubridate"><code>lubridate</code></h3>
+<p>Simplifies parsing, manipulating, and calculating with dates and times.</p>
+<p>Garrett Grolemund, Hadley Wickham (2011). Dates and Times Made Easy with lubridate. Journal of Statistical Software, 40(3), 1-25 <a href="https://www.jstatsoft.org/v40/i03/" class="uri">https://www.jstatsoft.org/v40/i03/</a>.</p>
+</section>
+<section id="stringr" class="level3">
+<h3 class="anchored" data-anchor-id="stringr"><code>stringr</code></h3>
+<p>Consistent, easy-to-use functions for working with strings and regular expressions.</p>
+<p>Wickham H (2023). <em>stringr: Simple, Consistent Wrappers for Common String Operations</em>. R package version 1.5.1 <a href="https://CRAN.R-project.org/package=stringr" class="uri">https://CRAN.R-project.org/package=stringr</a>.</p>
+</section>
+<section id="scales" class="level3">
+<h3 class="anchored" data-anchor-id="scales"><code>scales</code></h3>
+<p>Provides tools for controlling how data values are mapped to aesthetics (like adding a thousandth comma separator, e.g: ’1,000` instead of 1000)</p>
+<p>Wickham H, Pedersen T, Seidel D (2023). <em>scales: Scale Functions for Visualization</em>. R package version 1.3.0, <a href="https://CRAN.R-project.org/package=scales" class="uri">https://CRAN.R-project.org/package=scales</a>.</p>
+</section>
+<section id="purrr" class="level3">
+<h3 class="anchored" data-anchor-id="purrr"><code>purrr</code></h3>
+<p>Functional programming tools for working with lists, iteration, and mapping operations.</p>
+<p>Wickham H, Henry L (2025). <em>purrr: Functional Programming Tools</em>. R package version 1.0.4 <a href="https://CRAN.R-project.org/package=purrr" class="uri">https://CRAN.R-project.org/package=purrr</a>.</p>
+</section>
+<section id="rlang" class="level3">
+<h3 class="anchored" data-anchor-id="rlang"><code>rlang</code></h3>
+<p>Provides tools for tidy evaluation and programming with tidyverse-style functions.</p>
+<p>Henry L, Wickham H (2025). <em>rlang: Functions for Base Types and Core R and ‘Tidyverse’ Features</em>. R package version 1.1.5 <a href="https://CRAN.R-project.org/package=rlang" class="uri">https://CRAN.R-project.org/package=rlang</a>.</p>
+</section>
+<section id="mmwrweek" class="level3">
+<h3 class="anchored" data-anchor-id="mmwrweek"><code>MMWRweek</code></h3>
+<p>Converts calendar dates to MMWR (epidemiological) weeks and years for public health analyses.</p>
+<p>Niemi J (2020). <em>MMWRweek: Convert Dates to MMWR Day, Week, and Year</em>. R package version 0.1.3 <a href="https://CRAN.R-project.org/package=MMWRweek" class="uri">https://CRAN.R-project.org/package=MMWRweek</a>.</p>
+</section>
+</section>
+<section id="data-visualization" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="data-visualization">Data Visualization</h2>
+<section id="knitr" class="level3">
+<h3 class="anchored" data-anchor-id="knitr"><code>knitr</code></h3>
+<p>Powers dynamic report generation by embedding R code and output into documents.</p>
+<p>Xie Y (2025). <em>knitr: A General-Purpose Package for Dynamic Report Generation in R</em>. R package version 1.50 <a href="https://yihui.org/knitr/" class="uri">https://yihui.org/knitr/</a>.</p>
+<p>Yihui Xie (2015) Dynamic Documents with R and knitr. 2nd edition. Chapman and Hall/CRC. ISBN 978-1498716963</p>
+<p>Yihui Xie (2014) knitr: A Comprehensive Tool for Reproducible Research in R. In Victoria Stodden, Friedrich Leisch and Roger D. Peng, editors, Implementing Reproducible Computational Research. Chapman and Hall/CRC. ISBN 978-1466561595</p>
+</section>
+<section id="kableextra" class="level3">
+<h3 class="anchored" data-anchor-id="kableextra"><code>kableExtra</code></h3>
+<p>Extends knitr tables with advanced formatting and styling for HTML and LaTeX.</p>
+<p>Zhu H (2024). <em>kableExtra: Construct Complex Table with ‘kable’ and Pipe Syntax</em>. R package version 1.4.0 <a href="https://CRAN.R-project.org/package=kableExtra" class="uri">https://CRAN.R-project.org/package=kableExtra</a>.</p>
+</section>
+<section id="ggplot2" class="level3">
+<h3 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h3>
+<p>Creates customizable, publication-quality data visualizations.</p>
+<p>H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016. <a href="https://ggplot2.tidyverse.org" class="uri">https://ggplot2.tidyverse.org</a></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -774,14 +707,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/chapter3/03b_aligning_columns.html" class="pagination-link" aria-label="Aligning Column Names">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></span>
+      <a href="../chapters/chapter3/03i_descriptive_stats.html" class="pagination-link" aria-label="Infection Rates by Demographic">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Infection Rates by Demographic</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/chapter3/03d_infection_dates.html" class="pagination-link" aria-label="Infection Dates">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Infection Dates</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
