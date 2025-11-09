@@ -265,15 +265,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>step2_ca_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data/tbl_outputs_03/step2_ca_df.csv"</span>))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>step2_la_cnty_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data/tbl_outputs_03/step2_la_cnty_df.csv"</span>))</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>step2_pop_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data/tbl_outputs_03/step2_pop_df.csv"</span>))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>combined_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(step2_ca_df, step2_la_cnty_df) <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(health_officer_region,  <span class="at">.after =</span> county) <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(pop, <span class="at">.after =</span> race_long) <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_cat =</span> <span class="fu">factor</span>(age_cat, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0-17"</span>, <span class="st">"18-49"</span>, <span class="st">"50-64"</span>, <span class="st">"65+"</span>)))</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>combined_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(step2_ca_df, step2_la_cnty_df) <span class="sc">%&gt;%</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(health_officer_region,  <span class="at">.after =</span> county) <span class="sc">%&gt;%</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(pop, <span class="at">.after =</span> race_long) <span class="sc">%&gt;%</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_cat =</span> <span class="fu">factor</span>(age_cat, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0-17"</span>, <span class="st">"18-49"</span>, <span class="st">"50-64"</span>, <span class="st">"65+"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#-write.csv(combined_df, file = here("data/cleaned_data/combined_df.csv"), row.names = FALSE)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#-write.csv(step2_ca_df, file = here("data/cleaned_data/cleaned_ca_df.csv"), row.names = FALSE)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#_write.csv(step2_la_cnty_df, file = here("data/cleaned_data/cleaned_la_cnty_df.csv"), row.names = FALSE)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#-write.csv(step2_pop_df, file = here("data/cleaned_data/cleaned_pop_df.csv"), row.names = FALSE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p><strong>Glimpse of database structure:</strong></p>
@@ -294,7 +294,7 @@ $ health_officer_region  &lt;chr&gt; "Bay Area", "Bay Area", "Bay Area", "Bay Ar
 $ age_cat                &lt;chr&gt; "0-17", "0-17", "0-17", "0-17", "0-17", "0-17",…
 $ sex                    &lt;chr&gt; "FEMALE", "FEMALE", "FEMALE", "FEMALE", "FEMALE…
 $ race_coded             &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
-$ race_short             &lt;chr&gt; "WhiteTE NH", "WhiteTE NH", "WhiteTE NH", "Whit…
+$ race_short             &lt;chr&gt; "White NH", "White NH", "White NH", "White NH",…
 $ race_long              &lt;chr&gt; "White, Non-Hispanic", "White, Non-Hispanic", "…
 $ pop                    &lt;dbl&gt; 34155, 34155, 34155, 34155, 34155, 34155, 34155…
 $ new_infections         &lt;dbl&gt; 6, 1, 2, 10, 19, 25, 23, 18, 22, 35, 29, 43, 69…
