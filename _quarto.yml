@@ -42,9 +42,8 @@ book:
         - chapters/chapter3/03d_infection_dates.qmd
         - chapters/chapter3/03e_race_ethnicity.qmd
         - chapters/chapter3/03f_population_counts.qmd
-        
-    - chapters/chapter3/03g_creating_final_datasets.qmd
-    - chapters/chapter3/03h_final_data_dictionary.qmd  
+        - chapters/chapter3/03g_creating_final_datasets.qmd
+        - chapters/chapter3/03h_final_data_dictionary.qmd
     
     - part: "Descriptive Exploration"
       chapters: 
