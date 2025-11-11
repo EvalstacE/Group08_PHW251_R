@@ -16,7 +16,7 @@ This utility function converts the input to a character vector, trims leading an
 ```{r, eval = FALSE}
 #| code-fold: show
 
-calc_total_rates_pop(df, ..., pop_col)
+df %>% clean(x)
 
 ```
 
