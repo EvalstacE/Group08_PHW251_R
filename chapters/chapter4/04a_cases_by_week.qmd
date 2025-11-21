@@ -6,51 +6,11 @@
 #| warning: false
 #| message: false
 
-source("_common.R")
+source("_common04.R")
 
 ```
 
 
-**Set-up:**
-
-```{r, eval = FALSE}
-
-# Load and install packages
-pacman::p_load(
-  dplyr, tidyr, readr, here, janitor, lubridate,  
-  rlang, stringr, purrr, ggplot2, ggthemes, knitr,
-  kableExtra, MMWRweek, scales, sf, tigris, cartogram,
-  ggnewscale, scales, cowplot, leaflet
-)
-
-options(tigris_use_cache = TRUE)
-
-# Bring in helper functions
-func_dir <- here::here("functions")
-r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
-purrr::walk(r_files, source)
-
-
-# Bring in datasets
-data_dirs <- c(
-  here::here("data", "cleaned_data"),
-  here::here("data", "inf_rate_dfs")
-)
-
-csv_files <- purrr::map(data_dirs, ~ list.files(
-  path = .x,
-  pattern = "\\.csv$",
-  full.names = TRUE
-)) %>% unlist()
-
-purrr::walk(csv_files, function(file_path) {
-  obj_name <- tools::file_path_sans_ext(basename(file_path))
-  df <- readr::read_csv(file_path, show_col_types = FALSE)
-  assign(obj_name, df, envir = knitr::knit_global())
-})
-
-
-```
 
 
 **Create weekly infection and severe case dataframe by county:**
@@ -75,7 +35,8 @@ summarise(
     .groups = "drop"
 )
 
-write.csv(cnty_weekly_cases, here("data/cleaned_data/cnty_weekly_cases.csv"), row.names = FALSE)
+#- Export / save df:
+#-- write.csv(cnty_weekly_cases, here("data/cleaned_data/cnty_weekly_cases.csv"), row.names = FALSE)
 
 ```
 
@@ -133,7 +94,7 @@ cnty_week_pnts <- cnty_weekly_cases %>%
 ```
 
 
-```{r}
+```{r, eval = FALSE}
 #| code-fold: show
 
 ##-- Bring in the shapefiles

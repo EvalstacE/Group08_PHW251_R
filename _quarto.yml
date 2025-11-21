@@ -53,7 +53,6 @@ book:
     - part: "Visualizations"
       chapters: 
         - chapters/chapter4/04a_cases_by_week.qmd
-
         
   appendices:
     - chapters/apx_library_refs.qmd
