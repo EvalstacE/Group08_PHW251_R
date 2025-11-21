@@ -1,0 +1,124 @@
+# Infections by Week
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+source("_common.R")
+
+```
+
+
+**Set-up:**
+
+```{r, eval = FALSE}
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, readr, here, janitor, lubridate,  
+  rlang, stringr, purrr, ggplot2, ggthemes, knitr,
+  kableExtra, MMWRweek, scales, sf, tigris, cartogram,
+  ggnewscale, scales, cowplot, leaflet
+)
+
+options(tigris_use_cache = TRUE)
+
+# Bring in helper functions
+func_dir <- here::here("functions")
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+purrr::walk(r_files, source)
+
+
+# Bring in datasets
+data_dirs <- c(
+  here::here("data", "cleaned_data"),
+  here::here("data", "inf_rate_dfs")
+)
+
+csv_files <- purrr::map(data_dirs, ~ list.files(
+  path = .x,
+  pattern = "\\.csv$",
+  full.names = TRUE
+)) %>% unlist()
+
+purrr::walk(csv_files, function(file_path) {
+  obj_name <- tools::file_path_sans_ext(basename(file_path))
+  df <- readr::read_csv(file_path, show_col_types = FALSE)
+  assign(obj_name, df, envir = knitr::knit_global())
+})
+
+
+```
+
+
+## California Counties and Health Officer Region Map
+
+**Creating and saving shapefiles for maps:**
+
+```{r, eval = FALSE}
+
+##--bring in California shapefile and 
+###---join to infection rate dataframe
+ca_cnty_sf <- counties(state = "CA", cb = TRUE, year = 2023) %>%
+  st_as_sf() %>%
+  select(NAME) %>%
+  left_join(inf_rates_by_cnty, by = c("NAME" = "county")) %>%
+  rename("county" = "NAME") %>%
+  st_transform(4326)
+
+cnty_week_data <- combined_df %>%
+  select(health_officer_region, county, mmwr_year, mmwr_week, start_date, end_date,
+         cumulative_infected, cumulative_severe, cumulative_unrecovered, 
+         total_cnty_pop, total_HOR_pop, total_ca_pop)
+
+ca_cnty_sf_week <- counties(state = "CA", cb = TRUE, year = 2023) %>%
+  st_as_sf() %>%
+  select(NAME) %>%
+  left_join(cnty_week_data, by = c("NAME" = "county")) %>%
+  rename("county" = "NAME") %>%
+  st_transform(4326)
+
+##--dissolves counties into Health Officer Regions
+hor_sf <- ca_county_sf %>%
+  group_by(health_officer_region) %>%
+  summarise(.groups = "drop")%>%
+  st_cast("MULTIPOLYGON")%>%
+  left_join(inf_rates_by_HOR, by = "health_officer_region") %>%
+  st_transform(4326)
+
+##--creates points centered in polygons
+ca_cnty_pnts <- st_centroid(ca_county_sf) %>%
+  st_transform(4326)
+
+hor_pnts <- st_centroid(ca_hor_sf) %>%
+  st_transform(4326)
+
+##--save to data/shapefiles folder
+##-st_write(ca_cnty_sf, here("data/shapefiles/ca_cnty_sf/ca_cnty_sf.shp"))
+##-st_write(ca_cnty_sf_week, here("data/shapefiles/ca_cnty_sf_week/ca_cnty_sf_week.shp"))
+##-st_write(hor_sf, here("data/shapefiles/hor_sf/hor_sf.shp"))
+##-st_write(ca_cnty_pnts, here("data/shapefiles/ca_cnty_pnts/ca_cnty_pnts.shp"))
+##-st_write(hor_pnts, here("data/shapefiles/hor_pnts/hor_pnts.shp"))
+
+
+```
+
+
+```{r}
+#| code-fold: show
+
+##-- Bring in the shapefiles
+
+ca_cnty_sf <- st_read(here("data/shapefiles/ca_cnty_sf"))
+ca_cnty_pnts <- st_read(here("data/shapefiles/ca_cnty_pnts"))
+ca_cnty_sf_week <- st_read(here("data/shapefiles/ca_cnty_sf_week"))
+
+hor_sf <- st_read(here("data/shapefiles/hor_sf"))
+hor_pnts <- st_read(here("data/shapefiles/hor_pnts"))
+
+
+```
+
+

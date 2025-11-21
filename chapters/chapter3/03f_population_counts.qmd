@@ -36,6 +36,18 @@ step2_pop_df <- step2_pop_df_recat %>%
     mutate(total_sex_pop = sum(pop)) %>% ungroup() %>%
   group_by(health_officer_region) %>%
     mutate(total_HOR_pop = sum(pop)) %>% ungroup()
+
+##-- get total CA population
+total_ca_pop <- step2_pop_df %>%
+  distinct(health_officer_region, total_HOR_pop) %>%
+  summarise(total_ca_pop = sum(total_HOR_pop, na.rm = TRUE)) %>%
+  pull(total_ca_pop)
+
+##-- add in to df
+step2_pop_df <- step2_pop_df %>%
+  mutate(total_ca_pop = total_ca_pop)
+
+
 ```
 
 

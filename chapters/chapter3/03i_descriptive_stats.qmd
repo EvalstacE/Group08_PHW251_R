@@ -93,6 +93,20 @@ by_race <-
 ```
 
 
+**Exports:**
+```{r}
+
+# Final Exports to "data/inf_rate_dfs" project directory:
+
+#-write.csv(by_HOR, file = here("data/inf_rate_dfs/inf_rates_by_HOR.csv"), row.names = FALSE)
+#-write.csv(by_cnty, file = here("data/inf_rate_dfs/inf_rates_by_cnty.csv"), row.names = FALSE)
+#-write.csv(by_age, file = here("data/inf_rate_dfs/inf_rates_by_age.csv"), row.names = FALSE)
+#-write.csv(by_sex, file = here("data/inf_rate_dfs/inf_rates_by_sex.csv"), row.names = FALSE)
+#-write.csv(by_race, file = here("data/inf_rate_dfs/inf_rates_by_race.csv"), row.names = FALSE)
+
+```
+
+
 
 ```{r, echo = FALSE}
 
