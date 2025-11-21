@@ -73,12 +73,6 @@ cnty_week_data <- combined_df %>%
          cumulative_infected, cumulative_severe, cumulative_unrecovered, 
          total_cnty_pop, total_HOR_pop, total_ca_pop)
 
-ca_cnty_sf_week <- counties(state = "CA", cb = TRUE, year = 2023) %>%
-  st_as_sf() %>%
-  select(NAME) %>%
-  left_join(cnty_week_data, by = c("NAME" = "county")) %>%
-  rename("county" = "NAME") %>%
-  st_transform(4326)
 
 ##--dissolves counties into Health Officer Regions
 hor_sf <- ca_county_sf %>%
@@ -92,12 +86,16 @@ hor_sf <- ca_county_sf %>%
 ca_cnty_pnts <- st_centroid(ca_county_sf) %>%
   st_transform(4326)
 
+ca_cases_week_pnts <- ca_cnty_pnts %>%
+  left_join(cnty_week_data, by = c("county")) %>%
+  st_transform(4326)
+
 hor_pnts <- st_centroid(ca_hor_sf) %>%
   st_transform(4326)
 
 ##--save to data/shapefiles folder
 ##-st_write(ca_cnty_sf, here("data/shapefiles/ca_cnty_sf/ca_cnty_sf.shp"))
-##-st_write(ca_cnty_sf_week, here("data/shapefiles/ca_cnty_sf_week/ca_cnty_sf_week.shp"))
+##-st_write(ca_cases_week_pnts, here("data/shapefiles/ca_cases_week_pnts/ca_cases_week_pnts.shp"))
 ##-st_write(hor_sf, here("data/shapefiles/hor_sf/hor_sf.shp"))
 ##-st_write(ca_cnty_pnts, here("data/shapefiles/ca_cnty_pnts/ca_cnty_pnts.shp"))
 ##-st_write(hor_pnts, here("data/shapefiles/hor_pnts/hor_pnts.shp"))
