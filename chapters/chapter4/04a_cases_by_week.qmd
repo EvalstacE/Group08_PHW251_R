@@ -53,6 +53,33 @@ purrr::walk(csv_files, function(file_path) {
 ```
 
 
+**Create weekly infection and severe case dataframe by county:**
+
+```{r, eval = FALSE}
+
+## -- weekly case data
+cnty_weekly_cases <- combined_df %>%
+group_by(
+    health_officer_region,
+    county,
+    mmwr_week,
+    start_date,
+    end_date
+) %>%
+summarise(
+    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+    cumulative_severe = sum(cumulative_severe, na.rm = TRUE),
+    total_cnty_pop = first(total_cnty_pop), 
+    inf_rate_100k = round((10^4 * cumulative_infected / total_cnty_pop),1),
+    sev_rate_100k = round((10^4 * cumulative_severe / total_cnty_pop),1),
+    .groups = "drop"
+)
+
+write.csv(cnty_weekly_cases, here("data/cleaned_data/cnty_weekly_cases.csv"), row.names = FALSE)
+
+```
+
+
 ## California Counties and Health Officer Region Map
 
 **Creating and saving shapefiles for maps:**
@@ -70,7 +97,7 @@ ca_cnty_sf <- counties(state = "CA", cb = TRUE, year = 2023) %>%
 
 
 ##--dissolves counties into Health Officer Regions
-hor_sf <- ca_county_sf %>%
+hor_sf <- ca_cnty_sf %>%
   group_by(health_officer_region) %>%
   summarise(.groups = "drop")%>%
   st_cast("MULTIPOLYGON")%>%
@@ -78,17 +105,29 @@ hor_sf <- ca_county_sf %>%
   st_transform(4326)
 
 ##--creates points centered in polygons
-ca_cnty_pnts <- st_centroid(ca_county_sf) %>%
+ca_cnty_pnts <- ca_cnty_sf %>%
+  st_centroid() %>%              
+  mutate(
+    lng = st_coordinates(.)[, 1],
+    lat = st_coordinates(.)[, 2]
+  ) %>%
+  st_drop_geometry() %>%
+  select(county, lng, lat)
+
+hor_pnts <- st_centroid(hor_sf) %>%
   st_transform(4326)
 
-hor_pnts <- st_centroid(ca_hor_sf) %>%
-  st_transform(4326)
+## -- make weekly point data
+cnty_week_pnts <- cnty_weekly_cases %>%
+  left_join(ca_cnty_pnts, by = "county")
+
 
 ##--save to data/shapefiles folder
 ##-st_write(ca_cnty_sf, here("data/shapefiles/ca_cnty_sf/ca_cnty_sf.shp"))
 ##-st_write(hor_sf, here("data/shapefiles/hor_sf/hor_sf.shp"))
 ##-st_write(ca_cnty_pnts, here("data/shapefiles/ca_cnty_pnts/ca_cnty_pnts.shp"))
 ##-st_write(hor_pnts, here("data/shapefiles/hor_pnts/hor_pnts.shp"))
+##-write.csv(cnty_week_pnts, here("data/shapefiles/cnty_week_pnts.csv"), row.names = FALSE)
 
 
 ```
@@ -101,16 +140,11 @@ hor_pnts <- st_centroid(ca_hor_sf) %>%
 
 ca_cnty_sf <- st_read(here("data/shapefiles/ca_cnty_sf"))
 ca_cnty_pnts <- st_read(here("data/shapefiles/ca_cnty_pnts"))
+cnty_week_pnts <- read_csv(here("data/shapefiles/cnty_week_pnts.csv"))
 
 hor_sf <- st_read(here("data/shapefiles/hor_sf"))
 hor_pnts <- st_read(here("data/shapefiles/hor_pnts"))
 
-
-cnty_weekly_cases <- combined_df %>%
-  select(health_officer_region, county, mmwr_week, start_date, end_date, cumulative_infected)
-
-cnty_week_pnts <- ca_cnty_pnts %>%
-  left_join(cnty_weekly_cases, by = "county")
 
 
 ```
