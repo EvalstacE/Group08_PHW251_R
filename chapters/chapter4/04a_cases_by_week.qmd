@@ -101,12 +101,21 @@ hor_pnts <- st_centroid(ca_hor_sf) %>%
 
 ca_cnty_sf <- st_read(here("data/shapefiles/ca_cnty_sf"))
 ca_cnty_pnts <- st_read(here("data/shapefiles/ca_cnty_pnts"))
-ca_cnty_sf_week <- st_read(here("data/shapefiles/ca_cnty_sf_week"))
 
 hor_sf <- st_read(here("data/shapefiles/hor_sf"))
 hor_pnts <- st_read(here("data/shapefiles/hor_pnts"))
 
 
+cnty_weekly_cases <- combined_df %>%
+  select(health_officer_region, county, mmwr_week, start_date, end_date, cumulative_infected)
+
+cnty_week_pnts <- ca_cnty_pnts %>%
+  left_join(cnty_weekly_cases, by = "county")
+
+
 ```
+
+
+
 
 
