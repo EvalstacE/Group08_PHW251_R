@@ -45,9 +45,51 @@ purrr::walk(csv_files, function(file_path) {
 })
 
 
-##-Bring in shapefiles
+## - Bring in shapefiles
 geoms <- bring_in_sfs()
-ca_cnty_pnts = geoms$ca_cnty_pnts
-ca_cnty_sf = geoms$ca_cnty_sf
-hor_pnts = geoms$hor_pnts
-hor_sf = geoms$hor_sf
+
+ca_cnty_sf <- geoms$ca_cnty_sf %>%
+  st_make_valid() %>%
+  left_join(inf_rates_by_cnty, by = "county") %>%
+  select(county, total_infected) %>%
+  rename("cumulative_iinfected" = "total_infected")
+
+
+
+
+# one point per county, with lon/lat columns
+ca_cnty_pnts <- ca_cnty_sf %>%
+  st_centroid() %>%              
+  mutate(
+    lng = st_coordinates(.)[, 1],
+    lat = st_coordinates(.)[, 2]
+  ) %>%
+  st_drop_geometry() %>%
+  select(county, lng, lat)
+
+hor_pnts <- geoms$hor_pnts
+hor_sf   <- geoms$hor_sf
+
+## -- weekly case data
+cnty_weekly_cases <- combined_df %>%
+  group_by(
+    health_officer_region,
+    county,
+    mmwr_week,
+    start_date,
+    end_date
+  ) %>%
+  summarise(
+    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+    total_cnty_pop = first(total_cnty_pop), 
+    inf_rate_100k = round((10^4 * cumulative_infected / total_cnty_pop),1),
+    .groups = "drop"
+  )
+
+summary(cnty_weekly_cases$inf_rate_100k)
+
+## -- make weekly pnt data (no geometry, just lng/lat)
+cnty_week_pnts <- cnty_weekly_cases %>%
+  left_join(ca_cnty_pnts, by = "county")
+
+

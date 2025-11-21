@@ -1,75 +1,67 @@
 server <- function(input, output) {
   
-  
-  
-
-ca_cnty_sf_week <- st_read(here("data/shapefiles/ca_cnty_sf_week"), quiet = TRUE)
-inf_cnty_time_data <- ca_cnty_sf_week
 
 ##--reactive data based on slider input
-filteredData <- reactive({
-  req(input$mmwr_slider)
-  inf_cnty_time_data %>%
-  filter(mmwr_wk == input$mmwr_slider)
-})  
+  filteredData <- reactive({
+    req(cnty_week_pnts, input$mmwr_slider)
+    cnty_week_pnts %>%
+      filter(
+        mmwr_week == input$mmwr_slider,
+        cumulative_infected > 0
+      )
+  }) 
   
 ##--convert mmwr weeks to labels
-output$mmwr_wk_label <- renderText({
-  req(input$mmwr_slider)
-  week_info <- inf_cnty_time_data %>%
-  filter(mmwr_wk == input$mmwr_slider) %>%
-  distinct(mmwr_wk, end_date) %>%
-  arrange(end_date)
-  
-  if (nrow(week_info) == 0) return("")
-  paste0("Week Ending: ", format(week_info$end_date[1], "%B %d, %Y"))
-  
-})
+  output$mmwr_wk_label <- renderText({
+    req(input$mmwr_slider)
+    
+    week_info <- cnty_week_pnts %>%
+      filter(mmwr_week == input$mmwr_slider) %>%
+      distinct(mmwr_week, end_date) %>%
+      arrange(end_date)
+    
+    if (nrow(week_info) == 0) return("")
+    paste0("Week Ending: ", format(week_info$end_date[1], "%B %d, %Y"))
+  })
   
 ##--basemap
-output$time_map <- renderLeaflet({
-sf_data <- inf_cnty_time_data
-
-leaflet(sf_data) %>%
-addPolygons(
-layerId = ~county,
-fillColor = "#f1f0ea",
-color = "#b2b1ac",
-weight = 1,
-fillOpacity = 1
-)
-})
+  output$time_map <- renderLeaflet({
+    sf_data <- ca_cnty_sf
+    
+    leaflet(sf_data) %>%
+      addPolygons(
+        layerId   = ~county,
+        fillColor = "#f1f0ea",
+        color     = "#b2b1ac",
+        weight    = 1,
+        fillOpacity = 1
+      )
+  })
 
 
 ##--updated map interacting with slider
 
-observe({
-    data <- filteredData() %>%
-    filter(cumulative_infected > 0)
+  observe({
+    data <- req(filteredData()) %>%
+      filter(cumulative_infected > 0)
     
-    leafletProxy("time_map", data = data) %>%
-    clearMarkers() %>%
-    addCircleMarkers(
-    radius = ~log1p(cumulative_infected) * 5,
-    fillColor = "#0e2b44",
-    fillOpacity = 0.9,
-    stroke = FALSE,
-    label = ~as.character(cumulative_infected),
-    labelOptions = labelOptions(
-    noHide = TRUE,
-    direction = "center",
-    textOnly = TRUE,
-    style = list(
-    "color" = "white",
-    "font-size" = "11px",
-    "font-weight" = "bold",
-    "text-shadow" = "1px 1px #000"
-    )
-    ),
-    popup = ~paste0(NAME, ": ", cumulative_infected, " cumulative infected")
-    ) %>%
-    clearControls()
-})  
+    leafletProxy("time_map") %>%
+      # Only clear this specific group
+      clearGroup("case_markers") %>%
+      addCircleMarkers(
+        data = data,
+        # if you're using lng/lat cols:
+        # lng = ~lng,
+        # lat = ~lat,
+        group = "case_markers",
+        radius = ~sqrt(inf_rate_100k),
+        fillColor = "#0e2b44",
+        fillOpacity = 0.9,
+        stroke = FALSE,
+        color = "white"
+      )
+  })
+  
 
 
 
