@@ -1,0 +1,23 @@
+variable,class,definition,unique_n,example value
+end_date,Date,last date of Epi week,31,format: 2023-06-03
+start_date,Date,first date of Epi week,31,format: 2023-05-28
+county,character,county of residence of cases,58,Alameda
+health_officer_region,character,California Health Officer Region,6,Bay Area
+race_coded,character,race category codes,7,"1, 2, 3, 4, 5, 6, 7"
+race_long,character,race category full text,7,"Black, Non-Hispanic"
+race_short,character,race category abbreviated text,7,Black NH
+sex,character,sex categorization,2,"FEMALE, MALE"
+age_cat,factor,age category,4,"0-17, 18-49, 50-64, 65+"
+mmwr_week,factor,epi week 40 in 2022 to epi week 23 in 2023,31,22:52
+mmwr_year,factor,year,1,2023
+cumulative_infected,integer,total number of diagnosed individuals,,0 - 137804
+cumulative_severe,integer,total number infected requiring hospitalization,,0 - 4060
+cumulative_unrecovered,integer,total number unrecovered after a week of diagnosis,,0 - 16920
+new_infections,integer,newly diagnosed individuals,,0 - 12110
+new_severe,integer,newly identified cases requiring hospitalization,,0 - 352
+new_unrecovered,integer,newly reported as unrecovered,,0 - 1436
+pop,integer,estimated population by age group for year 2023,,0 - 980387
+total_cnty_pop,integer,total population estimate by county,,1165 - 9825708
+total_race_pop,integer,total county population by race/ethnicity,,0 - 4089110
+total_sex_pop,integer,total county pouplation by sex,,548 - 5049625
+total_HOR_pop,integer,total population by Health Officer Region,,683715 - 12802429
