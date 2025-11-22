@@ -17,6 +17,8 @@ library(bslib)
 library(rsconnect)
 library(sf)
 library(tigris)
+library(leaflet)
+library(scales)
 
 options(tigris_use_cache = TRUE)
 
@@ -28,7 +30,7 @@ purrr::walk(r_files, source)
 
 # Bring in datasets
 data_dirs <- c(
-  here::here("data", "tbl_outputs_03"),
+  here::here("data", "inf_rate_dfs"),
   here::here("data", "cleaned_data")
 )
 
@@ -56,40 +58,8 @@ ca_cnty_sf <- geoms$ca_cnty_sf %>%
 
 
 
-
-# one point per county, with lon/lat columns
-ca_cnty_pnts <- ca_cnty_sf %>%
-  st_centroid() %>%              
-  mutate(
-    lng = st_coordinates(.)[, 1],
-    lat = st_coordinates(.)[, 2]
-  ) %>%
-  st_drop_geometry() %>%
-  select(county, lng, lat)
-
 hor_pnts <- geoms$hor_pnts
 hor_sf   <- geoms$hor_sf
-
-## -- weekly case data
-cnty_weekly_cases <- combined_df %>%
-  group_by(
-    health_officer_region,
-    county,
-    mmwr_week,
-    start_date,
-    end_date
-  ) %>%
-  summarise(
-    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
-    total_cnty_pop = first(total_cnty_pop), 
-    inf_rate_100k = round((10^4 * cumulative_infected / total_cnty_pop),1),
-    .groups = "drop"
-  )
-
-summary(cnty_weekly_cases$inf_rate_100k)
-
-## -- make weekly pnt data (no geometry, just lng/lat)
-cnty_week_pnts <- cnty_weekly_cases %>%
-  left_join(ca_cnty_pnts, by = "county")
+cnty_week_pnts <- read.csv(file = here("data/shapefiles/cnty_week_pnts.csv"))
 
 

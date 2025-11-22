@@ -12,17 +12,22 @@ server <- function(input, output) {
   }) 
   
 ##--convert mmwr weeks to labels
-  output$mmwr_wk_label <- renderText({
+output$mmwr_wk_label <- renderText({
     req(input$mmwr_slider)
     
     week_info <- cnty_week_pnts %>%
       filter(mmwr_week == input$mmwr_slider) %>%
+      mutate(end_date = lubridate::as_date(end_date)) %>%
       distinct(mmwr_week, end_date) %>%
       arrange(end_date)
     
     if (nrow(week_info) == 0) return("")
-    paste0("Week Ending: ", format(week_info$end_date[1], "%B %d, %Y"))
-  })
+    
+    paste0(
+      "Week Ending: ",
+      format(week_info$end_date[1], "%B %d, %Y")
+    )
+})
   
 ##--basemap
   output$time_map <- renderLeaflet({
@@ -54,7 +59,7 @@ server <- function(input, output) {
         # lng = ~lng,
         # lat = ~lat,
         group = "case_markers",
-        radius = ~sqrt(inf_rate_100k),
+        radius = ~sqrt(inf_rate_100k) *0.4,
         fillColor = "#0e2b44",
         fillOpacity = 0.9,
         stroke = FALSE,
