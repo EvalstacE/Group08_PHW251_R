@@ -1,7 +1,7 @@
 create_case_cnt_lbl <- function(x) {
   dplyr::case_when(
-    x < 1 ~ paste0("0"),
-    between(x, 1, 99) ~ paste0("1-99"),
+    x < 1 ~ "0",
+    dplyr::between(x, 1, 99) ~ "1–99",
     x < 1000 ~ paste0(floor(x / 100) * 100, "+"),
     x < 10000 ~ paste0(floor(x / 1000), "K+"),
     x < 100000 ~ paste0(floor(x / 10000) * 10, "K+"),
