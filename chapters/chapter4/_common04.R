@@ -30,7 +30,3 @@ purrr::walk(csv_files, function(file_path) {
   df <- readr::read_csv(file_path, show_col_types = FALSE)
   assign(obj_name, df, envir = knitr::knit_global())
 })
-
-## - Bring in shapefiles
-geoms <- bring_in_sfs()
-cnty_week_pnts <- read_csv(here("data/shapefiles/cnty_week_pnts.csv"))

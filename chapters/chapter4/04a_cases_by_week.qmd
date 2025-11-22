@@ -135,22 +135,12 @@ hor_week_pnts <- hor_weekly_cases %>%
 ```
 
 
-```{r, eval = FALSE}
-#| code-fold: show
 
-##-- Bring in the shapefiles
+```{=html}
 
-ca_cnty_sf <- st_read(here("data/shapefiles/ca_cnty_sf"))
-ca_cnty_pnts <- st_read(here("data/shapefiles/ca_cnty_pnts"))
-cnty_week_pnts <- read_csv(here("data/shapefiles/cnty_week_pnts.csv"))
-
-hor_sf <- st_read(here("data/shapefiles/hor_sf"))
-hor_pnts <- st_read(here("data/shapefiles/hor_pnts"))
-hor_week_pnts <- read_csv(here("data/shapefiles/hor_week_pnts.csv"))
-
+<iframe src="https://evalue.shinyapps.io/Group08_County_Weekly_Map/" width="100%" height="600px" frameborder="0"></iframe>
 
 ```
-
 
 
 
