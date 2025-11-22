@@ -33,6 +33,12 @@ summarise(
     inf_rate_100k = round((10^4 * cumulative_infected / total_cnty_pop),1),
     sev_rate_100k = round((10^4 * cumulative_severe / total_cnty_pop),1),
     .groups = "drop"
+)%>%
+mutate(
+    case_lbl = create_case_cnt_lbl(cumulative_infected),
+    case_rate_lbl = create_case_rate_lbl(inf_rate_100k), 
+    sev_case_lbl = create_case_cnt_lbl(cumulative_severe),
+    sev_rate_lbl = create_case_rate_lbl(sev_rate_100k)
 )
 
 #- Export / save df:
