@@ -1,7 +1,9 @@
 
 ui <- fluidPage(
   
+
 layout_column_wrap( 
+  style = "margin-top: 3rem !important;",
   width = 1,
   heights_equal = "row",
   sliderInput(
@@ -15,9 +17,25 @@ layout_column_wrap(
     animate = animationOptions(interval = 1000, loop = TRUE)
   ), 
   
-  textOutput("mmwr_wk_label"), 
+  uiOutput("mmwr_wk_label"), 
   
-  leafletOutput("time_map", height = "550px")
+  layout_column_wrap(
+    style = "margin: 3rem !important;",
+    width = 1/2, 
+    
+    card(
+      uiOutput("cnty_case_rate_legend"),
+      leafletOutput("cnty_case_rate_map", height = "750px")
+    ), 
+    
+    card(
+      uiOutput("cnty_sev_rate_legend"),
+      leafletOutput("cnty_sev_rate_map", height = "750px")
+    ) 
+    
+  )
+  
+
   
 )
 
