@@ -13,11 +13,11 @@ source("_common04.R")
 
 
 
-**Create weekly infection and severe case dataframe by county:**
+**Create weekly infection and severe case dataframe by county and health officer region:**
 
 ```{r, eval = FALSE}
 
-## -- weekly case data
+## -- weekly case data by county
 cnty_weekly_cases <- combined_df %>%
 group_by(
     health_officer_region,
@@ -33,16 +33,40 @@ summarise(
     inf_rate_100k = round((10^4 * cumulative_infected / total_cnty_pop),1),
     sev_rate_100k = round((10^4 * cumulative_severe / total_cnty_pop),1),
     .groups = "drop"
-)%>%
-mutate(
-    case_lbl = create_case_cnt_lbl(cumulative_infected),
-    case_rate_lbl = create_case_rate_lbl(inf_rate_100k), 
-    sev_case_lbl = create_case_cnt_lbl(cumulative_severe),
-    sev_rate_lbl = create_case_rate_lbl(sev_rate_100k)
-)
+) %>%
 
-#- Export / save df:
+create_EQ_lbl(cumulative_infected, n = 5, new_col = "case_breaks", round_fn = floor) %>%
+create_EQ_lbl(inf_rate_100k, n = 5, new_col = "inf_rate_breaks", round_fn = floor) %>%
+create_EQ_lbl(cumulative_severe, n = 5, new_col = "sev_case_breaks", round_fn = floor) %>%
+create_EQ_lbl(sev_rate_100k, n = 5, new_col = "sev_rate_breaks", round_fn = floor)
+
+
+## -- weekly case data by HOR
+hor_weekly_cases <- combined_df %>%
+group_by(
+    health_officer_region,
+    mmwr_week,
+    start_date,
+    end_date
+) %>%
+summarise(
+    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+    cumulative_severe = sum(cumulative_severe, na.rm = TRUE),
+    total_HOR_pop = first(total_HOR_pop), 
+    inf_rate_100k = round((10^4 * cumulative_infected / total_HOR_pop),1),
+    sev_rate_100k = round((10^4 * cumulative_severe / total_HOR_pop),1),
+    .groups = "drop"
+) %>%
+
+create_EQ_lbl(cumulative_infected, n = 5, new_col = "case_breaks", round_fn = floor) %>%
+create_EQ_lbl(inf_rate_100k, n = 5, new_col = "inf_rate_breaks", round_fn = floor) %>%
+create_EQ_lbl(cumulative_severe, n = 5, new_col = "sev_case_breaks", round_fn = floor) %>%
+create_EQ_lbl(sev_rate_100k, n = 5, new_col = "sev_rate_breaks", round_fn = floor)
+
+
+#- Export / save dfs:
 #-- write.csv(cnty_weekly_cases, here("data/cleaned_data/cnty_weekly_cases.csv"), row.names = FALSE)
+#-- write.csv(hor_weekly_cases, here("data/cleaned_data/hor_weekly_cases.csv"), row.names = FALSE)
 
 ```
 
@@ -81,21 +105,32 @@ ca_cnty_pnts <- ca_cnty_sf %>%
   st_drop_geometry() %>%
   select(county, lng, lat)
 
-hor_pnts <- st_centroid(hor_sf) %>%
-  st_transform(4326)
+
+hor_pnts <- hor_sf %>%
+  st_centroid() %>%              
+  mutate(
+    lng = st_coordinates(.)[, 1],
+    lat = st_coordinates(.)[, 2]
+  ) %>%
+  st_drop_geometry() %>%
+  select(health_officer_region, lng, lat)
+
 
 ## -- make weekly point data
 cnty_week_pnts <- cnty_weekly_cases %>%
   left_join(ca_cnty_pnts, by = "county")
 
+hor_week_pnts <- hor_weekly_cases %>%
+  left_join(hor_pnts, by = "health_officer_region")
+
 
 ##--save to data/shapefiles folder
-##-st_write(ca_cnty_sf, here("data/shapefiles/ca_cnty_sf/ca_cnty_sf.shp"))
-##-st_write(hor_sf, here("data/shapefiles/hor_sf/hor_sf.shp"))
-##-st_write(ca_cnty_pnts, here("data/shapefiles/ca_cnty_pnts/ca_cnty_pnts.shp"))
-##-st_write(hor_pnts, here("data/shapefiles/hor_pnts/hor_pnts.shp"))
+##-st_write(ca_cnty_sf, here("data/shapefiles/ca_cnty_sf/ca_cnty_sf.shp"), append = FALSE)
+##-st_write(hor_sf, here("data/shapefiles/hor_sf/hor_sf.shp"), append = FALSE)
+##-st_write(ca_cnty_pnts, here("data/shapefiles/ca_cnty_pnts/ca_cnty_pnts.shp"), append = FALSE)
+##-st_write(hor_pnts, here("data/shapefiles/hor_pnts/hor_pnts.shp"), append = FALSE)
 ##-write.csv(cnty_week_pnts, here("data/shapefiles/cnty_week_pnts.csv"), row.names = FALSE)
-
+##-write.csv(hor_week_pnts, here("data/shapefiles/hor_week_pnts.csv"), row.names = FALSE)
 
 ```
 
@@ -111,7 +146,7 @@ cnty_week_pnts <- read_csv(here("data/shapefiles/cnty_week_pnts.csv"))
 
 hor_sf <- st_read(here("data/shapefiles/hor_sf"))
 hor_pnts <- st_read(here("data/shapefiles/hor_pnts"))
-
+hor_week_pnts <- read_csv(here("data/shapefiles/hor_week_pnts.csv"))
 
 
 ```
