@@ -1,5 +1,5 @@
 leaflet_ca_blank <- function(
-    initial_zoom   = 6,
+    initial_zoom   = 5.4,
     initial_center = c(37.25, -119.5),  # lat, lng
     ...
 ) {

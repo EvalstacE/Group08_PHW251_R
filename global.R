@@ -22,6 +22,7 @@ library(scales)
 library(htmltools)
 library(htmlwidgets)
 library(jsonlite)
+library(bsicons)
 
 options(tigris_use_cache = TRUE)
 

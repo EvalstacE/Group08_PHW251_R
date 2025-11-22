@@ -11,28 +11,61 @@ server <- function(input, output) {
       )
   }) 
   
-##--convert mmwr weeks to labels
-output$mmwr_wk_label <- renderUI({
-    req(input$mmwr_slider)
-    
-    week_info <- cnty_week_pnts %>%
-      filter(mmwr_week == input$mmwr_slider) %>%
-      mutate(end_date = lubridate::as_date(end_date)) %>%
-      distinct(mmwr_week, end_date) %>%
-      arrange(end_date)
-    
-    if (nrow(week_info) == 0) return(NULL)
-    
-    formatted_date <- format(week_info$end_date[1], "%B %d, %Y")
-    
-    HTML(
-      glue::glue(
-        "<div style='text-align:center; font-size:2rem;'>
-         Week Ending: <strong>{formatted_date}</strong>
-       </div>"
+
+
+
+##################
+##  Week Slider ##
+##################
+
+output$week_slider <- renderUI({
+  tagList(
+    tags$style(type = "text/css", "
+      #mmwr_slider .control-label { font-size: 1.2rem; font-weight: 600; }
+      #mmwr_slider .irs-grid-text { font-size: 1rem; }
+    "),
+    div(
+      id = "mmwr_slider",
+      sliderInput(
+        inputId = "mmwr_slider",
+        label   = "Slide by Week:",
+        min     = min(cnty_week_pnts$mmwr_week),
+        max     = max(cnty_week_pnts$mmwr_week),
+        value   = min(cnty_week_pnts$mmwr_week),
+        step    = 1,
+        width   = "100%",
+        animate = animationOptions(interval = 1000, loop = TRUE)
       )
     )
+  )
 })
+
+
+#########################
+##  Week Slider Labels ##
+#########################
+output$mmwr_wk_label <- renderUI({
+  req(input$mmwr_slider)
+  
+  week_info <- cnty_week_pnts %>%
+    filter(mmwr_week == input$mmwr_slider) %>%
+    mutate(end_date = lubridate::as_date(end_date)) %>%
+    distinct(mmwr_week, end_date) %>%
+    arrange(end_date)
+  
+  if (nrow(week_info) == 0) return(NULL)
+  
+  formatted_date <- format(week_info$end_date[1], "%B %d, %Y")
+  
+  HTML(
+    glue::glue(
+      "<div style='text-align:center; font-size:1.25rem;margin-bottom: 2rem !important;'>
+         Week Ending: <strong>{formatted_date}</strong>
+       </div>"
+    )
+  )
+})
+
 
 ##################################################
 ##################################################
@@ -112,18 +145,6 @@ output$cnty_case_rate_map <- renderLeaflet({
     
 })
   
-
-
-output$cnty_case_rate_legend <- renderUI({
-  data <- req(cnty_week_pnts)
-  map_legend_ui(
-    break_factor = data$inf_rate_breaks,
-    pal_fun      = custom_pal_cases,
-    title        = "Infection Rate per 100k Population"
-  )
-})
-
-
 
 
 
@@ -210,16 +231,87 @@ observe({
 
 
 
-output$cnty_sev_rate_legend <- renderUI({
-  data <- req(cnty_week_pnts)
+####################
+## Legend Outputs ##
+####################
+
+output$cnty_case_rate_legend <- renderUI({
   
-  # pull labels from factor levels, colors from the same palette
   map_legend_ui(
-    break_factor = data$sev_rate_breaks,
-    pal_fun      = custom_pal_sev_cases,
-    title        = "Severe Infection Rate per 100k Population"
+    break_factor     = cnty_week_pnts$inf_rate_breaks,
+    pal_fun          = custom_pal_cases,
+    title            = "Infection Rate",
+    subtitle         = "per 100k Population",
+    items_per_column = Inf,
+    size_scale       = 1
+  )
+  
+})
+
+output$cnty_sev_rate_legend <- renderUI({
+
+  map_legend_ui(
+    break_factor     = cnty_week_pnts$sev_rate_breaks,
+    pal_fun          = custom_pal_sev_cases,
+    title            = "Severe Infection Rate",
+    subtitle         = "per 100k Population",
+    items_per_column = Inf,
+    size_scale       = 1
+  )
+  
+})
+
+
+
+
+output$two_map_ui <- renderUI({
+  layout_column_wrap(
+    width = 1/2,
+    style = "margin: 0rem !important; padding: 0rem !important;",
+    
+####-- first map: total infection rate
+    card(
+      card_header(
+        div(
+          style = "font-size: 1.25rem; font-weight: 700;",
+          "Infection Rates by County"
+        ),
+        popover(
+          bs_icon("grid-3x3-gap"),
+          uiOutput("cnty_case_rate_legend"),
+          title = "Legend"
+        )
+      ),
+      card_body(
+        leafletOutput("cnty_case_rate_map", height = "550px")
+      )
+    ),
+    
+####-- second map: severe infections
+    card(
+      card_header(
+        div(
+          style = "font-size: 1.25rem; font-weight: 700;",
+          "Severe Infection Rates by County"
+        ),
+        popover(
+          bs_icon("grid-3x3-gap"),
+          uiOutput("cnty_sev_rate_legend"),
+          title = "Legend",
+          placement = "right"
+        )
+      ),
+      card_body(
+        leafletOutput("cnty_sev_rate_map", height = "550px")
+      )
+    )
+        
   )
 })
+
+
+
+
 
 ##############
 # End Server #
