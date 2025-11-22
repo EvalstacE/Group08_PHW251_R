@@ -55,9 +55,8 @@ output$mmwr_wk_label <- renderText({
       clearGroup("case_markers") %>%
       addCircleMarkers(
         data = data,
-        # if you're using lng/lat cols:
-        # lng = ~lng,
-        # lat = ~lat,
+        lng = ~lng,
+        lat = ~lat,
         group = "case_markers",
         radius = ~sqrt(inf_rate_100k) *0.4,
         fillColor = "#0e2b44",
