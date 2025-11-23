@@ -1,10 +1,17 @@
 # Course of the Outbreak
 
-
-### Interactive Map: Infection and Severe Infection Rates by Week
-
-
 ::: {.wide-embed}
+
+::: {.panel-tabset}
+
+## Map: Cases by Week
+
+#### Interactive Map: Infection and Severe Infection Rates by Week
+* Adjust the slider to follow the progression of the outbreak week by week. Every point reflects the infection rate or severe infection rate for a California county, standardized per 100,000 population. 
+
+* Counties that are shaded are those in the highest top five for either infection or severe infection rates. 
+
+
 
 ```{=html}
 
@@ -16,6 +23,8 @@
 </iframe>
 
 ```
+
+:::
 
 :::
 
