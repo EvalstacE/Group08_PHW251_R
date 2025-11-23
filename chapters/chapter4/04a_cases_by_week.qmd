@@ -1,8 +1,15 @@
 # Course of the Outbreak
 
 
-|
-|
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+source("_common.R")
+
+```
+
 
 [Download Weekly Infection Rates (CSV)](../../data/shapefiles/cnty_week_pnts.csv){.btn .btn-primary target="_blank"}
 

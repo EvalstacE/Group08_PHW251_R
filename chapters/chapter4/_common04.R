@@ -2,7 +2,8 @@
 pacman::p_load(
   dplyr, tidyr, readr, here, janitor, lubridate,  
   rlang, stringr, purrr, ggplot2, ggthemes, knitr,
-  kableExtra, MMWRweek, scales, sf, tigris, classInt
+  kableExtra, MMWRweek, scales, sf, tigris, classInt,
+  plotly, leaflet
 )
 
 options(tigris_use_cache = TRUE)
