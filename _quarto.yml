@@ -15,6 +15,7 @@ format:
     code-overflow: wrap
     toc: false
     number-depth: 1
+    link-external-newwindow: true
     
 execute:
   message: false

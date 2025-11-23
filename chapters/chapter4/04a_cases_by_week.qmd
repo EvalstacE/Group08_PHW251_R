@@ -22,6 +22,18 @@
 
 #### Supporting Code: 
 
+The full code for the interactive maps can be found on the github repository within the "cases_week_app" branch:
+**<https://github.com/EvalstacE/Group08_PHW251_R/tree/cases_week_app>**
+
+
+[Download Shiny App Code (ZIP)](../../www/Group08_weekly_case_map_shiny_app.zip){.btn .btn-primary target="_blank"}
+
+
+
+|
+|
+
+
 
 **Create weekly infection and severe case dataframe by county and health officer region:**
 
