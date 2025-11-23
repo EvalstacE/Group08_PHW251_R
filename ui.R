@@ -6,7 +6,6 @@ theme = bs_theme(
     bootswatch = "cosmo"
 ),
   
-card(full_screen = TRUE, 
      
 layout_column_wrap( 
     style = "margin: 0rem !important; margin-top: 1rem !important;",
@@ -20,7 +19,6 @@ layout_column_wrap(
     uiOutput("two_map_ui")
   )
 
-)
 
 ##############
 #   End UI   #
