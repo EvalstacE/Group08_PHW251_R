@@ -1,5 +1,16 @@
 # Course of the Outbreak
 
+
+|
+|
+
+[Download Weekly Infection Rates (CSV)](../../data/shapefiles/cnty_week_pnts.csv){.btn .btn-primary target="_blank"}
+
+|
+|
+
+
+
 ::: {.wide-embed}
 
 ::: {.panel-tabset}
@@ -7,9 +18,7 @@
 ## Map
 
 #### Infection Rates by Week
-* Adjust the slider to follow the progression of the outbreak week by week. Every point reflects the infection rate or severe infection rate for a California county, standardized per 100,000 population. 
-
-* Counties that are shaded are those in the highest top five for either infection or severe infection rates. 
+Adjust the slider to follow the progression of the outbreak week by week. Every point reflects the infection rate or severe infection rate for a California county, standardized per 100,000 population. Counties that are shaded are those in the highest top five for either infection or severe infection rates. 
 
 
 
@@ -27,6 +36,10 @@
 :::
 
 :::
+
+
+|
+|
 
 
 #### Supporting Code: 
