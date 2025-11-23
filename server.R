@@ -59,7 +59,7 @@ output$mmwr_wk_label <- renderUI({
   
   HTML(
     glue::glue(
-      "<div style='text-align:center; font-size:1.25rem;margin-bottom: 2rem !important;'>
+      "<div style='text-align:center; font-size:1.25rem;margin-bottom: 1rem !important;'>
          Week Ending: <strong>{formatted_date}</strong>
        </div>"
     )
@@ -283,7 +283,7 @@ output$two_map_ui <- renderUI({
         )
       ),
       card_body(
-        leafletOutput("cnty_case_rate_map", height = "550px")
+        leafletOutput("cnty_case_rate_map", height = "410px")
       )
     ),
     
@@ -302,7 +302,7 @@ output$two_map_ui <- renderUI({
         )
       ),
       card_body(
-        leafletOutput("cnty_sev_rate_map", height = "550px")
+        leafletOutput("cnty_sev_rate_map", height = "410px")
       )
     )
         
