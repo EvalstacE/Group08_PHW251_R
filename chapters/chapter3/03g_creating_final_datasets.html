@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-f7b9b865b9c46f44a4fc0bdb333ac380.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-27f9d0990c29853968d124829a4efb84.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -218,12 +218,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
+ <span class="menu-text">Visualizations</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter4/04a_cases_by_week.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Course of the Outbreak</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/apx_library_refs.html" class="sidebar-item-text sidebar-link">
@@ -304,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 100,688
-Columns: 22
+Columns: 23
 $ mmwr_year              &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023,…
 $ mmwr_week              &lt;dbl&gt; 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,…
 $ start_date             &lt;date&gt; 2023-05-28, 2023-06-04, 2023-06-11, 2023-06-18…
@@ -326,7 +343,8 @@ $ cumulative_severe      &lt;dbl&gt; 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 $ total_cnty_pop         &lt;dbl&gt; 1656037, 1656037, 1656037, 1656037, 1656037, 16…
 $ total_race_pop         &lt;dbl&gt; 485940, 485940, 485940, 485940, 485940, 485940,…
 $ total_sex_pop          &lt;dbl&gt; 849329, 849329, 849329, 849329, 849329, 849329,…
-$ total_HOR_pop          &lt;dbl&gt; 8391874, 8391874, 8391874, 8391874, 8391874, 83…</code></pre>
+$ total_HOR_pop          &lt;dbl&gt; 8391874, 8391874, 8391874, 8391874, 8391874, 83…
+$ total_ca_pop           &lt;dbl&gt; 39109070, 39109070, 39109070, 39109070, 3910907…</code></pre>
 </div>
 </div>
 
@@ -419,6 +437,11 @@ $ total_HOR_pop          &lt;dbl&gt; 8391874, 8391874, 8391874, 8391874, 8391874
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
