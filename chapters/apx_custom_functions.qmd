@@ -228,3 +228,53 @@ make_rate_table(
 A kableExtra table object for display in HTML documents.
 
 :::
+
+
+
+
+
+
+
+::: {.callout-note icon=false collapse="true"}
+
+## `create_EQ_lbl()`
+
+**Description:**  
+
+Utilizes the `classIntervals()` function to create logical, visual breaks for visualizing cases and rates. Specifically, it uses the **"Equal Interval"** binning method, which can be especially helpful when you want to highlight the outliers, or more extreme ends, within a distribution of data. There are a couple of smaller, helper functions that is required if the "compact" argument is set to "TRUE". This option shortens up the labels which can be helpful for simplifying maps and charts. For example,  instead of returning "456,000 - 886,000", the label is shortened to "456K - 886K"
+
+
+**Usage:**
+
+```{r, eval = FALSE}
+#| code-fold: show
+
+create_EQ_lbl(
+  data,
+  var, 
+  n = 6,
+  new_col = NULL,
+  round_fn = floor,
+  compact = TRUE
+)
+
+
+```
+
+
+**Arguments:**
+
+* `data`: Data frame or tibble that contains the numeric variable to be binned.
+
+* `var`: Unquoted numeric column to classify into equal-interval bins. Uses tidy-eval (for example inf_rate_100k).
+
+* `n`: Integer. Number of equal-interval classes to create. Passed to classInt::classIntervals() as the n argument. Default is 6.
+
+* `new_col`: Optional character string for the name of the new factor column. If NULL, the function appends "_eq" to the name of var (for example inf_rate_100k_eq).
+
+* `round_fn`: Rounding function applied to break values before label creation. Common choices include floor, ceiling, or round. Default is floor.
+
+* `compact`: Logical. If TRUE, uses a helper to create compact labels (for example "0 - 5K", "5K - 10K", "20K - 25K+") which are often easier to read on maps and charts. If FALSE, returns full numeric ranges such as "0 - 5,000".
+
+
+:::

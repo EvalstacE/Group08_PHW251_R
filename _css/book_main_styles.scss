@@ -186,7 +186,7 @@ $prefix:                      $variable-prefix !default;
 
 /* sidebar width */
 :root {
-  --sb-w: 300px; 
+  --sb-w: 250px; 
 }
 
 
@@ -261,9 +261,32 @@ $container-padding-x: $grid-gutter-width !default;
 #quarto-document-content,
 .app-main,
 .page-content {
-  margin-left: 4rem!important;
+  margin-left: 2rem!important;
+  margin-right: 1rem!important;
   padding: map-get($spacers, 5) map-get($spacers, 5);
 }
+
+
+
+/* Allow this section to expand into the wide column */
+.wide-embed {
+  margin-left: calc(-1 * map-get($spacers, 5))!important;  
+  margin-right: calc(-2 * map-get($spacers, 5))!important; 
+  padding-right: 0!important;
+  padding-left: 0!important;
+}
+
+.wide-embed iframe {
+  width: 100% !important;
+  display: block;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+
+
 
 /* column size when the sidebar is docked */
 @media (min-width: 992px) { /* lg breakpoint in your map */
@@ -293,8 +316,6 @@ $container-padding-x: $grid-gutter-width !default;
     padding: map-get($spacers, 4);
   }
 }
-
-
 
 /* -------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */

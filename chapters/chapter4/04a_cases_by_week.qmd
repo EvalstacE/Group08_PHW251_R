@@ -1,16 +1,26 @@
-# Infections by Week
+# Course of the Outbreak
 
 
-```{r}
-#| include: false
-#| warning: false
-#| message: false
+### Interactive Map: Infection and Severe Infection Rates by Week
 
-source("_common04.R")
+
+::: {.wide-embed}
+
+```{=html}
+
+<iframe 
+  src="https://evalue.shinyapps.io/Group08_County_Weekly_Map/"
+  width="100%" 
+  height="1000px" 
+  frameborder="0">
+</iframe>
 
 ```
 
+:::
 
+
+#### Supporting Code: 
 
 
 **Create weekly infection and severe case dataframe by county and health officer region:**
@@ -70,8 +80,6 @@ create_EQ_lbl(sev_rate_100k, n = 5, new_col = "sev_rate_breaks", round_fn = floo
 
 ```
 
-
-## California Counties and Health Officer Region Map
 
 **Creating and saving shapefiles for maps:**
 
@@ -135,13 +143,81 @@ hor_week_pnts <- hor_weekly_cases %>%
 ```
 
 
+**Global variables and dataframes for the shiny app:**
 
-```{=html}
+```{r, eval = FALSE}
 
-<iframe src="https://evalue.shinyapps.io/Group08_County_Weekly_Map/" width="100%" height="600px" frameborder="0"></iframe>
+## - Bring in shapefiles
+geoms <- bring_in_sfs()
+
+ca_cnty_pnts <- geoms$ca_cnty_pnts
+hor_sf   <- geoms$hor_sf
+hor_pnts <- geoms$hor_pnts
+cnty_week_pnts <- read.csv(file = here("data/shapefiles/cnty_week_pnts.csv"))
+hor_week_pnts <- read.csv(file = here("data/shapefiles/hor_week_pnts.csv"))
+
+ca_cnty_sf <- geoms$ca_cnty_sf %>%
+  left_join(inf_rates_by_cnty, by = "county")
+
+top_cnty_rates <- ca_cnty_sf %>%
+  arrange(desc(inf_rate_100k)) %>%
+  slice_head(n = 5) %>%
+  bind_rows(
+    ca_cnty_sf %>%
+      arrange(desc(sev_rate_100k)) %>%
+      slice_head(n = 5)
+  ) %>%
+  distinct()
+
+break_cols <- c("case_breaks", "inf_rate_breaks",
+                "sev_case_breaks", "sev_rate_breaks")
+
+cnty_week_pnts <- cnty_week_pnts %>%
+  mutate(across(all_of(break_cols), enforce_factor_levels))
+
+hor_week_pnts <- hor_week_pnts %>%
+  mutate(across(all_of(break_cols), enforce_factor_levels))
+
+  
+
+## - color palettes for maps
+
+cnty_rate_levels <- levels(cnty_week_pnts$inf_rate_breaks)
+cnty_sev_rate_levels <- levels(cnty_week_pnts$sev_rate_breaks)
+cnty_case_levels <- levels(cnty_week_pnts$case_breaks)
+
+
+custom_pal_cases <- colorFactor(
+  palette = c(
+    "#fdacb8",
+    "#b93f76",
+    "#892a68",
+    "#52176b",
+    "#1e0c47"
+  ),
+  domain  = cnty_rate_levels, 
+  ordered = TRUE
+)
+
+
+custom_pal_sev_cases <- colorFactor(
+  palette = c(
+    "#fdacb8",
+    "#b93f76",
+    "#892a68",
+    "#52176b",
+    "#1e0c47"
+  ),
+  domain  = cnty_sev_rate_levels, 
+  ordered = TRUE
+)
+
+
+## -- scale infections + severe infections proportionally 
+
+sev_scale <- 
+  max(cnty_week_pnts$inf_rate_100k, na.rm = TRUE) /
+  max(cnty_week_pnts$sev_rate_100k, na.rm = TRUE)
 
 ```
-
-
-
 
