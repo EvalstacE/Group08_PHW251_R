@@ -21,8 +21,8 @@ server <- function(input, output) {
 output$week_slider <- renderUI({
   tagList(
     tags$style(type = "text/css", "
-      #mmwr_slider .control-label { font-size: 1.2rem; font-weight: 600; }
-      #mmwr_slider .irs-grid-text { font-size: 1rem; }
+      #mmwr_slider .control-label { font-size: 1rem; font-weight: 600; }
+      #mmwr_slider .irs-grid-text { font-size: 0.75rem; margin-bottom: 0rem !important; padding-bottom: 0rem !important;}
     "),
     div(
       id = "mmwr_slider",
@@ -59,7 +59,7 @@ output$mmwr_wk_label <- renderUI({
   
   HTML(
     glue::glue(
-      "<div style='text-align:center; font-size:1.25rem;margin-bottom: 1rem !important;'>
+      "<div style='text-align:center; font-size:1.2rem;margin-bottom: 0.75rem !important;margin-top: 0rem !important; padding: 0rem !important;'>
          Week Ending: <strong>{formatted_date}</strong>
        </div>"
     )

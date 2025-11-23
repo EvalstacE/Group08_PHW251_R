@@ -8,7 +8,7 @@ theme = bs_theme(
   
      
 layout_column_wrap( 
-    style = "margin: 0rem !important; margin-top: 1rem !important;",
+    style = "margin: 0rem !important; margin-top: 0.5rem !important;",
     width = 1,
     heights_equal = "row",
     
