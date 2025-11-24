@@ -8,6 +8,7 @@ format_compact_num <- function(x) {
   )
 }
 
+
 make_compact_labels <- function(brks, add_plus_to_last = TRUE, round_fn = floor) {
   # round numeric breaks first
   brks_round <- round_fn(brks)
@@ -38,8 +39,6 @@ make_compact_labels <- function(brks, add_plus_to_last = TRUE, round_fn = floor)
 }
 
 
-
-
 create_EQ_lbl <- function(data, var, n = 6, new_col = NULL,
                           round_fn = floor,
                           compact = TRUE) {
@@ -51,36 +50,98 @@ create_EQ_lbl <- function(data, var, n = 6, new_col = NULL,
     new_col <- paste0(var_name, "_eq")
   }
   
+  # name for the "raw range" bin column
+  bins_col <- paste0(new_col, "_bins")
+  
   x <- dplyr::pull(data, !!var_quo)
   
   # compute equal interval breaks
   breaks_obj <- classInt::classIntervals(x, n = n, style = "equal")
   brks <- breaks_obj$brks
   
+  # ---- full (non-compact) labels ----
+  brks_round <- round_fn(brks)
+  formatted  <- format(brks_round, big.mark = ",", scientific = FALSE, trim = TRUE)
+  full_labels <- paste0(
+    formatted[-length(formatted)],
+    " - ",
+    formatted[-1]
+  )
+  
+  # ---- compact labels (if requested) ----
   if (compact) {
-    labels <- make_compact_labels(brks, add_plus_to_last = TRUE, round_fn = round_fn)
-  } else {
-
-    brks_round <- round_fn(brks)
-    formatted  <- format(brks_round, big.mark = ",", scientific = FALSE, trim = TRUE)
-    labels <- paste0(
-      formatted[-length(formatted)],
-      " - ",
-      formatted[-1]
+    main_labels <- make_compact_labels(
+      brks,
+      add_plus_to_last = TRUE,
+      round_fn = round_fn
     )
+  } else {
+    main_labels <- full_labels
   }
   
   data %>%
     mutate(
+      # always store non-compact range here
+      !!bins_col := cut(
+        !!var_quo,
+        breaks         = brks,
+        include.lowest = TRUE,
+        labels         = full_labels,
+        ordered_result = TRUE
+      ),
+      # main labeled factor (compact or full depending on `compact`)
       !!new_col := cut(
         !!var_quo,
-        breaks = brks,
+        breaks         = brks,
         include.lowest = TRUE,
-        labels = labels,
-        ordered_result = TRUE 
+        labels         = main_labels,
+        ordered_result = TRUE
       )
     )
 }
 
 
 
+
+
+
+
+add_EQ_labels <- function(
+    data,
+    rename_before = TRUE,
+    vars = c(
+      cumulative_infected = "case_breaks",
+      inf_rate_100k       = "inf_rate_breaks",
+      cumulative_severe   = "sev_case_breaks",
+      sev_rate_100k       = "sev_rate_breaks"
+    )
+) {
+  
+  if (rename_before) {
+    data <- data %>%
+      rename(
+        cumulative_infected = total_infected,
+        cumulative_severe   = total_severe
+      )
+  }
+  
+  out <- data
+  
+  for (i in seq_along(vars)) {
+    var_name <- names(vars)[i]
+    new_name <- vars[[i]]
+    
+    # set number of bins:
+    n_val <- if (new_name == "case_breaks") 7 else 5
+    
+    out <- out %>%
+      create_EQ_lbl(
+        var      = !!rlang::sym(var_name),
+        n        = n_val,
+        new_col  = new_name,
+        round_fn = floor
+      )
+  }
+  
+  out
+}

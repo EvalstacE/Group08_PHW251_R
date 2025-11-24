@@ -3,7 +3,8 @@ pacman::p_load(
   dplyr, tidyr, readr, here, janitor, lubridate,  
   rlang, stringr, purrr, ggplot2, ggthemes, knitr,
   kableExtra, MMWRweek, scales, sf, tigris, classInt,
-  plotly, leaflet
+  plotly, leaflet, ggspatial, glue, htmltools, htmlwidgets,
+  ggtext, ggfx, grid, forcats, gganimate, cowplot, ggrepel
 )
 
 options(tigris_use_cache = TRUE)
@@ -31,3 +32,15 @@ purrr::walk(csv_files, function(file_path) {
   df <- readr::read_csv(file_path, show_col_types = FALSE)
   assign(obj_name, df, envir = knitr::knit_global())
 })
+
+
+inf_rates_by_cnty <- inf_rates_by_cnty %>%
+  rename("cumulative_infected" = "total_infected",
+         "cumulative_severe" = "total_severe")
+
+inf_rates_by_HOR <- inf_rates_by_HOR %>%
+  rename("cumulative_infected" = "total_infected",
+         "cumulative_severe" = "total_severe")
+
+
+source("_common04_maps.R")

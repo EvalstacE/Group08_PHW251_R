@@ -1,9 +1,10 @@
-
 # Load and install packages
 pacman::p_load(
   dplyr, tidyr, readr, here, janitor, lubridate,  
   rlang, stringr, purrr, ggplot2, ggthemes, knitr,
-  kableExtra, MMWRweek, scales
+  kableExtra, MMWRweek, scales, sf, tigris, classInt,
+  plotly, leaflet, ggspatial, glue, htmltools, htmlwidgets,
+  ggtext, ggfx, grid, forcats
 )
 
 # Bring in helper functions

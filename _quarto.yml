@@ -6,6 +6,7 @@ website:
   site-url: https://evalstace.github.io/Group08_PHW251_R/
  
 page-navigation: true
+lightbox: true
 
 format: 
   html:
@@ -53,7 +54,8 @@ book:
     
     - part: "Visualizations"
       chapters: 
-        - chapters/chapter4/04a_cases_by_week.qmd
+        - chapters/chapter4/04a_current_status.qmd
+        - chapters/chapter4/04b_cases_by_week.qmd
         
   appendices:
     - chapters/apx_library_refs.qmd
