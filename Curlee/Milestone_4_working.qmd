@@ -55,7 +55,7 @@ kbl(
     escape = FALSE, 
     align = "c",
     col.names = 
-      c("Health Officer Region", "", 
+      c("Health Officer Region", "Sex", 
         "Total Infected", 
         "Infection Rate per 100K")
 ) %>%
@@ -79,13 +79,13 @@ kable_styling(bootstrap_options = c("bordered"))
 ```{r}
 
 by_age <- combined_df %>% 
-  group_by(health_officer_region, age ) %>%
+  group_by(health_officer_region, age_cat ) %>%
   summarise(
-    total_pop = sum(total_cnty_pop, na.rm = TRUE),
+    total_pop = sum(pop, na.rm = TRUE),
     total_infected = sum(cumulative_infected, na.rm = TRUE),
     prop_infected = total_infected / total_pop,
     rate_100k = round((prop_infected * 1e5),1),
-    total_region_pop = sum(pop, na.rm = TRUE)
+    total_region_pop = sum(pop, na.rm = TRUE),
     .groups = "drop"
   )
 
@@ -144,7 +144,7 @@ age_tbl %>%
   select(
     Region,
     age_cat,
-    Total_Population = total_pop,
+    #Total_Population = total_pop,
     Total_Infected = total_infected,
     Infection_Rate_100K = rate_100k) %>% 
   
@@ -152,7 +152,7 @@ kbl(
     escape = FALSE, 
     align = "c",
     col.names = 
-      c("Health Officer Region", "", "Total Population", 
+      c("Health Officer Region", "Age Group", 
         "Total Infected", "Infection Rate per 100K")
 ) %>%
 row_spec(0, 
@@ -161,7 +161,7 @@ row_spec(0,
        extra_css = "font-size: 16px!important;color:#ffffff;"
 ) %>%
   
-column_spec(5, 
+column_spec(4, 
        bold = TRUE, 
        background = "#5ce1e6"
 ) %>%  
