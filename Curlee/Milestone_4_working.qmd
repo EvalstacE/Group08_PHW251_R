@@ -1,0 +1,225 @@
+---
+title: "Curlee Milestone_4"
+format: html
+editor: visual
+---
+
+
+# Combined Database
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+# Load and install packages
+pacman::p_load(
+  dplyr, tidyr, ggplot2, lubridate, ggthemes, cowplot, readr, rlang, purrr, rlang,
+  classInt, tidycensus, sf, here, stringr, purrr, svglite, rmapshaper, readxl,
+  scales, ggrepel, viridis, RColorBrewer, maps, ggfx, glue, skimr, DataExplorer,
+  knitr, kableExtra, janitor, reactable, MMWRweek
+)
+
+# Source all helper functions
+func_dir <- here::here("functions")
+r_files <- list.files(func_dir, pattern = "\\.R$", full.names = TRUE)
+purrr::walk(r_files, source)
+
+
+# === Load all CSVs from _data/tbl_outputs_03 ===
+data_dir <- here::here("data", "tbl_outputs_03")
+
+csv_files <- list.files(
+  path = data_dir,
+  pattern = "\\.csv$",
+  full.names = TRUE
+)
+
+# Read and assign each CSV to an object named after its file
+purrr::walk(csv_files, function(file_path) {
+  # Extract clean base name (no extension)
+  obj_name <- tools::file_path_sans_ext(basename(file_path))
+  # Read file
+  df <- readr::read_csv(file_path, show_col_types = FALSE)
+  # Assign to the global environment so all chapters can access
+  assign(obj_name, df, envir = knitr::knit_global())
+})
+
+
+```
+
+
+After reconciling all column names across the 3 datasets, standardizing age group, race/ethnicity, and infection date variables, we merge them together to generate a final, complete database and begin our descriptive explorations and analyses. The final, combined database as well as the cleaned individual datasets (California, Los Angeles, and population data) are stored and saved for future reference. 
+
+
+[Download Combined Database (CSV)](../../data/cleaned_data/combined_df.csv){.btn .btn-primary target="_blank"}
+
+```{r, eval = FALSE}
+
+step2_ca_df <- read.csv(file = here("data/tbl_outputs_03/step2_ca_df.csv"))
+step2_la_cnty_df <- read.csv(file = here("data/tbl_outputs_03/step2_la_cnty_df.csv"))
+step2_pop_df <- read.csv(file = here("data/tbl_outputs_03/step2_pop_df.csv"))
+
+
+combined_df <- rbind(step2_ca_df, step2_la_cnty_df) %>%
+  relocate(health_officer_region,  .after = county) %>%
+  relocate(pop, .after = race_long) %>%
+  mutate(age_cat = factor(age_cat, levels = c("0-17", "18-49", "50-64", "65+")))
+
+```
+
+
+**Glimpse of database structure:**
+
+```{r}
+#| code-fold: show
+
+dplyr::glimpse(combined_df)
+
+```
+
+
+```{r}
+step2_pop_df <- step1_pop_df %>%
+  group_by(
+      county, health_officer_region, 
+      sex, race_ethnicity, age_cat
+  ) %>%
+  summarise(pop = sum(pop), .groups = "drop")
+
+#-aggregate population counts 
+##--to 4 age category format:
+step2_pop_df_recat <- step1_pop_df %>%
+  mutate(
+    new_age_group = 
+      if_else(
+        age_cat %in% 
+          c("0-4", "5-11", "12-17"),
+              "0-17", age_cat)
+  ) %>%
+  group_by(
+      county, health_officer_region, sex, 
+      race_ethnicity, new_age_group
+  ) %>%
+  summarise(pop = sum(pop), .groups = "drop") %>%
+  rename("age_cat" = "new_age_group")
+  
+
+```
+
+```{r}
+race_ethnicity_map <- read.csv(file = here("data/race_ethnicity_map.csv")) %>%
+  mutate(
+    race_long = clean(race_long),
+    race_short = clean(race_short),
+    race_coded = as.character(race_coded)
+  )
+
+```
+
+
+```{r}
+step2_pop_df <- step2_pop_df_recat %>%
+  
+##-- join population database to the race/ethnicity map
+  mutate(race_short = clean(race_ethnicity)) %>%
+  select(-race_ethnicity) %>%
+  left_join(race_ethnicity_map, by = "race_short") %>%
+  relocate(race_coded, race_short, race_long, .after = sex) %>%
+  
+##-- calculate population totals by demographic
+  group_by(county, health_officer_region) %>%
+    mutate(total_cnty_pop = sum(pop)) %>% ungroup() %>%
+  group_by(county, health_officer_region, race_coded, race_short, race_long) %>%
+    mutate(total_race_pop = sum(pop)) %>% ungroup() %>%
+  group_by(county, health_officer_region, sex) %>%
+    mutate(total_sex_pop = sum(pop)) %>% ungroup() %>%
+  group_by(health_officer_region) %>%
+    mutate(total_HOR_pop = sum(pop)) %>% ungroup()
+
+```
+
+
+
+```{r}
+by_sex <- combined_df %>%
+  group_by(health_officer_region, sex) %>%
+  summarise(
+    total_pop = sum(total_cnty_pop, na.rm = TRUE),
+    total_infected = sum(cumulative_infected, na.rm = TRUE),
+    prop_infected = total_infected / total_pop,
+    rate_100k = round((prop_infected * 1e5),1),
+    .groups = "drop"
+  )
+
+
+tot_by_sex <- by_sex %>%
+  group_by(health_officer_region) %>%
+  summarise(
+    sex = "BOTH",
+    total_pop = sum(total_pop, na.rm = TRUE),
+    total_infected = sum(total_infected, na.rm = TRUE),
+    prop_infected = total_infected/total_pop,
+    rate_100k = round(prop_infected * 1e5,1),
+    .groups = "drop")
+
+ 
+
+by_sex_tbl <- by_sex %>%
+  filter(sex %in% c("FEMALE", "MALE")) %>% 
+  bind_rows(tot_by_sex) %>% 
+  arrange(health_officer_region,
+          factor(sex, levels = c("FEMALE", "MALE", "BOTH")))
+
+sex_tbl <- by_sex_tbl %>% 
+  arrange(health_officer_region, sex) %>% 
+  mutate(
+    Region = ifelse(duplicated(health_officer_region), "", health_officer_region),
+    sex = paste0(" ", sex))
+
+sex_tbl %>% 
+  select(
+    Region,
+    sex,
+    Total_Population = total_pop,
+    Total_Infected = total_infected,
+    Proportion_Infecteed = prop_infected,
+    Infection_Rate_100K = rate_100k) %>% 
+  
+kbl(
+    escape = FALSE, 
+    align = "c",
+    col.names = 
+      c("Health Officer Region", "", "Total Population", 
+        "Total Infected", "Proportion Infected", 
+        "Infection Rate per 100K")
+) %>%
+row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;"
+) %>%
+  
+column_spec(6, 
+       bold = TRUE, 
+       background = "#5ce1e6"
+) %>%  
+kable_styling(bootstrap_options = c("bordered"))
+
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+
+
+
+
+
+
