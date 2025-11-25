@@ -4,10 +4,14 @@ pacman::p_load(
   rlang, stringr, purrr, ggplot2, ggthemes, knitr,
   kableExtra, MMWRweek, scales, sf, tigris, classInt,
   plotly, leaflet, ggspatial, glue, htmltools, htmlwidgets,
-  ggtext, ggfx, grid, forcats, gganimate, cowplot, ggrepel
+  ggtext, ggfx, grid, forcats, gganimate, cowplot, ggrepel,
+  reactable, RColorBrewer
 )
 
-options(tigris_use_cache = TRUE)
+options(
+  tigris_use_cache = TRUE,
+  scipen           = 9999
+)
 
 # Bring in helper functions
 func_dir <- here::here("functions")

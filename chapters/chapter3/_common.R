@@ -4,7 +4,8 @@ pacman::p_load(
   rlang, stringr, purrr, ggplot2, ggthemes, knitr,
   kableExtra, MMWRweek, scales, sf, tigris, classInt,
   plotly, leaflet, ggspatial, glue, htmltools, htmlwidgets,
-  ggtext, ggfx, grid, forcats
+  ggtext, ggfx, grid, forcats, gganimate, cowplot, ggrepel,
+  reactable, RColorBrewer
 )
 
 # Bring in helper functions

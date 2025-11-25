@@ -1,4 +1,4 @@
-# Current Outbreak Status
+# Infections by County
 
 
 ```{r}
@@ -245,7 +245,7 @@ theme(
 
 
 
-## Infections vs. Infection Rates
+### Rural vs. Urban Counties
 
 Current data show a critical gap between counties with the highest **total number** of infections and those experiencing the highest **rates of infection** and severe disease. This distinction is essential for decision-making in the next phase of the response.
 
@@ -358,7 +358,7 @@ m_cases <- make_rate_map(
 ## Charts
 
 ##### Total Infections and Infection Rates by County, California
-###### June 2023 - December 2023
+###### May 2023 - December 2023
 
 ```{r}
 #| fig-height: 8
@@ -372,7 +372,8 @@ combined_plot
 ## Total Infections
 
 ##### Total Infections by County, California
-###### June 2023 - December 2023
+###### May 2023 - December 2023
+*highlighted counties are those with the highest infection rates*
 
 ```{r}
 #| echo: false
@@ -385,7 +386,8 @@ m_cases
 ## Infection Rates
 
 ##### Infection Rates by County, California
-###### (per 100K population) June 2023 - December 2023
+###### (per 100K population) May 2023 - December 2023
+*highlighted counties are those with the highest infection rates*
 
 ```{r}
 #| echo: false
@@ -398,7 +400,8 @@ m_inf
 ## Severe Infection Rates
 
 ##### Severe Infection Rates by County, California
-###### (per 100K population) June 2023 - December 2023
+###### (per 100K population) May 2023 - December 2023
+*highlighted counties are those with the highest infection rates*
 
 ```{r}
 #| echo: false

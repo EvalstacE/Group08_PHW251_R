@@ -54,8 +54,9 @@ book:
     
     - part: "Visualizations"
       chapters: 
-        - chapters/chapter4/04a_current_status.qmd
-        - chapters/chapter4/04b_cases_by_week.qmd
+        - chapters/chapter4/04a_outbreak_course.qmd
+        - chapters/chapter4/04b_cnty_inf_rates.qmd
+        - chapters/chapter4/04c_weekly_inf_map.qmd
         
   appendices:
     - chapters/apx_library_refs.qmd

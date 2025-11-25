@@ -558,7 +558,17 @@ a {
 
 
 
-
+/* ----------------------------------------------------- */
+/* ---------        INDENTED BLOCK         ------------ */
+/* --------------------------------------------------- */
+.indent-block {
+  margin-left: 2.5rem;   
+  padding-left: 1rem;
+  padding-right: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  border-left: 2px solid var(--bs-border-color); 
+}
 
 
 /* -------------------------------------------------------------------------- */
@@ -809,3 +819,40 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
 .callout.callout-important {
   @include callout-base($beige, $navy, $lime, $navy);
 }
+
+
+
+
+
+
+/* ----------------------------------------------------- */
+/* --------      Reactable Tables (Cosmo)    ----------- */
+/* ----------------------------------------------------- */
+
+.reactable {
+  font-family: var(--bs-body-font-family);
+  font-size: 0.75rem;
+  color: var(--bs-body-color);
+  width: 100%!important;
+}
+
+/* Header cells */
+.reactable .rt-th {
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  font-weight: 600;
+  border-bottom: 2px solid var(--bs-border-color);
+}
+
+/* Body cells */
+.reactable .rt-td {
+  border-color: var(--bs-border-color);
+}
+
+/* Table border */
+.reactable .rt-table {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.25rem;
+  padding: 0rem!important;
+}
+

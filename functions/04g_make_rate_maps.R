@@ -57,6 +57,15 @@ make_rate_map <- function(
   y_limits <- c(as.numeric(bb["ymin"] - y_pad),
                 as.numeric(bb["ymax"] + y_pad))  
   
+  
+  # --- get center points for high rate counties
+  highest_rates_centroids <- highest_rates_sf %>%
+    dplyr::mutate(geometry = sf::st_centroid(geometry)) %>%
+    dplyr::mutate(
+      lng = sf::st_coordinates(geometry)[,1],
+      lat = sf::st_coordinates(geometry)[,2]
+    )
+  
   ####--- make the map
   ggplot() +
     geom_sf(data = cnty_sf, fill = "#f1f0ea", color = "white") +
@@ -111,6 +120,19 @@ make_rate_map <- function(
       values = palette,
       name   = stringr::str_wrap(title, 10)
     ) +
+    
+
+    # --- label layer
+    ggrepel::geom_text_repel(
+      data = highest_rates_centroids,
+      aes(
+        x = lng,
+        y = lat,
+        label = county
+      ),
+      size = 3.5,
+      max.overlaps = Inf
+    ) + 
     
     coord_sf(
       xlim   = x_limits,

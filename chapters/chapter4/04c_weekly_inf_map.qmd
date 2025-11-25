@@ -1,4 +1,4 @@
-# Course of the Outbreak
+# Weekly Infection Map
 
 
 ```{r}
