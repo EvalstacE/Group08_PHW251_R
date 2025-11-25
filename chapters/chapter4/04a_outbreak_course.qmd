@@ -92,15 +92,7 @@ layout(
     pad = 4 
   )
     
-) %>%
-  
-plotly::config(
-    displayModeBar = FALSE,
-    scrollZoom     = FALSE,
-    doubleClick    = FALSE
 )
-
-
 
 ```
 
@@ -356,15 +348,7 @@ layout(
     pad = 4 
   )
     
-) %>%
-  
-plotly::config(
-    displayModeBar = FALSE,
-    scrollZoom     = FALSE,
-    doubleClick    = FALSE
-)
-
-
+) 
 
 ```
 
