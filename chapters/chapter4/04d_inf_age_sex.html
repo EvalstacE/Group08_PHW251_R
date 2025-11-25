@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Project Set-Up – Simulated Infectious Disease Outbreak in California</title>
+<title>13&nbsp; Infections by Age and Sex – Simulated Infectious Disease Outbreak in California</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/chapter3/03b_aligning_columns.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/apx_library_refs.html" rel="next">
+<link href="../../chapters/chapter4/04c_weekly_inf_map.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -103,6 +103,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
 
 
 </head>
@@ -116,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html">Data Preparation</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Set-Up</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html">Visualizations</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter4/04d_inf_age_sex.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Infections by Age and Sex</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -150,7 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03a_project_setup.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/chapter3/03a_project_setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Set-Up</span></span></a>
   </div>
 </li>
@@ -244,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter4/04d_inf_age_sex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/chapter4/04d_inf_age_sex.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Infections by Age and Sex</span></span></a>
   </div>
 </li>
@@ -282,9 +286,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html">Data Preparation</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Set-Up</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html">Visualizations</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter4/04d_inf_age_sex.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Infections by Age and Sex</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Set-Up</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Infections by Age and Sex</span></h1>
 </div>
 
 
@@ -301,41 +305,156 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><strong>Bringing in libraries, helper functions, and data files:</strong></p>
+<p>When we looked at infection and severe infection rates across the state of California as a whole, females had a lower infection rate but a higher severe infection rate compared to males.</p>
+<p>When we compared male and female infection rates by health officer region, this trend still appears.</p>
+<p>Below is a table of infections and severe infections broken down by sex and health officer region:</p>
 <div class="cell">
-<details open="" class="code-fold">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and install packages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  dplyr, tidyr, readr, here, janitor, lubridate,  </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  rlang, stringr, purrr, ggplot2, ggthemes, knitr,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  kableExtra, MMWRweek, scales</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Bring in helper functions</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>func_dir <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"functions"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>r_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(func_dir, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.R$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">walk</span>(r_files, source)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Bring in datasets</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>data_dirs <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"tbl_outputs_03"</span>),</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"cleaned_data"</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>csv_files <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(data_dirs, <span class="sc">~</span> <span class="fu">list.files</span>(</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> .x,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.csv$"</span>,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">walk</span>(csv_files, <span class="cf">function</span>(file_path) {</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  obj_name <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(<span class="fu">basename</span>(file_path))</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(file_path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(obj_name, df, <span class="at">envir =</span> knitr<span class="sc">::</span><span class="fu">knit_global</span>())</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>by_sex <span class="ot">&lt;-</span> combined_df <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(health_officer_region, county, sex) <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">total_sex_pop       =</span> <span class="fu">first</span>(total_sex_pop),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">cumulative_infected =</span> <span class="fu">max</span>(cumulative_infected, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">cumulative_severe   =</span> <span class="fu">max</span>(cumulative_severe, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">inf_rate_100k       =</span> <span class="fu">round</span>((<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span><span class="sc">*</span>cumulative_infected<span class="sc">/</span>total_sex_pop)),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">sev_rate_100k       =</span> <span class="fu">round</span>((<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span><span class="sc">*</span>cumulative_severe<span class="sc">/</span>total_sex_pop)),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(health_officer_region, sex) <span class="sc">%&gt;%</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">total_pop           =</span> <span class="fu">sum</span>(total_sex_pop),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">cumulative_infected =</span> <span class="fu">sum</span>(cumulative_infected, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">cumulative_severe   =</span> <span class="fu">sum</span>(cumulative_severe, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">inf_rate_100k       =</span> <span class="fu">round</span>((<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span><span class="sc">*</span>cumulative_infected<span class="sc">/</span>total_pop)),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">sev_rate_100k       =</span> <span class="fu">round</span>((<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span><span class="sc">*</span>cumulative_severe<span class="sc">/</span>total_pop)),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(health_officer_region, sex)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>hor_inf <span class="ot">&lt;-</span> inf_rates_by_HOR <span class="sc">%&gt;%</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(health_officer_region, total_pop, cumulative_infected, </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>         inf_rate_100k, cumulative_severe, sev_rate_100k) <span class="sc">%&gt;%</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="st">"Total"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>sex_tbl_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(by_sex, hor_inf) <span class="sc">%&gt;%</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">factor</span>(sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"FEMALE"</span>, <span class="st">"MALE"</span>, <span class="st">"Total"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(health_officer_region, sex) </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>sex_tbl <span class="ot">&lt;-</span> <span class="fu">make_rate_table</span>(</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  by_sex,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  health_officer_region,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  sex,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">pop_col =</span> total_pop,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">sort_by =</span> <span class="st">"sev_rate_100k"</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">top_n =</span> <span class="cn">NULL</span>,                 </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">drop_cols =</span> <span class="st">"unrec_rate_100k"</span>,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">highlight_col =</span> <span class="st">"sev_rate_100k"</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>sex_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<table class="table table-bordered table-hover table-striped caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">health_officer_region</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">sex</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">total_pop</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">inf_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">sev_rate_100k</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Rural North</td>
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">339436</td>
+<td style="text-align: center;">3643</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">263</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Rural North</td>
+<td style="text-align: center;">MALE</td>
+<td style="text-align: center;">344279</td>
+<td style="text-align: center;">3536</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">253</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Greater Sierra Sacramento</td>
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">1527015</td>
+<td style="text-align: center;">3816</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">251</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Greater Sierra Sacramento</td>
+<td style="text-align: center;">MALE</td>
+<td style="text-align: center;">1446195</td>
+<td style="text-align: center;">4154</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">215</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Central California</td>
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">2250797</td>
+<td style="text-align: center;">5609</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">192</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Central California</td>
+<td style="text-align: center;">MALE</td>
+<td style="text-align: center;">2181337</td>
+<td style="text-align: center;">6340</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">168</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Southern California</td>
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">6503705</td>
+<td style="text-align: center;">3159</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">152</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Southern California</td>
+<td style="text-align: center;">MALE</td>
+<td style="text-align: center;">6298724</td>
+<td style="text-align: center;">3472</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">137</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Bay Area</td>
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">4260819</td>
+<td style="text-align: center;">2072</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">134</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Bay Area</td>
+<td style="text-align: center;">MALE</td>
+<td style="text-align: center;">4131055</td>
+<td style="text-align: center;">2111</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">122</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Los Angeles</td>
+<td style="text-align: center;">FEMALE</td>
+<td style="text-align: center;">5049625</td>
+<td style="text-align: center;">2576</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">80</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Los Angeles</td>
+<td style="text-align: center;">MALE</td>
+<td style="text-align: center;">4776083</td>
+<td style="text-align: center;">2885</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">71</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -747,13 +866,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Project Description">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Project Description</span>
+      <a href="../../chapters/chapter4/04c_weekly_inf_map.html" class="pagination-link" aria-label="Weekly Infection Map">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Weekly Infection Map</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/chapter3/03b_aligning_columns.html" class="pagination-link" aria-label="Aligning Column Names">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/apx_library_refs.html" class="pagination-link" aria-label="Packages">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Packages</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -197,6 +197,17 @@
     ]
   },
   {
+    "objectID": "chapters/chapter4/04d_inf_age_sex.html",
+    "href": "chapters/chapter4/04d_inf_age_sex.html",
+    "title": "13  Infections by Age and Sex",
+    "section": "",
+    "text": "When we looked at infection and severe infection rates across the state of California as a whole, females had a lower infection rate but a higher severe infection rate compared to males.\nWhen we compared male and female infection rates by health officer region, this trend still appears.\nBelow is a table of infections and severe infections broken down by sex and health officer region:\n\n\nCode\nby_sex &lt;- combined_df %&gt;%\n  group_by(health_officer_region, county, sex) %&gt;%\n    summarise(\n      total_sex_pop       = first(total_sex_pop),\n      cumulative_infected = max(cumulative_infected, na.rm = TRUE),\n      cumulative_severe   = max(cumulative_severe, na.rm = TRUE),\n      inf_rate_100k       = round((10^5*cumulative_infected/total_sex_pop)),\n      sev_rate_100k       = round((10^5*cumulative_severe/total_sex_pop)),\n      .groups = \"drop\"\n    ) %&gt;% \n  group_by(health_officer_region, sex) %&gt;%\n    summarise(\n        total_pop           = sum(total_sex_pop),\n        cumulative_infected = sum(cumulative_infected, na.rm = TRUE),\n        cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),\n        inf_rate_100k       = round((10^5*cumulative_infected/total_pop)),\n        sev_rate_100k       = round((10^5*cumulative_severe/total_pop)),\n        .groups = \"drop\"\n    ) %&gt;%\n  arrange(health_officer_region, sex)\n  \nhor_inf &lt;- inf_rates_by_HOR %&gt;%\n  select(health_officer_region, total_pop, cumulative_infected, \n         inf_rate_100k, cumulative_severe, sev_rate_100k) %&gt;%\n  mutate(sex = \"Total\")\n\nsex_tbl_df &lt;- rbind(by_sex, hor_inf) %&gt;%\n  mutate(sex = factor(sex, levels = c(\"FEMALE\", \"MALE\", \"Total\"), ordered = TRUE)) %&gt;%\n  group_by(health_officer_region, sex) \n  \n  \nsex_tbl &lt;- make_rate_table(\n  by_sex,\n  health_officer_region,\n  sex,\n  pop_col = total_pop,\n  sort_by = \"sev_rate_100k\",\n  top_n = NULL,                 \n  drop_cols = \"unrec_rate_100k\",\n  highlight_col = \"sev_rate_100k\"\n)\n\n\nsex_tbl\n\n\n\n\n\nhealth_officer_region\nsex\ntotal_pop\ninf_rate_100k\nsev_rate_100k\n\n\n\n\nRural North\nFEMALE\n339436\n3643\n263\n\n\nRural North\nMALE\n344279\n3536\n253\n\n\nGreater Sierra Sacramento\nFEMALE\n1527015\n3816\n251\n\n\nGreater Sierra Sacramento\nMALE\n1446195\n4154\n215\n\n\nCentral California\nFEMALE\n2250797\n5609\n192\n\n\nCentral California\nMALE\n2181337\n6340\n168\n\n\nSouthern California\nFEMALE\n6503705\n3159\n152\n\n\nSouthern California\nMALE\n6298724\n3472\n137\n\n\nBay Area\nFEMALE\n4260819\n2072\n134\n\n\nBay Area\nMALE\n4131055\n2111\n122\n\n\nLos Angeles\nFEMALE\n5049625\n2576\n80\n\n\nLos Angeles\nMALE\n4776083\n2885\n71",
+    "crumbs": [
+      "Visualizations",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Infections by Age and Sex</span>"
+    ]
+  },
+  {
     "objectID": "chapters/apx_library_refs.html",
     "href": "chapters/apx_library_refs.html",
     "title": "Appendix A — Packages",
