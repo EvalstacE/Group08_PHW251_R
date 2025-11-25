@@ -11,11 +11,9 @@ source("_common04.R")
 ```
 
 
-When we looked at infection and severe infection rates across the state of California as a whole, females had a lower infection rate but a higher severe infection rate compared to males. 
+When we look across the entire state, females have a lower overall infection rate than males, but a higher rate of severe infections. This same pattern holds when infection and severe infection rates are compared within each health officer region.
 
-When we compared male and female infection rates by health officer region, this trend still appears. 
-
-Below is a table of infections and severe infections broken down by sex and health officer region:
+The table below shows infection and severe infection rates by sex and by health officer region.
 
 
 #### Infection and Severe Infection Rates by Sex and Health Officer Region
@@ -47,13 +45,12 @@ by_sex <- combined_df %>%
   
 
 sex_tbl_df <- by_sex %>%
+  select(-c(cumulative_infected, cumulative_severe)) %>%
   rename(
     `Health Officer Region` = health_officer_region,
     Sex                     = sex,
     Population              = total_pop,
-    Infections              = cumulative_infected,
-    `Severe Infections`     = cumulative_severe,
-    `Infection Rate (/100k)`       = inf_rate_100k,
+    `Infection Rate (/100k)` = inf_rate_100k,
     `Severe Rate (/100k)`    = sev_rate_100k
   ) 
 
@@ -76,8 +73,7 @@ shade_rows <- unlist(
 
 sex_tbl <- sex_df_disp_grp %>%
 kbl(
-  caption = "Infection and severe infection rates by sex and Health Officer Region",
-  align   = c("l", "l", "r", "r", "r", "r", "r"),
+  align   = c("l", "l", "c", "c", "c"),
   format  = "html", 
   escape  = FALSE
 ) %>%
@@ -90,7 +86,7 @@ row_spec(
 )%>%
   
 column_spec(
-  7,
+  5,
   bold = TRUE,
   extra_css = "font-size: 14px!important;color:#0f172a;"
 )%>%
@@ -107,11 +103,19 @@ row_spec(
   
 kable_styling(bootstrap_options = c("hover"), full_width = TRUE)
 
+```
+
+
+::: {.no-stripe}
+
+
+```{r, echo = FALSE}
 
 sex_tbl
 
 ```
 
+:::
 
 
 
@@ -152,12 +156,11 @@ by_sex <- combined_df %>%
   
 
 sex_tbl_df <- by_sex %>%
+  select(-c(cumulative_infected, cumulative_severe)) %>%
   rename(
     `Health Officer Region` = health_officer_region,
     Sex                     = sex,
     Population              = total_pop,
-    Infections              = cumulative_infected,
-    `Severe Infections`     = cumulative_severe,
     `Infection Rate (/100k)`       = inf_rate_100k,
     `Severe Rate (/100k)`    = sev_rate_100k
   ) 
@@ -182,7 +185,7 @@ shade_rows <- unlist(
 sex_tbl <- sex_df_disp_grp %>%
 kbl(
   caption = "Infection and severe infection rates by sex and Health Officer Region",
-  align   = c("l", "l", "r", "r", "r", "r", "r"),
+  align   = c("l", "l", "c", "c", "c", "c", "c"),
   format  = "html", 
   escape  = FALSE
 ) %>%

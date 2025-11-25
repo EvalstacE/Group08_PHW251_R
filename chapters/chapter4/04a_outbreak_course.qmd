@@ -201,7 +201,7 @@ Growth had slowed even further, with weekly increases approaching single digits.
 
 ##### *Mid-November:* 
 
-Growth in weekly new cases slowed to less than 1%
+Growth in weekly percent change in new case slowed to less than 1%
 
 
 ##### *As of December 30:* 

@@ -733,6 +733,28 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
 
 
 
+/* --------------------------------------------- */
+/* --------     kbl tables           ---------- */
+/* ------------------------------------------- */
+
+
+/* disable bootstrap striping */
+.no-stripe table,
+.no-stripe table.table,
+.no-stripe table.table-striped,
+.no-stripe table.kable_table {
+  --bs-table-striped-bg: transparent;
+  --bs-table-striped-color: inherit;
+}
+
+.no-stripe table.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: transparent !important;
+}
+
+
+
+
+
 
 /* -------------------------------------------- */
 /* --------    Text Wraps      --------------- */
