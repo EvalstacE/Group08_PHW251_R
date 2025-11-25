@@ -308,6 +308,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>When we looked at infection and severe infection rates across the state of California as a whole, females had a lower infection rate but a higher severe infection rate compared to males.</p>
 <p>When we compared male and female infection rates by health officer region, this trend still appears.</p>
 <p>Below is a table of infections and severe infections broken down by sex and health officer region:</p>
+<section id="infection-and-severe-infection-rates-by-sex-and-health-officer-region" class="level4">
+<h4 class="anchored" data-anchor-id="infection-and-severe-infection-rates-by-sex-and-health-officer-region">Infection and Severe Infection Rates by Sex and Health Officer Region</h4>
+<section id="california-outbreak-may-2023---dec-2023" class="level5">
+<h5 class="anchored" data-anchor-id="california-outbreak-may-2023---dec-2023">*California Outbreak, May 2023 - Dec 2023</h5>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -332,125 +336,181 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(health_officer_region, sex)</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>hor_inf <span class="ot">&lt;-</span> inf_rates_by_HOR <span class="sc">%&gt;%</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(health_officer_region, total_pop, cumulative_infected, </span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>         inf_rate_100k, cumulative_severe, sev_rate_100k) <span class="sc">%&gt;%</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="st">"Total"</span>)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>sex_tbl_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(by_sex, hor_inf) <span class="sc">%&gt;%</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">factor</span>(sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"FEMALE"</span>, <span class="st">"MALE"</span>, <span class="st">"Total"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(health_officer_region, sex) </span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>sex_tbl <span class="ot">&lt;-</span> <span class="fu">make_rate_table</span>(</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  by_sex,</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  health_officer_region,</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  sex,</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">pop_col =</span> total_pop,</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">sort_by =</span> <span class="st">"sev_rate_100k"</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">top_n =</span> <span class="cn">NULL</span>,                 </span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">drop_cols =</span> <span class="st">"unrec_rate_100k"</span>,</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">highlight_col =</span> <span class="st">"sev_rate_100k"</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>sex_tbl_df <span class="ot">&lt;-</span> by_sex <span class="sc">%&gt;%</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Health Officer Region</span><span class="st">`</span> <span class="ot">=</span> health_officer_region,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sex                     =</span> sex,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">Population              =</span> total_pop,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">Infections              =</span> cumulative_infected,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Severe Infections</span><span class="st">`</span>     <span class="ot">=</span> cumulative_severe,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Infection Rate (/100k)</span><span class="st">`</span>       <span class="ot">=</span> inf_rate_100k,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Severe Rate (/100k)</span><span class="st">`</span>    <span class="ot">=</span> sev_rate_100k</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>sex_df_disp_grp <span class="ot">&lt;-</span> sex_tbl_df <span class="sc">%&gt;%</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Health Officer Region</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Health Officer Region</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">if_else</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>, <span class="st">`</span><span class="at">Health Officer Region</span><span class="st">`</span>, <span class="st">""</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>n_rows <span class="ot">&lt;-</span> <span class="fu">nrow</span>(sex_df_disp_grp)</span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>sex_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>sex_tbl <span class="ot">&lt;-</span> sex_df_disp_grp <span class="sc">%&gt;%</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Infection and severe infection rates by sex and Health Officer Region"</span>,</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">align   =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">format  =</span> <span class="st">"html"</span>, </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">escape  =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="fu">row_spec</span>(</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>,</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">bold =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">background =</span> <span class="st">"#0f172a"</span>,</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">extra_css =</span> <span class="st">"font-size: 16px!important;color:#ffffff;"</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>)<span class="sc">%&gt;%</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="fu">column_spec</span>(</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>  <span class="dv">7</span>,</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">bold =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">extra_css =</span> <span class="st">"font-size: 14px!important;color:#0f172a;"</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>)<span class="sc">%&gt;%</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="fu">row_spec</span>(</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">seq</span>(<span class="dv">2</span>, n_rows, <span class="at">by =</span> <span class="dv">2</span>),</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">extra_css =</span> <span class="st">"border-bottom: 2px solid #0f172a;"</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>), <span class="at">full_width =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>sex_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<table class="table table-bordered table-hover table-striped caption-top table-sm small" data-quarto-postprocess="true">
+<table class="table table-striped table-hover caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Infection and severe infection rates by sex and Health Officer Region</caption>
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">health_officer_region</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">sex</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">total_pop</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">inf_rate_100k</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">sev_rate_100k</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Health Officer Region</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Sex</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Population</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Infections</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Severe Infections</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Infection Rate (/100k)</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">Severe Rate (/100k)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">Rural North</td>
-<td style="text-align: center;">FEMALE</td>
-<td style="text-align: center;">339436</td>
-<td style="text-align: center;">3643</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">263</td>
+<td style="text-align: left;">Bay Area</td>
+<td style="text-align: left;">FEMALE</td>
+<td style="text-align: right;">4260819</td>
+<td style="text-align: right;">88295</td>
+<td style="text-align: right;">5692</td>
+<td style="text-align: right;">2072</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a;">134</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Rural North</td>
-<td style="text-align: center;">MALE</td>
-<td style="text-align: center;">344279</td>
-<td style="text-align: center;">3536</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">253</td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;"></td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;">MALE</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">4131055</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">87223</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">5027</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">2111</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a; border-bottom: 2px solid #0f172a;">122</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Greater Sierra Sacramento</td>
-<td style="text-align: center;">FEMALE</td>
-<td style="text-align: center;">1527015</td>
-<td style="text-align: center;">3816</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">251</td>
+<td style="text-align: left;">Central California</td>
+<td style="text-align: left;">FEMALE</td>
+<td style="text-align: right;">2250797</td>
+<td style="text-align: right;">126254</td>
+<td style="text-align: right;">4318</td>
+<td style="text-align: right;">5609</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a;">192</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Greater Sierra Sacramento</td>
-<td style="text-align: center;">MALE</td>
-<td style="text-align: center;">1446195</td>
-<td style="text-align: center;">4154</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">215</td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;"></td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;">MALE</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">2181337</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">138292</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">3656</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">6340</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a; border-bottom: 2px solid #0f172a;">168</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Central California</td>
-<td style="text-align: center;">FEMALE</td>
-<td style="text-align: center;">2250797</td>
-<td style="text-align: center;">5609</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">192</td>
+<td style="text-align: left;">Greater Sierra Sacramento</td>
+<td style="text-align: left;">FEMALE</td>
+<td style="text-align: right;">1527015</td>
+<td style="text-align: right;">58274</td>
+<td style="text-align: right;">3831</td>
+<td style="text-align: right;">3816</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a;">251</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Central California</td>
-<td style="text-align: center;">MALE</td>
-<td style="text-align: center;">2181337</td>
-<td style="text-align: center;">6340</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">168</td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;"></td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;">MALE</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">1446195</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">60069</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">3115</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">4154</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a; border-bottom: 2px solid #0f172a;">215</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Southern California</td>
-<td style="text-align: center;">FEMALE</td>
-<td style="text-align: center;">6503705</td>
-<td style="text-align: center;">3159</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">152</td>
+<td style="text-align: left;">Los Angeles</td>
+<td style="text-align: left;">FEMALE</td>
+<td style="text-align: right;">5049625</td>
+<td style="text-align: right;">130090</td>
+<td style="text-align: right;">4060</td>
+<td style="text-align: right;">2576</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a;">80</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Southern California</td>
-<td style="text-align: center;">MALE</td>
-<td style="text-align: center;">6298724</td>
-<td style="text-align: center;">3472</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">137</td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;"></td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;">MALE</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">4776083</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">137804</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">3385</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">2885</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a; border-bottom: 2px solid #0f172a;">71</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Bay Area</td>
-<td style="text-align: center;">FEMALE</td>
-<td style="text-align: center;">4260819</td>
-<td style="text-align: center;">2072</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">134</td>
+<td style="text-align: left;">Rural North</td>
+<td style="text-align: left;">FEMALE</td>
+<td style="text-align: right;">339436</td>
+<td style="text-align: right;">12367</td>
+<td style="text-align: right;">893</td>
+<td style="text-align: right;">3643</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a;">263</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Bay Area</td>
-<td style="text-align: center;">MALE</td>
-<td style="text-align: center;">4131055</td>
-<td style="text-align: center;">2111</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">122</td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;"></td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;">MALE</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">344279</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">12174</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">870</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">3536</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a; border-bottom: 2px solid #0f172a;">253</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Los Angeles</td>
-<td style="text-align: center;">FEMALE</td>
-<td style="text-align: center;">5049625</td>
-<td style="text-align: center;">2576</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">80</td>
+<td style="text-align: left;">Southern California</td>
+<td style="text-align: left;">FEMALE</td>
+<td style="text-align: right;">6503705</td>
+<td style="text-align: right;">205481</td>
+<td style="text-align: right;">9897</td>
+<td style="text-align: right;">3159</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a;">152</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Los Angeles</td>
-<td style="text-align: center;">MALE</td>
-<td style="text-align: center;">4776083</td>
-<td style="text-align: center;">2885</td>
-<td style="text-align: center; font-weight: bold; background-color: rgba(92, 225, 230, 255) !important;">71</td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;"></td>
+<td style="text-align: left; border-bottom: 2px solid #0f172a;">MALE</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">6298724</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">218690</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">8617</td>
+<td style="text-align: right; border-bottom: 2px solid #0f172a;">3472</td>
+<td style="text-align: right; font-weight: bold; font-size: 14px!important; color: #0f172a; border-bottom: 2px solid #0f172a;">137</td>
 </tr>
 </tbody>
 </table>
@@ -458,6 +518,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
