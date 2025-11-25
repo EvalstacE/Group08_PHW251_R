@@ -1,0 +1,168 @@
+# infection by Region and sex
+
+```{r}
+
+
+curlee_by_sex <- combined_df %>%
+  group_by(health_officer_region, sex) %>%
+  summarise(
+    total_pop = sum(total_sex_pop, na.rm = TRUE),
+    total_infected = sum(cumulative_infected, na.rm = TRUE),
+    prop_infected = total_infected / total_pop,
+    rate_100k = round((prop_infected * 1e5),1),
+    .groups = "drop"
+  )
+
+print(scales::comma(sum(curlee_by_sex$total_pop), big.mark = ","))
+
+
+tot_by_sex <- by_sex %>%
+  group_by(health_officer_region) %>%
+  summarise(
+    sex = "BOTH",
+    total_pop = sum(total_pop, na.rm = TRUE),
+    total_infected = sum(total_infected, na.rm = TRUE),
+    prop_infected = total_infected/total_pop,
+    rate_100k = round(prop_infected * 1e5,1),
+    .groups = "drop")
+
+ 
+
+by_sex_tbl <- by_sex %>%
+  filter(sex %in% c("FEMALE", "MALE")) %>% 
+  bind_rows(tot_by_sex) %>% 
+  arrange(health_officer_region,
+          factor(sex, levels = c("FEMALE", "MALE", "BOTH")))
+
+sex_tbl <- by_sex_tbl %>% 
+  arrange(health_officer_region, sex) %>% 
+  mutate(
+    Region = ifelse(duplicated(health_officer_region), "", health_officer_region),
+    sex = paste0(" ", sex))
+
+sex_tbl %>% 
+  select(
+    Region,
+    sex,
+   # Total_Population = total_pop,
+    Total_Infected = total_infected,
+    # Proportion_Infecteed = prop_infected,
+    Infection_Rate_100K = rate_100k) %>% 
+  
+kbl(
+    escape = FALSE, 
+    align = "c",
+    col.names = 
+      c("Health Officer Region", "Sex", 
+        "Total Infected", 
+        "Infection Rate per 100K")
+) %>%
+row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;"
+) %>%
+  
+column_spec(4, 
+       bold = TRUE, 
+       background = "#5ce1e6"
+) %>%  
+kable_styling(bootstrap_options = c("bordered"))
+
+```
+
+
+# infection by Region and AGE
+
+```{r}
+
+by_age <- combined_df %>% 
+  group_by(health_officer_region, age_cat ) %>%
+  summarise(
+    total_pop = sum(pop, na.rm = TRUE),
+    total_infected = sum(cumulative_infected, na.rm = TRUE),
+    prop_infected = total_infected / total_pop,
+    rate_100k = round((prop_infected * 1e5),1),
+    total_region_pop = sum(pop, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+
+tot_by_age <- by_age %>%
+  group_by(health_officer_region) %>%
+  summarise(
+    age_cat = "All",
+    total_pop = sum(total_pop, na.rm = TRUE),
+    total_infected = sum(total_infected, na.rm = TRUE),
+    prop_infected = total_infected/total_pop,
+    rate_100k = round(prop_infected * 1e5,1),
+    .groups = "drop")
+
+ unique(combined_df$age_cat)
+
+by_age_tbl <- by_age %>%
+  filter(age_cat %in% c("0-17",  "18-49", "50-64", "65+" )) %>% 
+  bind_rows(tot_by_age) %>% 
+  arrange(health_officer_region,
+          factor(age_cat, levels = c("0-17",  "18-49", "50-64", "65+", "All")))
+
+age_tbl <- by_age_tbl %>% 
+  arrange(health_officer_region, age_cat) %>% 
+  mutate(
+    Region = ifelse(duplicated(health_officer_region), "", health_officer_region),
+    age_cat = paste0(" ", age_cat))
+
+age_tbl %>% 
+  select(
+    Region,
+    age_cat,
+    Total_Infected = total_infected,
+    Infection_Rate_100K = rate_100k) %>% 
+  
+kbl(
+    escape = FALSE, 
+    align = "c",
+    col.names = 
+      c("Health Officer Region", "",
+        "Total Infected", "Infection Rate per 100K")
+) %>%
+row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;"
+) %>%
+  
+column_spec(4, 
+       bold = TRUE, 
+       background = "#5ce1e6"
+) %>%  
+kable_styling(bootstrap_options = c("bordered"))
+
+age_tbl %>% 
+  select(
+    Region,
+    age_cat,
+    #Total_Population = total_pop,
+    Total_Infected = total_infected,
+    Infection_Rate_100K = rate_100k) %>% 
+  
+kbl(
+    escape = FALSE, 
+    align = "c",
+    col.names = 
+      c("Health Officer Region", "Age Group", 
+        "Total Infected", "Infection Rate per 100K")
+) %>%
+row_spec(0, 
+       bold = TRUE, 
+       background = "#0f172a",
+       extra_css = "font-size: 16px!important;color:#ffffff;"
+) %>%
+  
+column_spec(4, 
+       bold = TRUE, 
+       background = "#5ce1e6"
+) %>%  
+kable_styling(bootstrap_options = c("bordered"))
+
+```

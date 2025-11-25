@@ -11,8 +11,6 @@ source("_common04.R")
 ```
 
 
-[Download Weekly Infection Rates (CSV)](../../data/shapefiles/cnty_week_pnts.csv){.btn .btn-primary target="_blank"}
-
 
 |
 |

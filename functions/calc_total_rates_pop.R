@@ -5,14 +5,14 @@ calc_total_rates_pop <- function(df, ..., pop_col) {
     group_by(...) %>%
     summarise(
       total_pop = first({{ pop_col }}),
-      total_infected = max(cumulative_infected, na.rm = TRUE),
-      total_inf_prop = total_infected / total_pop,
+      cumulative_infected = max(cumulative_infected, na.rm = TRUE),
+      total_inf_prop = cumulative_infected / total_pop,
       inf_rate_100k = round(total_inf_prop * 1e5, 1),
-      total_severe = max(cumulative_severe, na.rm = TRUE),
-      total_sev_prop = total_severe / total_pop,
+      cumulative_severe = max(cumulative_severe, na.rm = TRUE),
+      total_sev_prop = cumulative_severe / total_pop,
       sev_rate_100k = round(total_sev_prop * 1e5, 1),
-      total_unrec = max(cumulative_unrecovered, na.rm = TRUE),
-      total_unrec_prop = total_unrec / total_pop,
+      cumulative_unrecovered = max(cumulative_unrecovered, na.rm = TRUE),
+      total_unrec_prop = cumulative_unrecovered / total_pop,
       unrec_rate_100k = round(total_unrec_prop * 1e5, 1),
       .groups = "drop"
     )

@@ -164,6 +164,14 @@ p1
 
 
 |
+|
+
+
+[Download Weekly Infection Rates (CSV)](../../data/inf_rate_dfs/ca_weekly_cases.csv){.btn .btn-primary target="_blank"}
+
+
+|
+|
 
 
 
@@ -210,20 +218,6 @@ While the State of California is seeing dramatically fewer infections overall, s
 
 |
 |
-
-
-::: {.wide-embed}
-
-```{r, echo = FALSE}
-#| layout-nrow: 1
-
-p2
-p3
-
-```
-
-:::
-
 
 |
 |

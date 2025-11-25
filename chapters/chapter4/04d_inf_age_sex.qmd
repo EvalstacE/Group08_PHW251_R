@@ -1,0 +1,215 @@
+# Infections by Age and Sex
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+source("_common04.R")
+
+```
+
+
+When we looked at infection and severe infection rates across the state of California as a whole, females had a lower infection rate but a higher severe infection rate compared to males. 
+
+When we compared male and female infection rates by health officer region, this trend still appears. 
+
+Below is a table of infections and severe infections broken down by sex and health officer region:
+
+
+#### Infection and Severe Infection Rates by Sex and Health Officer Region
+##### *California Outbreak, May 2023 - Dec 2023*
+
+```{r, echo = FALSE}
+
+
+by_sex <- combined_df %>%
+  group_by(health_officer_region, county, sex) %>%
+    summarise(
+      total_sex_pop       = first(total_sex_pop),
+      cumulative_infected = max(cumulative_infected, na.rm = TRUE),
+      cumulative_severe   = max(cumulative_severe, na.rm = TRUE),
+      inf_rate_100k       = round((10^5*cumulative_infected/total_sex_pop)),
+      sev_rate_100k       = round((10^5*cumulative_severe/total_sex_pop)),
+      .groups = "drop"
+    ) %>% 
+  group_by(health_officer_region, sex) %>%
+    summarise(
+        total_pop           = sum(total_sex_pop),
+        cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+        cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+        inf_rate_100k       = round((10^5*cumulative_infected/total_pop)),
+        sev_rate_100k       = round((10^5*cumulative_severe/total_pop)),
+        .groups = "drop"
+    ) %>%
+  arrange(health_officer_region, sex)
+  
+
+sex_tbl_df <- by_sex %>%
+  rename(
+    `Health Officer Region` = health_officer_region,
+    Sex                     = sex,
+    Population              = total_pop,
+    Infections              = cumulative_infected,
+    `Severe Infections`     = cumulative_severe,
+    `Infection Rate (/100k)`       = inf_rate_100k,
+    `Severe Rate (/100k)`    = sev_rate_100k
+  ) 
+
+sex_df_disp_grp <- sex_tbl_df %>%
+  group_by(`Health Officer Region`) %>%
+  mutate(
+    `Health Officer Region` = if_else(row_number() == 1, `Health Officer Region`, "")
+  ) %>%
+  ungroup()
+
+
+
+n_rows <- nrow(sex_df_disp_grp)
+shade_rows <- unlist(
+  mapply(`:`,
+         seq(3, n_rows, by = 4),
+         seq(4, n_rows, by = 4))
+)
+
+
+sex_tbl <- sex_df_disp_grp %>%
+kbl(
+  caption = "Infection and severe infection rates by sex and Health Officer Region",
+  align   = c("l", "l", "r", "r", "r", "r", "r"),
+  format  = "html", 
+  escape  = FALSE
+) %>%
+  
+row_spec(
+  0,
+  bold = TRUE,
+  background = "#0f172a",
+  extra_css = "font-size: 16px!important;color:#ffffff;"
+)%>%
+  
+column_spec(
+  7,
+  bold = TRUE,
+  extra_css = "font-size: 14px!important;color:#0f172a;"
+)%>%
+  
+row_spec(
+  seq(2, n_rows, by = 2),
+  extra_css = "border-bottom: 1.25px solid #0f172a;"
+) %>%
+  
+row_spec(
+    shade_rows,
+    background = "#f1f0ea"
+) %>%  
+  
+kable_styling(bootstrap_options = c("hover"), full_width = TRUE)
+
+
+sex_tbl
+
+```
+
+
+
+
+|
+|
+|
+|
+
+#### Supporting Code: 
+
+**Code for table:**
+
+| 
+
+
+```{r, eval = FALSE}
+
+by_sex <- combined_df %>%
+  group_by(health_officer_region, county, sex) %>%
+    summarise(
+      total_sex_pop       = first(total_sex_pop),
+      cumulative_infected = max(cumulative_infected, na.rm = TRUE),
+      cumulative_severe   = max(cumulative_severe, na.rm = TRUE),
+      inf_rate_100k       = round((10^5*cumulative_infected/total_sex_pop)),
+      sev_rate_100k       = round((10^5*cumulative_severe/total_sex_pop)),
+      .groups = "drop"
+    ) %>% 
+  group_by(health_officer_region, sex) %>%
+    summarise(
+        total_pop           = sum(total_sex_pop),
+        cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+        cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+        inf_rate_100k       = round((10^5*cumulative_infected/total_pop)),
+        sev_rate_100k       = round((10^5*cumulative_severe/total_pop)),
+        .groups = "drop"
+    ) %>%
+  arrange(health_officer_region, sex)
+  
+
+sex_tbl_df <- by_sex %>%
+  rename(
+    `Health Officer Region` = health_officer_region,
+    Sex                     = sex,
+    Population              = total_pop,
+    Infections              = cumulative_infected,
+    `Severe Infections`     = cumulative_severe,
+    `Infection Rate (/100k)`       = inf_rate_100k,
+    `Severe Rate (/100k)`    = sev_rate_100k
+  ) 
+
+sex_df_disp_grp <- sex_tbl_df %>%
+  group_by(`Health Officer Region`) %>%
+  mutate(
+    `Health Officer Region` = if_else(row_number() == 1, `Health Officer Region`, "")
+  ) %>%
+  ungroup()
+
+
+
+n_rows <- nrow(sex_df_disp_grp)
+shade_rows <- unlist(
+  mapply(`:`,
+         seq(3, n_rows, by = 4),
+         seq(4, n_rows, by = 4))
+)
+
+
+sex_tbl <- sex_df_disp_grp %>%
+kbl(
+  caption = "Infection and severe infection rates by sex and Health Officer Region",
+  align   = c("l", "l", "r", "r", "r", "r", "r"),
+  format  = "html", 
+  escape  = FALSE
+) %>%
+  
+row_spec(
+  0,
+  bold = TRUE,
+  background = "#0f172a",
+  extra_css = "font-size: 16px!important;color:#ffffff;"
+)%>%
+  
+column_spec(
+  7,
+  bold = TRUE,
+  extra_css = "font-size: 14px!important;color:#0f172a;"
+)%>%
+  
+row_spec(
+  seq(2, n_rows, by = 2),
+  extra_css = "border-bottom: 1.25px solid #0f172a;"
+) %>%
+  
+row_spec(
+    shade_rows,
+    background = "#f1f0ea"
+) %>%  
+  
+kable_styling(bootstrap_options = c("hover"), full_width = TRUE)
+
+```
