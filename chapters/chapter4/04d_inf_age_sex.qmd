@@ -1,4 +1,4 @@
-# Infections by Age and Sex
+# Infections by Age, Sex, and Race
 
 
 ```{r}
@@ -21,35 +21,65 @@ The table below shows infection and severe infection rates by sex and by health 
 
 ```{r, echo = FALSE}
 
+##########################
+#--Prepare dataframe
+##--see 04i_calc_rates_rng_grp.R function
+###--in 'functions/' folder
 
-by_sex <- combined_df %>%
-  group_by(health_officer_region, county, sex) %>%
-    summarise(
-      total_sex_pop       = first(total_sex_pop),
-      cumulative_infected = max(cumulative_infected, na.rm = TRUE),
-      cumulative_severe   = max(cumulative_severe, na.rm = TRUE),
-      inf_rate_100k       = round((10^5*cumulative_infected/total_sex_pop)),
-      sev_rate_100k       = round((10^5*cumulative_severe/total_sex_pop)),
-      .groups = "drop"
-    ) %>% 
-  group_by(health_officer_region, sex) %>%
-    summarise(
-        total_pop           = sum(total_sex_pop),
-        cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
-        cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
-        inf_rate_100k       = round((10^5*cumulative_infected/total_pop)),
-        sev_rate_100k       = round((10^5*cumulative_severe/total_pop)),
-        .groups = "drop"
-    ) %>%
-  arrange(health_officer_region, sex)
+hor_by_sex <- calc_rates_rng_grp(
+  df        = combined_df,
+  group_var = sex,
+  pop_col   = total_sex_pop
+)
+
+cnty_by_sex <- calc_rates_rng_grp(
+  df        = combined_df,
+  group_var = sex,
+  pop_col   = total_sex_pop,
+  geo_level = "county"
+)
   
+  
+hor_by_age_cat <- calc_rates_rng_grp(
+  df        = combined_df,
+  group_var = age_cat,
+  pop_col   = pop
+)
+
+
+cnty_by_age_cat <- calc_rates_rng_grp(
+  df        = combined_df,
+  group_var = age_cat,
+  pop_col   = pop,
+  geo_level = "county"
+)
+
+
+
+hor_by_race <- calc_rates_rng_grp(
+  df        = combined_df,
+  group_var = race_short,
+  pop_col   = total_race_pop
+)
+
+
+cnty_by_race <- calc_rates_rng_grp(
+  df        = combined_df,
+  group_var = race_short,
+  pop_col   = total_race_pop,
+  geo_level = "county"
+)
+
+  
+##########################
+#--Build table for display
 
 sex_tbl_df <- by_sex %>%
   select(-c(cumulative_infected, cumulative_severe)) %>%
   rename(
-    `Health Officer Region` = health_officer_region,
-    Sex                     = sex,
-    Population              = total_pop,
+    `Health Officer Region`  = health_officer_region,
+    Sex                      = sex,
+    Population               = total_sex_pop,
     `Infection Rate (/100k)` = inf_rate_100k,
     `Severe Rate (/100k)`    = sev_rate_100k
   ) 
@@ -106,6 +136,8 @@ kable_styling(bootstrap_options = c("hover"), full_width = TRUE)
 ```
 
 
+
+
 ::: {.no-stripe}
 
 
@@ -133,35 +165,39 @@ sex_tbl
 
 ```{r, eval = FALSE}
 
-by_sex <- combined_df %>%
+by_sex1 <- combined_df %>%
+  #--only last week (52)
+  filter(mmwr_week == 52) %>%
+  
+  #--one row per region–county–sex 
   group_by(health_officer_region, county, sex) %>%
-    summarise(
-      total_sex_pop       = first(total_sex_pop),
-      cumulative_infected = max(cumulative_infected, na.rm = TRUE),
-      cumulative_severe   = max(cumulative_severe, na.rm = TRUE),
-      inf_rate_100k       = round((10^5*cumulative_infected/total_sex_pop)),
-      sev_rate_100k       = round((10^5*cumulative_severe/total_sex_pop)),
-      .groups = "drop"
-    ) %>% 
+  summarise(
+    total_sex_pop       = first(total_sex_pop),
+    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+    cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+    .groups = "drop"
+  ) 
+
+by_sex <- by_sex1 %>%  
+  #--sum county pops and infectionswithin each region–sex
   group_by(health_officer_region, sex) %>%
-    summarise(
-        total_pop           = sum(total_sex_pop),
-        cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
-        cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
-        inf_rate_100k       = round((10^5*cumulative_infected/total_pop)),
-        sev_rate_100k       = round((10^5*cumulative_severe/total_pop)),
-        .groups = "drop"
-    ) %>%
-  arrange(health_officer_region, sex)
+  summarise(
+    total_sex_pop       = sum(total_sex_pop, na.rm = TRUE),
+    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+    cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+    inf_rate_100k       = round((10^5*cumulative_infected/total_sex_pop)),
+    sev_rate_100k       = round((10^5*cumulative_severe/total_sex_pop)),
+    .groups = "drop"
+  )
   
 
 sex_tbl_df <- by_sex %>%
   select(-c(cumulative_infected, cumulative_severe)) %>%
   rename(
-    `Health Officer Region` = health_officer_region,
-    Sex                     = sex,
-    Population              = total_pop,
-    `Infection Rate (/100k)`       = inf_rate_100k,
+    `Health Officer Region`  = health_officer_region,
+    Sex                      = sex,
+    Population               = total_sex_pop,
+    `Infection Rate (/100k)` = inf_rate_100k,
     `Severe Rate (/100k)`    = sev_rate_100k
   ) 
 
@@ -184,8 +220,7 @@ shade_rows <- unlist(
 
 sex_tbl <- sex_df_disp_grp %>%
 kbl(
-  caption = "Infection and severe infection rates by sex and Health Officer Region",
-  align   = c("l", "l", "c", "c", "c", "c", "c"),
+  align   = c("l", "l", "c", "c", "c"),
   format  = "html", 
   escape  = FALSE
 ) %>%
@@ -198,7 +233,7 @@ row_spec(
 )%>%
   
 column_spec(
-  7,
+  5,
   bold = TRUE,
   extra_css = "font-size: 14px!important;color:#0f172a;"
 )%>%
@@ -216,3 +251,4 @@ row_spec(
 kable_styling(bootstrap_options = c("hover"), full_width = TRUE)
 
 ```
+
