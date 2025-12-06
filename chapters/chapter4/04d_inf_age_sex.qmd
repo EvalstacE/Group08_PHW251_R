@@ -19,58 +19,79 @@ The table below shows infection and severe infection rates by sex and by health 
 #### Infection and Severe Infection Rates by Sex and Health Officer Region
 ##### *California Outbreak, May 2023 - Dec 2023*
 
-```{r, echo = FALSE}
+```{r, eval = FALSE}
 
 ##########################
 #--Prepare dataframe
 ##--see 04i_calc_rates_rng_grp.R function
 ###--in 'functions/' folder
 
-hor_by_sex <- calc_rates_rng_grp(
-  df        = combined_df,
-  group_var = sex,
-  pop_col   = total_sex_pop
+# specs: which grouping var uses which population column
+group_specs <- tibble::tibble(
+  group_var = list(quo(sex), quo(age_cat), quo(race_short)),
+  pop_col   = list(quo(total_sex_pop), quo(pop), quo(total_race_pop))
 )
 
-cnty_by_sex <- calc_rates_rng_grp(
-  df        = combined_df,
-  group_var = sex,
-  pop_col   = total_sex_pop,
-  geo_level = "county"
+############################
+##  Region-level (HOR)   ###
+############################
+
+hor_results_list <- group_specs %>%
+  purrr::pmap(function(group_var, pop_col) {
+    calc_rates_rng_grp(
+      df        = combined_df,
+      group_var = !!group_var,
+      pop_col   = !!pop_col,
+      geo_level = "region"   
+    ) %>%
+      dplyr::mutate(geo_level = "region")
+  })
+
+hor_rates_by_demographic <- dplyr::bind_rows(hor_results_list)
+
+############################
+##  County-level         ###
+############################
+
+cnty_results_list <- group_specs %>%
+  purrr::pmap(function(group_var, pop_col) {
+    calc_rates_rng_grp(
+      df        = combined_df,
+      group_var = !!group_var,
+      pop_col   = !!pop_col,
+      geo_level = "county"
+    ) %>%
+      dplyr::mutate(geo_level = "county")
+  })
+
+cnty_rates_by_demographic <- dplyr::bind_rows(cnty_results_list)
+
+############################################
+##   all rates by dem combined in one df  ##
+############################################
+
+all_rates_by_demographic <- dplyr::bind_rows(
+  hor_rates_by_demographic,
+  cnty_rates_by_demographic
 )
+
   
-  
-hor_by_age_cat <- calc_rates_rng_grp(
-  df        = combined_df,
-  group_var = age_cat,
-  pop_col   = pop
-)
+#########################################
+## Exports to 'data/cleaned_data/' dir ##
+#########################################
 
+#write.csv(cnty_rates_by_demographic, here("data/cleaned_data/cnty_rates_by_demographic.csv"), row.names = FALSE)
+#write.csv(hor_rates_by_demographic, here("data/cleaned_data/hor_rates_by_demographic.csv"), row.names = FALSE)
+#write.csv(all_rates_by_demographic, here("data/cleaned_data/all_rates_by_demographic.csv"), row.names = FALSE)
 
-cnty_by_age_cat <- calc_rates_rng_grp(
-  df        = combined_df,
-  group_var = age_cat,
-  pop_col   = pop,
-  geo_level = "county"
-)
+```
 
 
 
-hor_by_race <- calc_rates_rng_grp(
-  df        = combined_df,
-  group_var = race_short,
-  pop_col   = total_race_pop
-)
 
 
-cnty_by_race <- calc_rates_rng_grp(
-  df        = combined_df,
-  group_var = race_short,
-  pop_col   = total_race_pop,
-  geo_level = "county"
-)
+```{r, echo = FALSE}
 
-  
 ##########################
 #--Build table for display
 
@@ -134,8 +155,6 @@ row_spec(
 kable_styling(bootstrap_options = c("hover"), full_width = TRUE)
 
 ```
-
-
 
 
 ::: {.no-stripe}

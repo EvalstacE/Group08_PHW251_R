@@ -21,13 +21,7 @@ After reconciling all column names across the 3 datasets, standardizing age grou
 combined_df <- 
   rbind(step2_ca_df, step2_la_cnty_df) %>%
   relocate(health_officer_region,  .after = county) %>%
-  relocate(pop, .after = race_long) %>%
-  mutate(
-    age_cat = 
-      factor(age_cat, 
-        levels = c("0-17", "18-49", "50-64", "65+")
-      )
-    )
+  relocate(pop, .after = race_long) 
 
 ```
 

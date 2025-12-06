@@ -32,6 +32,10 @@ step2_pop_df <- step2_pop_df_recat %>%
     mutate(total_cnty_pop = sum(pop)) %>% ungroup() %>%
   group_by(county, health_officer_region, race_coded, race_short, race_long) %>%
     mutate(total_race_pop = sum(pop)) %>% ungroup() %>%
+  
+  group_by(county, age_cat) %>%
+   mutate(total_age_pop = sum(pop)) %>% ungroup() %>%
+  
   group_by(county, health_officer_region, sex) %>%
     mutate(total_sex_pop = sum(pop)) %>% ungroup() %>%
   group_by(health_officer_region) %>%

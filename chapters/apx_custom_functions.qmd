@@ -1,4 +1,4 @@
-# Custom Functions
+# Custom Functions {#custom-fx}
 
 
 ::: {.callout-note icon=false collapse="true"}
@@ -123,18 +123,25 @@ This is useful for labeling plots, aligning data with other time series, or veri
 
 ::: {.callout-note icon=false collapse="true"}
 
-## `calc_total_rates_pop()` 
+## `calc_rates_rng_grp()` 
 
 **Description:**
 
-Calculates total infection counts and crude infection rates per 100,000 population for one or more grouping variables. This function is useful for standardizing rate calculations across demographic groups (e.g., by county, region, sex, or race/ethnicity). 
+Simplifies and standardizes the process of calculating crude infection rates (per 100,000 population) across multiple demographic and geographic groupings (e.g., by county or health officer region and by sex, age category, race/ethnicity, etc.).
+
 
 **Usage:**
 
 ```{r, eval = FALSE}
 #| code-fold: show
 
-calc_total_rates_pop(df, ..., pop_col)
+calc_rates_rng_grp(
+               df = combined_df,
+        group_var = age_cat,
+          pop_col = total_age_pop,
+             week = 52,
+        geo_level = "region" | "county" | "statewide"
+)
 
 ```
 
@@ -142,31 +149,60 @@ calc_total_rates_pop(df, ..., pop_col)
 
 **Arguments:**
 
-* `df` : A data frame containing cumulative infection, severe, and unrecovered counts, grouping variables, and population counts per group. 
+* `df` : Name of the combined dataframe object
 
-* `...` : Column names for one or more grouping variables (comma-separated) to summarize rates by (e.g., county, sex, race_ethnicity).
+* `group_var` : A single categorical variable that defines the demographic grouping, such as *sex*, *age_cat*, or *race_short*
 
-* `pop_col` : The column name containing population counts for the group(s) used to compute rates.
+* `pop_col` : The column that contains the population denominator used to calculate rates for the chosen
 
-**Details:**
+* `week` : MMWR week to use for calculations. Defaults to 52. The function first restricts the df to rows where "mmwr_week == week"
 
-This function groups the input data by the specified variables and returns a summarized dataset with total counts, proportions, and rates (per 100,000 population) for infections, severe infections, and unrecovered cases.
+* `region_col` : Column that identifies the Health Officer Region column name. Defaults to "health_officer_region"
 
-**Returned Columns:**
+* `county_col` : Column that identifies the County column name. Defaults to "county"
 
-* **total_pop:**  Total population for the group
+* `infected_col` : Column name containing cumulative infection counts. Defaults to "cumulative_infected"
 
-* **total_infected:** Cumulative infection count
+* `severe_col` : Column name containing cumulative sever infection counts. Defaults to "cumulative_severe"
 
-* **inf_rate_100k:** Infection rate per 100,000 population
+* `geo_level` : Geographic level for aggregation. One identified of:
 
-* **total_severe:** Cumulative severe infections
+    * **"region":** sums across counties within each Health Officer Region and group
 
-* **sev_rate_100k:** Severe infection rate per 100,000 population
+    * **"county":** keeps results at the county and group level
 
-* **total_unrec:** Cumulative unrecovered cases
+    * **"statewide":** first collapses to a single row per county and group, then sums across counties to create statewide totals by group, and stamps "statewide" into the region and county columns for joining with other outputs.
 
-* **unrec_rate_100k:** Unrecovered rate per 100,000 population
+
+
+**Returned Output:**
+
+For each call, the function returns one row per geographic unit and group, with:
+
+`group_var`
+
+* Name of the grouping variable (for example "sex", "age_cat", "race_short").
+
+`group_var_cat`
+
+* The category value within that grouping (for example "Female", "18–44", "Hispanic").
+
+`group_pop`
+
+* Population denominator for that geographic unit and group.
+
+`cumulative_infected`, `cumulative_severe`
+
+* Numerators summed at the requested geographic level.
+
+`inf_rate_100k`, `sev_rate_100k`
+
+* Crude rates per 100,000, computed as:
+  * (1e5 * count / group_pop) when group_pop > 0 and zero otherwise.
+
+`total_ca_pop`, `total_group_pop`
+
+* Used as a quality control checkpoint: The total California population value carried forward, and the sum of group_pop across all rows in the returned dataset. This value should match the California population.
 
 
 :::
