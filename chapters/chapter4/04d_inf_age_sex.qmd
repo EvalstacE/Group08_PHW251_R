@@ -74,12 +74,12 @@ cnty_by_race <- calc_rates_rng_grp(
 ##########################
 #--Build table for display
 
-sex_tbl_df <- by_sex %>%
+sex_tbl_df <- hor_by_sex %>%
   select(-c(cumulative_infected, cumulative_severe)) %>%
   rename(
     `Health Officer Region`  = health_officer_region,
     Sex                      = sex,
-    Population               = total_sex_pop,
+    Population               = group_pop,
     `Infection Rate (/100k)` = inf_rate_100k,
     `Severe Rate (/100k)`    = sev_rate_100k
   ) 
@@ -165,38 +165,27 @@ sex_tbl
 
 ```{r, eval = FALSE}
 
-by_sex1 <- combined_df %>%
-  #--only last week (52)
-  filter(mmwr_week == 52) %>%
-  
-  #--one row per region–county–sex 
-  group_by(health_officer_region, county, sex) %>%
-  summarise(
-    total_sex_pop       = first(total_sex_pop),
-    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
-    cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
-    .groups = "drop"
-  ) 
+##########################
+#--Prepare dataframe
+##--see 04i_calc_rates_rng_grp.R function
+###--in 'functions/' folder
 
-by_sex <- by_sex1 %>%  
-  #--sum county pops and infectionswithin each region–sex
-  group_by(health_officer_region, sex) %>%
-  summarise(
-    total_sex_pop       = sum(total_sex_pop, na.rm = TRUE),
-    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
-    cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
-    inf_rate_100k       = round((10^5*cumulative_infected/total_sex_pop)),
-    sev_rate_100k       = round((10^5*cumulative_severe/total_sex_pop)),
-    .groups = "drop"
-  )
+hor_by_sex <- calc_rates_rng_grp(
+  df        = combined_df,
+  group_var = sex,
+  pop_col   = total_sex_pop
+)
   
 
-sex_tbl_df <- by_sex %>%
+##########################
+#--Build table for display
+
+sex_tbl_df <- hor_by_sex %>%
   select(-c(cumulative_infected, cumulative_severe)) %>%
   rename(
     `Health Officer Region`  = health_officer_region,
     Sex                      = sex,
-    Population               = total_sex_pop,
+    Population               = group_pop,
     `Infection Rate (/100k)` = inf_rate_100k,
     `Severe Rate (/100k)`    = sev_rate_100k
   ) 
