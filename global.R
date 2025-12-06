@@ -64,7 +64,18 @@ df           <- combined_df
 
 cnty_rates_df <- all_rates_df %>%
   filter(geo_level == "county", group_var == "All") %>%
-  select(county, inf_rate_100k, sev_rate_100k)
+  select(county, inf_rate_100k, sev_rate_100k, group_pop, total_ca_pop)%>%
+  mutate(pop_prop = 100*group_pop / total_ca_pop) %>%
+  create_EQ_lbl(inf_rate_100k) %>%
+  create_EQ_lbl(sev_rate_100k) 
+
+
+top_cnty_rates <- ca_cnty_sf %>%
+  filter(
+    inf_rate_100k > 4648 |
+      sev_rate_100k > 195
+  ) %>%
+  distinct()
 
 
 hor_rates_df <- all_rates_df %>%
