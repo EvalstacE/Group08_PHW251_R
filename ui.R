@@ -5,19 +5,60 @@ theme = bs_theme(
     version = 5, 
     bootswatch = "cosmo"
 ),
+
+
+
+layout_column_wrap(width = 1/2,
+                   
+   layout_column_wrap(width = 1,
+      heights_equal = "row",
+      
+      actionButton("reset_cnty", "Clear Selection", width = "200px"),
+      leafletOutput("cnty_map")
+   ), 
+   
+   layout_column_wrap(width = 1,
+      heights_equal = "row",
+      
+      actionButton("reset_hor", "Clear Selection", width = "200px"),
+      leafletOutput("hor_map")
+   )
+                   
+),
+
   
      
-layout_column_wrap( 
-    style = "margin: 0rem !important; margin-top: 0.5rem !important;",
-    width = 1,
-    heights_equal = "row",
+
+layout_sidebar(
+  sidebar = 
     
-    uiOutput("week_slider"),
+    tagList(
+        radioButtons(
+          inputId = "region_selector", 
+          label   = "Select Region",
+          choices = unique(dem_df$geo_level)
+        ), 
+      
+        selectInput(
+          inputId = "dem_selector", 
+          label   = "Select Demographic",
+          choices = unique(dem_df$group_var),
+          multiple = FALSE
+        )
+    ), 
+  
+  DT::DTOutput("dem_table")
+  
+)
     
-    uiOutput("mmwr_wk_label"), 
     
-    uiOutput("two_map_ui")
-  )
+
+    
+
+    
+    
+
+
 
 
 ##############
