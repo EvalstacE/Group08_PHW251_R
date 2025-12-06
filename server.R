@@ -90,9 +90,9 @@ observeEvent(input$cnty_map_shape_click, {
     clearGroup("selected") %>%
     addPolygons(
       data        = cnty_sf %>% dplyr::filter(county == click$id),
-      fillColor   = "#fbd113",
+      fillColor   = lgt_clr,
       fillOpacity = 0.2, 
-      color       = "#002e6d",
+      color       = drk_clr,
       weight      = 2,
       group       = "selected"
     )
@@ -110,9 +110,9 @@ observeEvent(input$hor_map_shape_click, {
     clearGroup("selected") %>%
     addPolygons(
       data        = hor_sf %>% dplyr::filter(health_officer_region == click$id),
-      fillColor   = "#fbd113",
+      fillColor   = lgt_clr,
       fillOpacity = 0.2, 
-      color       = "#002e6d",
+      color       = drk_clr,
       weight      = 2,
       group       = "selected"
     )

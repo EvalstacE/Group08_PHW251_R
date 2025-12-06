@@ -28,8 +28,15 @@ leaflet_ca_blank <- function(
 }
 
 
+cnty_pal <- colorNumeric(
+  palette = custom_pal,
+  domain  = cnty_pnts$sev_rate_100k
+)
 
-
+hor_pal <- colorNumeric(
+  palette = custom_pal,
+  domain = hor_pnts$sev_rate_100k
+  )
 
 make_cnty_basemap <- function(cnty_sf, cnty_pnts) {
   leaflet_ca_blank(map_id = "cnty_map") %>%
@@ -43,7 +50,7 @@ make_cnty_basemap <- function(cnty_sf, cnty_pnts) {
       layerId = ~county,
       highlightOptions = highlightOptions(
         weight      = 2,
-        color       = "#002e6d",
+        color       = drk_clr,
         fillOpacity = 0.3,
         bringToFront = FALSE
       )
@@ -55,8 +62,8 @@ make_cnty_basemap <- function(cnty_sf, cnty_pnts) {
       radius      = ~radius,         
       stroke      = TRUE,
       weight      = 1,
-      color       = "#002e6d",
-      fillColor   = "#fbd113",
+      color       = drk_clr,
+      fillColor   = ~cnty_pal(sev_rate_100k),
       fillOpacity = 0.9
     )
   
@@ -79,14 +86,24 @@ make_hor_basemap <- function(cnty_sf, hor_sf) {
       data        = hor_sf,
       fillColor   = "#dddbcf",
       color       = "#cdcabd",
-      fillOpacity = 0.65,
+      fillOpacity = 0.5,
       weight      = 1.5,
       layerId     = ~health_officer_region,   
       highlightOptions = highlightOptions(
         weight      = 2,
-        color       = "#002e6d",
+        color       = drk_clr,
         fillOpacity = 0.8,
-        bringToFront = TRUE
+        bringToFront = FALSE
       )
+    ) %>%
+    
+    addCircleMarkers(
+      data        = hor_pnts,
+      radius      = ~radius,         
+      stroke      = TRUE,
+      weight      = 1,
+      color       = drk_clr,
+      fillColor   = ~hor_pal(sev_rate_100k),
+      fillOpacity = 0.9
     )
 }

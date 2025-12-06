@@ -23,6 +23,13 @@ library(htmltools)
 library(htmlwidgets)
 library(jsonlite)
 library(bsicons)
+library(classInt)
+library(RColorBrewer)
+library(viridis)
+library(viridisLite)
+library(rcartocolor)
+
+
 
 options(tigris_use_cache = TRUE)
 
@@ -76,12 +83,16 @@ cnty_pnts <- geoms$ca_cnty_pnts %>%
   dplyr::mutate(
     sev_rate_100k = ifelse(is.na(sev_rate_100k), 0, sev_rate_100k),
     radius = scales::rescale(sev_rate_100k, to = c(4, 18))
-  )
-
+  ) 
 
 
 hor_pnts <- geoms$hor_pnts %>% rename("health_officer_region" = "hlth_f_") %>%
-  left_join(hor_rates_df, by = "health_officer_region")
+  left_join(hor_rates_df, by = "health_officer_region")%>%
+  dplyr::mutate(
+    sev_rate_100k = ifelse(is.na(sev_rate_100k), 0, sev_rate_100k),
+    radius = scales::rescale(sev_rate_100k, to = c(4, 18))
+  ) 
+
 
 hor_sf   <- geoms$hor_sf %>% select(hlth_f_) %>% rename("health_officer_region" = "hlth_f_") %>%
   left_join(hor_rates_df, by = "health_officer_region")
@@ -90,5 +101,17 @@ hor_sf   <- geoms$hor_sf %>% select(hlth_f_) %>% rename("health_officer_region" 
 
 
 
+##-- color palettes for maps
 
+lgt_clr <- "#fcebed"
+drk_clr <- "#1e0c47"
+
+
+custom_pal <- c(
+  "#fcebed",
+  "#fdacb8",
+  "#b93f76",
+  "#52176b",
+  "#1e0c47"
+)
 
