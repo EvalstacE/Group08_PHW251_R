@@ -28,6 +28,8 @@ library(RColorBrewer)
 library(viridis)
 library(viridisLite)
 library(rcartocolor)
+library(DT)
+library(magrittr)
 
 
 
@@ -64,18 +66,25 @@ df           <- combined_df
 
 cnty_rates_df <- all_rates_df %>%
   filter(geo_level == "county", group_var == "All") %>%
-  select(county, inf_rate_100k, sev_rate_100k, group_pop, total_ca_pop)%>%
+  select(county, cumulative_infected, inf_rate_100k, cumulative_severe, sev_rate_100k, group_pop, total_ca_pop)%>%
   mutate(pop_prop = 100*group_pop / total_ca_pop) %>%
   create_EQ_lbl(inf_rate_100k) %>%
   create_EQ_lbl(sev_rate_100k) 
 
 
-top_cnty_rates <- ca_cnty_sf %>%
+top_cnty_rates <- cnty_rates_df %>%
   filter(
-    inf_rate_100k > 4648 |
-      sev_rate_100k > 195
+    inf_rate_100k > 23233 |
+    sev_rate_100k > 598
   ) %>%
   distinct()
+
+
+top_sev_df <- cnty_rates_df %>%
+  filter(sev_rate_100k > 598) %>%
+  distinct()
+
+
 
 
 hor_rates_df <- all_rates_df %>%
@@ -93,15 +102,14 @@ cnty_pnts <- geoms$ca_cnty_pnts %>%
   left_join(cnty_rates_df, by = "county")%>%
   dplyr::mutate(
     sev_rate_100k = ifelse(is.na(sev_rate_100k), 0, sev_rate_100k),
-    radius = scales::rescale(sev_rate_100k, to = c(4, 18))
+    radius = scales::rescale(sev_rate_100k, to = c(3, 15))
   ) 
 
 
 hor_pnts <- geoms$hor_pnts %>% rename("health_officer_region" = "hlth_f_") %>%
   left_join(hor_rates_df, by = "health_officer_region")%>%
   dplyr::mutate(
-    sev_rate_100k = ifelse(is.na(sev_rate_100k), 0, sev_rate_100k),
-    radius = scales::rescale(sev_rate_100k, to = c(4, 18))
+    sev_rate_100k = ifelse(is.na(sev_rate_100k), 0, sev_rate_100k)
   ) 
 
 
@@ -116,6 +124,8 @@ hor_sf   <- geoms$hor_sf %>% select(hlth_f_) %>% rename("health_officer_region" 
 
 lgt_clr <- "#fcebed"
 drk_clr <- "#1e0c47"
+drkst_clr <- "#16043d"
+grid_clr <- "#2c1d4e"
 
 
 custom_pal <- c(
@@ -124,5 +134,24 @@ custom_pal <- c(
   "#b93f76",
   "#52176b",
   "#1e0c47"
+)
+
+
+cnty_pal <- colorNumeric(
+  palette = custom_pal, 
+  domain  = cnty_pnts$sev_rate_100k
+)
+
+hor_pal <- colorNumeric(
+  palette = custom_pal,
+  domain = hor_pnts$sev_rate_100k
+)
+
+m <- list(
+  l = 50,
+  r = 50,
+  b = 50,
+  t = 50,
+  pad = 20
 )
 

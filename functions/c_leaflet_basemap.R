@@ -1,5 +1,5 @@
 leaflet_ca_blank <- function(
-    initial_zoom   = 5.4,
+    initial_zoom   = 6,
     initial_center = c(37.25, -119.5),
     ...
 ) {
@@ -28,15 +28,6 @@ leaflet_ca_blank <- function(
 }
 
 
-cnty_pal <- colorNumeric(
-  palette = custom_pal,
-  domain  = cnty_pnts$sev_rate_100k
-)
-
-hor_pal <- colorNumeric(
-  palette = custom_pal,
-  domain = hor_pnts$sev_rate_100k
-  )
 
 make_cnty_basemap <- function(cnty_sf, cnty_pnts) {
   leaflet_ca_blank(map_id = "cnty_map") %>%

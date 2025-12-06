@@ -37,7 +37,7 @@ make_compact_labels <- function(brks, add_plus_to_last = TRUE, round_fn = floor)
 }
 
 
-create_EQ_lbl <- function(data, var, n = 6, new_col = NULL,
+create_EQ_lbl <- function(data, var, n = 7, new_col = NULL,
                           round_fn = floor,
                           compact = TRUE) {
   
@@ -123,23 +123,6 @@ add_EQ_labels <- function(
       )
   }
   
-  out <- data
-  
-  for (i in seq_along(vars)) {
-    var_name <- names(vars)[i]
-    new_name <- vars[[i]]
-    
-    # set number of bins:
-    n_val <- if (new_name == "case_breaks") 7 else 5
-    
-    out <- out %>%
-      create_EQ_lbl(
-        var      = !!rlang::sym(var_name),
-        n        = n_val,
-        new_col  = new_name,
-        round_fn = floor
-      )
-  }
-  
-  out
+data
+
 }

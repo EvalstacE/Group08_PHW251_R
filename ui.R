@@ -8,51 +8,46 @@ theme = bs_theme(
 
 
 
-layout_column_wrap(width = 1/2,
-                   
-   layout_column_wrap(width = 1,
-      heights_equal = "row",
+layout_column_wrap(
+  width = NULL, height = 600,
+  style = css(grid_template_columns = "1.5fr 1fr"),
+  
+    leafletOutput("cnty_map"),
+    
+    card(
       
-      actionButton("reset_cnty", "Clear Selection", width = "200px"),
-      leafletOutput("cnty_map")
-   ), 
-   
-   layout_column_wrap(width = 1,
-      heights_equal = "row",
+      uiOutput("cnty_txt"),
       
-      actionButton("reset_hor", "Clear Selection", width = "200px"),
-      leafletOutput("hor_map")
-   )
-                   
+      selectInput(
+        inputId = "dem_selector", 
+        label   = "Select Demographic",
+        choices = unique(dem_df$group_var),
+        multiple = FALSE
+      ),
+      
+      DT::DTOutput("dem_table")
+      
+      
+    )
+  
+  
 ),
 
-  
-     
+actionButton("reset_cnty", "Clear Selection"),  
 
-layout_sidebar(
-  sidebar = 
-    
-    tagList(
-        radioButtons(
-          inputId = "region_selector", 
-          label   = "Select Region",
-          choices = unique(dem_df$geo_level)
-        ), 
-      
-        selectInput(
-          inputId = "dem_selector", 
-          label   = "Select Demographic",
-          choices = unique(dem_df$group_var),
-          multiple = FALSE
+
+layout_column_wrap(width = 1,
+      card(
+        card_header(
+          "County Proportion of the State's Population and Severe Infection Rate"
+          ),
+          card_body(
+            plotlyOutput("cnty_scatter")
+
         )
-    ), 
-  
-  DT::DTOutput("dem_table")
-  
+      )
+      
 )
-    
-    
-
     
 
     
