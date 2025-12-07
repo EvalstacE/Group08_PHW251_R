@@ -34,22 +34,24 @@ plotly_drk_theme <- function(plt, base_color = lgt_clr) {
       
       # x-axis styling
       xaxis = list(
+        automargin = TRUE,
+        zeroline = FALSE,
         title    = list(
-          font = list(size = 10, color = base_color)
+          font = list(size = 16, color = base_color)
         ),
-        tickfont = list(size = 8, color = base_color),
-        gridcolor = grid_clr,
-        zeroline  = FALSE
+        tickfont = list(size = 12, color = base_color),
+        gridcolor = grid_clr
       ),
       
       # y-axis styling
       yaxis = list(
+        automargin = TRUE,
+        zeroline = FALSE,
         title    = list(
-          font = list(size = 10, color = base_color)
-        ),
-        tickfont = list(size = 8, color = base_color),
-        gridcolor = grid_clr,
-        zeroline  = FALSE
+          font = list(size = 16, color = base_color)
+          ),
+        tickfont = list(size = 12, color = base_color),
+        gridcolor = grid_clr
       ),
       
       # title styling (do not change text, just font/color)

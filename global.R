@@ -30,6 +30,8 @@ library(viridisLite)
 library(rcartocolor)
 library(DT)
 library(magrittr)
+library(plotly)
+library(glue)
 
 
 
@@ -95,8 +97,15 @@ hor_rates_df <- all_rates_df %>%
 ## - Bring in shapefiles
 geoms <- bring_in_sfs()
 
-cnty_sf  <- geoms$ca_cnty_sf %>% select(county) %>%
-  left_join(cnty_rates_df, by = "county")
+cnty_sf <- geoms$ca_cnty_sf %>%
+  select(county) %>%
+  left_join(cnty_rates_df, by = "county") %>%
+  mutate(
+    hover_lbl = glue(
+      "<strong>{county}</strong><br>
+       Rate: <strong>{round(sev_rate_100k, 1)}</strong>"
+    ) %>% as.character()
+  )
 
 cnty_pnts <- geoms$ca_cnty_pnts %>%
   left_join(cnty_rates_df, by = "county")%>%
@@ -124,8 +133,8 @@ hor_sf   <- geoms$hor_sf %>% select(hlth_f_) %>% rename("health_officer_region" 
 
 lgt_clr <- "#fcebed"
 drk_clr <- "#1e0c47"
-drkst_clr <- "#16043d"
-grid_clr <- "#2c1d4e"
+drkst_clr <- "#0f172a"
+grid_clr <- "#212738"
 
 
 custom_pal <- c(
@@ -154,4 +163,3 @@ m <- list(
   t = 50,
   pad = 20
 )
-

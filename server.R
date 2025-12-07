@@ -76,6 +76,7 @@ cnty_txt_r <- reactive({
   case_rt_fmt <- scales::comma(round(row$inf_rate_100k, 1))
   sev_fmt <- scales::comma(row$cumulative_severe)
   sev_rt_fmt <- scales::comma(round(row$sev_rate_100k, 1))
+  prop_fmt <- scales::percent(row$pop_prop / 100, accuracy = 0.01) 
   
   paste0(
     "<div class='cnty-header' style='font-size: 1.1rem;'>",
@@ -84,6 +85,9 @@ cnty_txt_r <- reactive({
     "<br>",
     
     "<strong>County population</strong>: ", cnty_pop_fmt,
+    "<br>",
+    "<span style='padding-left: 16px; display: inline-block;'>
+     % of CA: <strong>", prop_fmt, "</strong></span>",
     "<br>",
     
     "<strong>Total Infections: ", case_fmt, "</strong>",
@@ -162,7 +166,7 @@ output$dem_table <- DT::renderDT({
 
 # map outputs
 output$cnty_map <- renderLeaflet({
-  make_cnty_basemap(cnty_sf, cnty_pnts)
+  make_cnty_basemap(cnty_sf, hor_sf, cnty_pnts)
 })
 
 
@@ -229,7 +233,7 @@ output$cnty_scatter <- plotly::renderPlotly({
     text       = ~hover_text,
     hoverinfo  = "text",
     marker     = list(
-      size    = 8,
+      size    = 12,
       color   = "#fdacb8",
       line    = list(color = "#892a68", width = 0.5),
       opacity = 0.8
@@ -244,9 +248,9 @@ output$cnty_scatter <- plotly::renderPlotly({
         x    = ~pop_prop,
         y    = ~sev_rate_100k,
         marker = list(
-          size  = 13,
+          size  = 15,
           color = "rgba(0,0,0,0)",
-          line  = list(color = "#fbd113", width = 2)
+          line  = list(color = "#fbd113", width = 5)
         ),
         hoverinfo  = "skip",
         showlegend = FALSE
@@ -256,8 +260,20 @@ output$cnty_scatter <- plotly::renderPlotly({
   plt <- plt %>%
     plotly::layout(
       margin = m,
-      title = list(text = "")
+      title = list(text = ""),
+      
+      xaxis = list(
+        title = list(text = "Percent of California Population (%)", standoff = 12)
+      ),
+      
+      yaxis = list(
+        automargin = TRUE,
+        title = list(text = "Severe Infection Rate (per 100K)", standoff = 12)
+      )
+      
+      
     ) %>%
+    
     plotly_drk_theme() 
   
   plt
