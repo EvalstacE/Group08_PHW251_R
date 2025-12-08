@@ -11,23 +11,101 @@ source("_common04.R")
 
 
 
-::: {.wide-embed}
+```{r}
+
+state_dem <- all_rates_by_demographic %>%
+  filter(geo_level == "statewide") %>%
+  select(group_var, group_var_cat, inf_rate_100k, sev_rate_100k) %>%
+  group_by(group_var) %>%
+  mutate(
+    hgst_rt  = max(sev_rate_100k, na.rm = TRUE),
+    high_grp = if_else(sev_rate_100k >= hgst_rt, "yes", "no")
+  ) %>%
+  ungroup() %>%
+  arrange(group_var, group_var_cat)
 
 
-```{=html}
+state_list <- state_dem %>%
+  select(-hgst_rt) %>%
+  split(.$group_var)
 
-<iframe 
-  src="https://evalue.shinyapps.io/Group08_cases_dem_app/"
-  width="100%" 
-  height="1800px" 
-  frameborder="0">
-</iframe>
+state_sex  <- state_list$sex
+state_race <- state_list$race_short
+state_age  <- state_list$age_cat
 
 ```
 
-:::
+
+```{r}
+
+##--create the kable outputs
+
+make_state_kable <- function(df, group_name) {
+  
+# conditionally set group_var table label
+demo_label <- dplyr::case_when(
+  group_name == "sex"        ~ "Sex",
+  group_name == "race_short" ~ "Race",
+  group_name == "age_cat"    ~ "Age Group",
+  TRUE                       ~ "Demographic"
+)
+
+# highlight highest rate per demographic group  
+highlight_rows <- which(df$high_grp == "yes")
+  
+  df %>%
+    select(
+      group_var_cat,
+      inf_rate_100k,
+      sev_rate_100k,
+      high_grp
+    ) %>%
+    mutate(
+      inf_rate_100k = scales::comma(inf_rate_100k, accuracy = 1),
+      sev_rate_100k = scales::comma(sev_rate_100k, accuracy = 1)
+    ) %>%
+    rename(
+      !!demo_label            := group_var_cat,
+      `Infection Rate`        = inf_rate_100k,
+      `Severe Infection Rate` = sev_rate_100k
+    ) %>%
+    select(-high_grp) %>%
+    
+    kbl(escape = FALSE, align = "c") %>%
+    
+    row_spec(
+      0,
+      bold       = TRUE,
+      background = "#0f172a",
+      extra_css  = "font-size: 14px!important; color:#ffffff;"
+    ) %>%
+    
+    row_spec(
+      highlight_rows,
+      background = "#fde586",
+      bold       = TRUE
+    ) %>%
+    
+    kable_styling(
+      bootstrap_options = c("bordered", "condensed"),
+      font_size = 12,
+      full_width = FALSE
+    ) %>%
+    column_spec(1:3, extra_css = "padding: 2px 6px !important;")
+}
 
 
+
+state_tables <- lapply(names(state_list), function(nm) {
+  make_state_kable(state_list[[nm]], group_name = nm)
+})
+
+
+names(state_tables) <- names(state_list)
+
+
+
+```
 
 
 

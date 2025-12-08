@@ -52,8 +52,7 @@ book:
       chapters: 
         - chapters/chapter4/04a_outbreak_course.qmd
         - chapters/chapter4/04c_weekly_inf_map.qmd
-        - chapters/chapter4/04b_inf_rate_summary.qmd        
-        - chapters/chapter4/04d_inf_demographics.qmd
+        - chapters/chapter4/04b_cnty_ranks.qmd        
         
   appendices:
     - chapters/apx_library_refs.qmd

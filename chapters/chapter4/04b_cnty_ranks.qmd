@@ -1,0 +1,138 @@
+# Prioritizing State Resources
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+source("_common04.R")
+
+```
+
+
+
+## County Prioritization Method
+
+To identify counties with the greatest burden of infection and severe infection, we developed a ranking system based on age-adjusted infection rates and age-adjusted severe infection rates. This approach highlights counties experiencing consistently elevated disease burden and allows us to identify and target the areas with the greatest need for additional support and resources.
+
+We first calculated statewide percentiles for each age-adjusted rate. Counties were compared against the 90th, 75th, and 50th percentile cut points for both infection and severe infection rates. Counties with rates at or above the 90th percentile were assigned a rank of 1, those between the 75th and 90th percentiles received a rank of 2, those between the 50th and 75th percentiles received a rank of 3, and counties below the 50th percentile received a rank of 4.
+
+Each county received two percentile-based ranks, one for its adjusted infection rate and one for its adjusted severe infection rate. These two values were summed to create an overall priority score, which reflects the combined burden of disease and severe disease at the county level.
+
+* **Top Priority (score of 2):** Both the age-adjusted infection rate and the age-adjusted severe infection rate for the county fall at or above the 90th percentile statewide.
+
+* **Second Priority (score of 3 or 4):** A county is classified as second priority if either one rate is at or above the 90th percentile and the other is at or above the 75th percentile, or if both rates fall within the 75th percentile range
+
+
+
+
+
+
+::: {.wide-embed}
+
+
+```{=html}
+
+<iframe 
+  src="https://evalue.shinyapps.io/Group08_cases_dem_app/"
+  width="100%" 
+  height="2000px" 
+  frameborder="0">
+</iframe>
+
+```
+
+:::
+
+
+
+
+
+
+|
+|
+|
+
+
+#### Supporting Code: 
+
+*Creating the priority scores / county ranks:* 
+
+
+```{r, eval = FALSE}
+
+cnty_rates_df <- all_rates_dem_adj %>%
+  filter(geo_level == "county", group_var_cat == "Overall") %>%
+  select(health_officer_region, county, group_pop,
+         cumulative_infected, cumulative_severe,
+         inf_rate_100k, sev_rate_100k
+         ) %>%
+  drop_na() %>%
+  distinct()
+
+cnty_adj_rates <- all_rates_dem_adj %>%
+  filter(geo_level == "county", group_var == "age_cat") %>%
+  select(health_officer_region, county, 
+         adj_rate_100k, adj_sev_100k, 
+         adj_sev_joint_rate) %>%
+  drop_na() %>%
+  distinct()
+
+
+cnty_ranked_df <- cnty_adj_rates %>%
+##--compute quantile cutpoints for each metric
+  mutate(
+    inf_p90 = quantile(adj_rate_100k,    0.90, na.rm = TRUE),
+    inf_p75 = quantile(adj_rate_100k,    0.75, na.rm = TRUE),
+    inf_p50 = quantile(adj_rate_100k,    0.50, na.rm = TRUE),
+    
+    sev_p90 = quantile(adj_sev_100k,     0.90, na.rm = TRUE),
+    sev_p75 = quantile(adj_sev_100k,     0.75, na.rm = TRUE),
+    sev_p50 = quantile(adj_sev_100k,     0.50, na.rm = TRUE)
+  ) %>%
+##--assign ranks based on those cutpoints
+  mutate(
+    inf_q_rank = case_when(
+      adj_rate_100k    >= inf_p90 ~ 1L,             
+      adj_rate_100k    >= inf_p75 ~ 2L,             
+      adj_rate_100k    >= inf_p50 ~ 3L,             
+      TRUE                         ~ 4L           
+    ),
+    sev_q_rank = case_when(
+      adj_sev_100k     >= sev_p90 ~ 1L,
+      adj_sev_100k     >= sev_p75 ~ 2L,
+      adj_sev_100k     >= sev_p50 ~ 3L,
+      TRUE                         ~ 4L
+    ),
+    
+    rank_sum = inf_q_rank + sev_q_rank,
+    
+    priority_tier = case_when(
+      rank_sum == 2              ~ "Top Priority",      
+      between(rank_sum, 3, 4)    ~ "Second Priority",  
+      TRUE                       ~ "Third Priority"
+    ),
+    
+    priority_tier = factor(
+      priority_tier,
+      levels = c("Top Priority", "Second Priority", "Third Priority")
+    )
+  ) %>%
+##--drop reference points
+  select(-starts_with("inf_p"), -starts_with("sev_p")) %>%
+  arrange(priority_tier, desc(adj_sev_100k), desc(adj_rate_100k)) %>%
+  left_join(cnty_rates_df, by = c("health_officer_region", "county")) %>%
+  rename("total_cnty_pop" = "group_pop") %>%
+  mutate(pop_prop = total_cnty_pop / sum(total_cnty_pop))
+
+
+
+#########################################
+## Export to 'data/cleaned_data/' dir ##
+#########################################
+
+#write.csv(cnty_ranked_df, here("data/cleaned_data/cnty_ranked_df.csv"), row.names = FALSE)
+
+```
+
