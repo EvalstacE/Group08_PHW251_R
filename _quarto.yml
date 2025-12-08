@@ -36,6 +36,12 @@ book:
 
   chapters:
     - index.qmd
+    
+    - part: "Analysis"
+      chapters: 
+        - chapters/chapter4/04a_outbreak_course.qmd
+        - chapters/chapter4/04b_cnty_ranks.qmd        
+
     - part: "Data Preparation"
       chapters: 
         - chapters/chapter3/03a_project_setup.qmd
@@ -46,12 +52,7 @@ book:
         - chapters/chapter3/03f_population_counts.qmd
         - chapters/chapter3/03g_creating_final_datasets.qmd
         - chapters/chapter3/03h_final_data_dictionary.qmd
-        - chapters/chapter3/03i_prep_dem_df.qmd        
-    
-    - part: "Analysis"
-      chapters: 
-        - chapters/chapter4/04a_outbreak_course.qmd
-        - chapters/chapter4/04b_cnty_ranks.qmd        
+        - chapters/chapter3/03i_prep_dem_df.qmd 
         
   appendices:
     - chapters/apx_library_refs.qmd

@@ -8,32 +8,43 @@
 |
 
 
-# Project Description {.unnumbered}
+----------------
 
-You have been given three datasets: dataset one contains weekly data about a novel infectious respiratory disease outbreak containing the number of cases and case severity by demographic categories (age category, race, sex) and geographic categories (county) for California counties (except for Los Angeles county); dataset two contains morbidity and population data by similar demographic and geographic categories for Los Angeles county, and dataset three populations estimates for 2023 by county and demographic categories. 
 
-**Our role:**
+# Problem Statement {.unnumbered}
 
-You are an employee of the California Department of Public Health working on infectious disease surveillance.
+In the early spring of 2023, a novel infectious respiratory disease began spreading throughout California. Our team at the California Department of Public Health was asked to characterize the outbreak and identify areas and populations that are being impacted the most.
 
-**Research question:**
+This report examines the progression of infections from May through December 2023, compares disease burden across counties and demographic groups, and develops an approach for prioritizing prevention and treatment resources based on available surveillance data. To address these objectives, we integrate weekly infection counts with county-level population estimates, including age- and race-specific distributions.
 
-Your supervisors are interested to know the course of the outbreak, if it is disproportionately affecting certain demographic or geographic populations and how prevention and treatment resources should be allocated.
+|
 
-**Data:**
 
-You have been given three datasets: 
+All data and statistics summarized in this report were compiled from three primary sources: 
 
-  * **Dataset one (sim_novelid_CA.csv)** contains weekly data about cases and case severity by demographic categories (age category, race, sex) and geographic categories (county) for California counties (except for Los Angeles county); 
-  
-  * **Dataset two (sim_novelid_LACounty.csv)** contains population data by similar demographic and geographic categories for Los Angeles county.
-  
-  * **Dataset three (ca_pop_2023.csv)** population estimates data by demographic category and county for 2023.  
-  
-  
-**Data Merging, Summarization, and Reporting:**
+**1. Statewide Weekly Infections** by demographics for all counties except Los Angeles
 
-For milestones 4-6, you will join these datasets together to create a single dataset with aggregated summary morbidity and/or severity metrics and calculate rates. This dataset should be used to generate print-worthy visualizations (at least one table and one graph) to be included in the final report.
+**2. Los Angeles Weekly Infections,** provided separately from the state's reporting system
+
+**3. County Population Estimates**  by race and age from the California Department of Finance
+
+
+|
+
+
+Our analysis centers on four primary questions::
+
+* What is the **current status** of the outbreak in California? 
+
+* How has the **course of the outbreak** evolved from May 2023 - December 2023 (present)?
+
+* Which geographic regions or demographic groups are experiencing **disproportionately high burdens of disease**?
+
+* How can we use the reported infection data to-date to develop **priorities for allocating prevention and treatment resources**?
+
+
+|
+
 
 
 
