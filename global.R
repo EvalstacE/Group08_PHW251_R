@@ -61,16 +61,17 @@ purrr::walk(csv_files, function(file_path) {
 
 
 ## - dataframes to work with
-all_rates_df <- all_rates_by_demographic
-dem_df       <- all_rates_by_demographic %>% filter(geo_level != "statewide", group_var != "All")
+dem_df       <- all_rates_dem_adj %>% filter(geo_level != "statewide", group_var != "All")
 df           <- combined_df
 
-cnty_rates_df <- all_rates_df %>%
-  filter(geo_level == "county", group_var == "All") %>%
-  select(county, cumulative_infected, inf_rate_100k, cumulative_severe, sev_rate_100k, group_pop, total_ca_pop)%>%
-  mutate(pop_prop = 100*group_pop / total_ca_pop) %>%
-  create_EQ_lbl(inf_rate_100k) %>%
-  create_EQ_lbl(sev_rate_100k) 
+cnty_rates_df <- all_rates_dem_adj %>%
+  filter(geo_level == "county", group_var_cat == "Overall") %>%
+  select(health_officer_region, county, group_pop,
+         cumulative_infected, cumulative_severe,
+         inf_rate_100k, sev_rate_100k
+  ) %>%
+  drop_na() %>%
+  distinct() 
 
 
 top_cnty_rates <- cnty_rates_df %>%
