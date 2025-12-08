@@ -68,23 +68,15 @@ make_cnty_basemap <- function(cnty_sf, hor_sf, cnty_pnts) {
   ) %>%
     
   addCircleMarkers(
-      data        = cnty_pnts,
+      data        = cnty_dorl_centroids,
       radius      = ~radius,         
       stroke      = TRUE,
       weight      = 1,
       color       = drk_clr,
-      fillColor   = ~cnty_pal(sev_rate_100k),
-      fillOpacity = 0.9
-  ) %>%
-    
-    addLegend(
-      position = "bottomleft",
-      pal      = cnty_pal,
-      values   = cnty_pnts$sev_rate_100k,
-      title    = "Severe Infection Rate",
-      opacity  = 0.9
-    )
-  
+      fillColor   = ~pal_priority(priority_tier),
+      fillOpacity = 0.9,
+      
+  ) 
   
 }
 

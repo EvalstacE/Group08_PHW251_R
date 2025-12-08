@@ -33,6 +33,7 @@ library(viridis)
 library(viridisLite)
 
 library(leaflet)
+library(cartogram)
 library(sf)
 
 
@@ -60,76 +61,7 @@ purrr::walk(csv_files, function(file_path) {
 })
 
 
-## - dataframes to work with
-dem_df       <- all_rates_dem_adj %>% filter(geo_level != "statewide", group_var != "All")
-df           <- combined_df
-
-cnty_rates_df <- all_rates_dem_adj %>%
-  filter(geo_level == "county", group_var_cat == "Overall") %>%
-  select(health_officer_region, county, group_pop,
-         cumulative_infected, cumulative_severe,
-         inf_rate_100k, sev_rate_100k
-  ) %>%
-  drop_na() %>%
-  distinct() 
-
-
-top_cnty_rates <- cnty_rates_df %>%
-  filter(
-    inf_rate_100k > 23233 |
-    sev_rate_100k > 598
-  ) %>%
-  distinct()
-
-
-top_sev_df <- cnty_rates_df %>%
-  filter(sev_rate_100k > 598) %>%
-  distinct()
-
-
-
-
-hor_rates_df <- all_rates_df %>%
-  filter(geo_level == "region", group_var == "All") %>%
-  select(health_officer_region, inf_rate_100k, sev_rate_100k)
-
-
-## - Bring in shapefiles
-geoms <- bring_in_sfs()
-
-cnty_sf <- geoms$ca_cnty_sf %>%
-  select(county) %>%
-  left_join(cnty_rates_df, by = "county") %>%
-  mutate(
-    hover_lbl = glue(
-      "<strong>{county}</strong><br>
-       Rate: <strong>{round(sev_rate_100k, 1)}</strong>"
-    ) %>% as.character()
-  )
-
-cnty_pnts <- geoms$ca_cnty_pnts %>%
-  left_join(cnty_rates_df, by = "county")%>%
-  dplyr::mutate(
-    sev_rate_100k = ifelse(is.na(sev_rate_100k), 0, sev_rate_100k),
-    radius = scales::rescale(sev_rate_100k, to = c(3, 15))
-  ) 
-
-
-hor_pnts <- geoms$hor_pnts %>% rename("health_officer_region" = "hlth_f_") %>%
-  left_join(hor_rates_df, by = "health_officer_region")%>%
-  dplyr::mutate(
-    sev_rate_100k = ifelse(is.na(sev_rate_100k), 0, sev_rate_100k)
-  ) 
-
-
-hor_sf   <- geoms$hor_sf %>% select(hlth_f_) %>% rename("health_officer_region" = "hlth_f_") %>%
-  left_join(hor_rates_df, by = "health_officer_region")
-
-
-
-
-
-##-- color palettes for maps
+##-- color palettes and objects for maps and charts
 
 lgt_clr <- "#fcebed"
 drk_clr <- "#1e0c47"
@@ -145,16 +77,13 @@ custom_pal <- c(
   "#1e0c47"
 )
 
-
-cnty_pal <- colorNumeric(
-  palette = custom_pal, 
-  domain  = cnty_pnts$sev_rate_100k
+rnk_pal <- c(
+  "#1e0c47",
+  "#854d88",
+  "#f1f0ea"
 )
 
-hor_pal <- colorNumeric(
-  palette = custom_pal,
-  domain = hor_pnts$sev_rate_100k
-)
+
 
 m <- list(
   l = 50,
@@ -163,3 +92,137 @@ m <- list(
   t = 50,
   pad = 20
 )
+
+
+##################################
+## - demographic rates by county 
+##--(excludes statewide data)
+dem_df  <- all_rates_dem_adj %>% 
+  filter(geo_level == "county", group_var != "All") %>%
+  select(county, group_var, group_var_cat, inf_rate_100k, sev_rate_100k) %>%
+  group_by(county, group_var) %>%
+  mutate(
+    hgst_rt  = max(sev_rate_100k, na.rm = TRUE),
+    high_grp = if_else(sev_rate_100k >= hgst_rt, "yes", "no")
+  ) %>%
+  ungroup() %>%
+  arrange(group_var, group_var_cat)
+
+
+dem_choices <- c(
+  "Age Group"      = "age_cat",
+  "Race/Ethnicity" = "race_short",
+  "Sex"            = "sex"
+)
+
+
+
+
+cnty_ranked_df <- cnty_ranked_df %>%
+  mutate(
+    county_label = case_when(
+      priority_tier == "Top Priority" ~ 
+        glue("<span style='font-weight:bold; font-size:12px; color:#52176b'>{county}</span>"),
+      
+      priority_tier == "Second Priority" ~ 
+        glue("<span style='font-weight:bold; font-size:12px; color:#854d88'>{county}</span>"),
+      
+      TRUE  ~ 
+        glue("<span style='font-size:8px; color:#555555'>{county}</span>")),
+    
+    priority_tier = factor(
+      priority_tier,
+      levels = c("Top Priority", "Second Priority", "Third Priority")),
+    pop_prop = 100 * pop_prop,
+    
+    county = forcats::fct_reorder(county, adj_sev_100k)
+  ) 
+
+
+cnty_ranked_plot_df <- cnty_ranked_df %>%
+  mutate(
+    priority_tier = factor(
+      priority_tier,
+      levels = c("Top Priority", "Second Priority", "Third Priority")
+    ),
+    county = forcats::fct_reorder(county, adj_sev_100k, .desc = TRUE)
+  ) %>%
+  mutate(
+    county_chr   = as.character(county),
+    priority_chr = as.character(priority_tier),
+    county_label_html = dplyr::case_when(
+      priority_chr == "Top Priority"   ~ glue::glue("<b>{county_chr}</b>"),
+      priority_chr == "Second Priority" ~ glue::glue("<b>{county_chr}</b>"),
+      TRUE                             ~ county_chr
+    ),
+  
+    hover_lbl = glue(
+      "<b>{county}</b>
+       Severe AAR: <b>{scales::comma(round(adj_sev_100k, 1))}</b>"
+    ) %>% as.character()
+  )
+
+tick_labels <- cnty_ranked_plot_df %>%
+  dplyr::distinct(county, county_label_html) %>%
+  dplyr::arrange(county) 
+
+
+
+
+#########################
+## - Bring in shapefiles
+geoms <- bring_in_sfs()
+
+hor_sf   <- geoms$hor_sf %>% select(hor)
+
+
+cnty_sf <- geoms$ca_cnty_sf %>%
+  select(county) %>%
+  left_join(cnty_ranked_df, by = "county") %>%
+  
+  mutate(
+    priority_tier = factor(
+      priority_tier,
+      levels = c("Top Priority", "Second Priority", "Third Priority")
+    ), 
+    
+    hover_lbl = glue(
+      "<strong>{county}</strong><br>
+       Severe AAR: <strong>{scales::comma(round(adj_sev_100k, 1))}</strong>"
+    ) %>% as.character()
+  )
+
+
+cnty_centroids <- cnty_sf %>%
+  st_centroid() 
+
+cnty_dorl <- cnty_sf %>%
+  st_transform(3310) %>%
+  mutate(dorl_wt = 0.8) %>% 
+  cartogram_dorling(
+    weight  = "dorl_wt",
+    k       = 0.2,  
+    itermax = 200
+  )
+
+cnty_dorl_centroids <- cnty_dorl %>%
+  st_centroid()
+
+cnty_dorl_centroids <- cnty_dorl_centroids %>%
+  st_transform(4326) %>%
+  mutate(
+    lng = st_coordinates(.)[, 1],
+    lat = st_coordinates(.)[, 2],
+    radius = scales::rescale(adj_sev_100k, to = c(3, 15))
+  )
+
+# palette
+pal_priority <- colorFactor(
+  palette = c(
+    "Top Priority"            = "#1e0c47",
+    "Second Priority"         = "#854d88",
+    "Third/Fourth Priority"   = "#f1f0ea"
+  ),
+  domain  = cnty_dorl_centroids$priority_tier
+)
+

@@ -11,14 +11,11 @@ server <- function(input, output) {
 filt_dem_df <- reactive({
   req(dem_df, input$dem_selector)
     
-    # capture current map selections so this reactive depends on them
-    sc <- selected_county()
-    
-    df <- dem_df %>%
-      dplyr::filter(
-        geo_level == "county",
-        group_var == input$dem_selector
-      )
+  # map selection
+  sc <- selected_county()
+  
+  df <- dem_df %>%
+    dplyr::filter(group_var == input$dem_selector)
     
   # apply map-based filters if a selection exists
     if (!is.null(sc)) {
@@ -32,12 +29,12 @@ filt_dem_df <- reactive({
 
 
 filt_cnty_df <- reactive({
-  req(cnty_rates_df)
+  req(cnty_ranked_df)
   
   # capture current map selections so this reactive depends on them
   sc <- selected_county()
   
-  df <- cnty_rates_df %>%
+  df <- cnty_ranked_df %>%
     dplyr::filter(
       county == sc
     )
@@ -71,11 +68,11 @@ cnty_txt_r <- reactive({
   row <- df[1, ]
   
   county_name  <- row$county
-  cnty_pop_fmt <- scales::comma(row$group_pop)
+  cnty_pop_fmt <- scales::comma(row$total_cnty_pop)
   case_fmt <- scales::comma(row$cumulative_infected)
-  case_rt_fmt <- scales::comma(round(row$inf_rate_100k, 1))
+  case_rt_fmt <- scales::comma(round(row$adj_rate_100k, 1))
   sev_fmt <- scales::comma(row$cumulative_severe)
-  sev_rt_fmt <- scales::comma(round(row$sev_rate_100k, 1))
+  sev_rt_fmt <- scales::comma(round(row$adj_sev_100k, 1))
   prop_fmt <- scales::percent(row$pop_prop / 100, accuracy = 0.01) 
   
   paste0(
@@ -93,13 +90,13 @@ cnty_txt_r <- reactive({
     "<strong>Total Infections: ", case_fmt, "</strong>",
     "<br>",
     "<span style='padding-left: 12px; display: inline-block;'>
-     Infection rate: <strong>", case_rt_fmt, "</strong> per 100K</span>",
+     Infection AAR: <strong>", case_rt_fmt, "</strong> per 100K</span>",
     "<br>",
     
     "<strong>Total Severe Infections: ", sev_fmt, "</strong>",
     "<br>",
     "<span style='padding-left: 12px; display: inline-block;'>
-     Severe Infection rate: <strong>", sev_rt_fmt, "</strong> per 100K</span>",
+     Severe Infection AAR: <strong>", sev_rt_fmt, "</strong> per 100K</span>",
     "<br>",
     
     "</div>"
@@ -117,26 +114,30 @@ output$cnty_txt <- renderUI({
   HTML(cnty_txt_r())
 })
 
+
+
+#########################
 ##--reactive table output
+
 output$dem_table <- DT::renderDT({
   req(selected_county())   
-  req(filt_dem_df())
   
-  df <- filt_dem_df() %>%
-    dplyr::select(-c(
-      county,
-      group_var,
-      group_pop,
-      health_officer_region,
-      total_group_var_pop,
-      total_ca_pop,
-      geo_level,
-      cumulative_severe,
-      cumulative_infected
-    )) %>%
-
+  df <- req(filt_dem_df())
+  
+  dem_display_label <- names(dem_choices)[dem_choices == input$dem_selector]
+  
+  
+  # highlight highest rate per demographic group  
+  highlight_rows <- which(df$high_grp == "yes")
+  
+  df <- df %>%
+    dplyr::select(-c(county, group_var, hgst_rt)) %>%
+    mutate(
+      inf_rate_100k = scales::comma(inf_rate_100k, accuracy = 1),
+      sev_rate_100k = scales::comma(sev_rate_100k, accuracy = 1)
+    ) %>%
     rename(
-      "Demographic"          = "group_var_cat",
+      !!dem_display_label := group_var_cat,
       'Infection Rate'       = "inf_rate_100k",
       'Severe Infection Rate' = "sev_rate_100k"
     )
@@ -150,11 +151,21 @@ output$dem_table <- DT::renderDT({
         info        = FALSE,     
         ordering    = TRUE,
         columnDefs  = list(
-          list(className = 'dt-left', targets = "_all")
+          list(className = 'dt-center', targets = "_all"),
+          list(visible = FALSE, targets = 3)
         ),
         dom = 't'
       ),
-      class = "compact stripe hover"
+      class = "compact hover"
+    ) %>%
+    
+    formatStyle(
+      "high_grp",
+      target = "row",
+      fontWeight = styleEqual(
+        c("yes", "no"),
+        c("bold", "normal")
+      )
     )
   
 })
@@ -207,79 +218,51 @@ observeEvent(input$reset_cnty, {
 
 
 
-
-
-## plotly scatter that highlights map selection
-output$cnty_scatter <- plotly::renderPlotly({
-  req(cnty_rates_df)
+### ranked bar plot --
+output$cnty_rank_bar <- plotly::renderPlotly({
+  req(cnty_ranked_plot_df)
   sc  <- selected_county()
+
+plt <- plotly::plot_ly(
+    data       = cnty_ranked_plot_df,
+    x          = ~adj_sev_100k,
+    y          = ~county,           
+    type       = "bar",
+    orientation = "h",
+    color      = ~priority_tier,
+    colors     = rnk_pal,
+    text        = ~hover_lbl,   
+    hovertemplate = "%{text}<extra></extra>"      
+
+  ) %>%
   
-  p_df <- cnty_rates_df %>%
-    dplyr::filter(county != "Los Angeles") %>%
-    dplyr::mutate(
-      hover_text = paste0(
-        "<b style='font-size:14px;'>", county, "</b><br>",
-        "Proportion of CA: <b>", round(pop_prop, 2), "%</b><br>",
-        "Severe Infection Rate: <b>", round(sev_rate_100k, 1), "</b>"
-      )
+  layout(
+    showlegend = FALSE,
+    yaxis = list(
+      title    = "",
+      tickmode = "array",
+      tickvals = levels(cnty_ranked_plot_df$county),
+      ticktext = tick_labels$county_label_html,
+      autorange = "reversed"
     )
-  
-  plt <- plotly::plot_ly(
-    data       = p_df,
-    x          = ~pop_prop,
-    y          = ~sev_rate_100k,
-    type       = "scatter",
-    mode       = "markers",
-    text       = ~hover_text,
-    hoverinfo  = "text",
-    marker     = list(
-      size    = 12,
-      color   = "#fdacb8",
-      line    = list(color = "#892a68", width = 0.5),
-      opacity = 0.8
-    ),
-    source = "cnty_scatter"
   )
-  
-  if (!is.null(sc)) {
-    plt <- plt %>%
-      plotly::add_markers(
-        data = p_df %>% dplyr::filter(county == sc),
-        x    = ~pop_prop,
-        y    = ~sev_rate_100k,
-        marker = list(
-          size  = 15,
-          color = "rgba(0,0,0,0)",
-          line  = list(color = "#fbd113", width = 5)
-        ),
-        hoverinfo  = "skip",
-        showlegend = FALSE
-      )
-  }
-  
-  plt <- plt %>%
-    plotly::layout(
-      margin = m,
-      title = list(text = ""),
-      
-      xaxis = list(
-        title = list(text = "Percent of California Population (%)", standoff = 12)
-      ),
-      
-      yaxis = list(
-        automargin = TRUE,
-        title = list(text = "Severe Infection Rate (per 100K)", standoff = 12)
-      )
-      
-      
-    ) %>%
-    
-    plotly_drk_theme() 
-  
-  plt
-  
+
 })
 
+
+
+output$priority_legend <- renderUI({
+  map_legend_ui(
+    pal_fun          = pal_priority,
+    title            = "",
+    items_per_column = 1,
+    label_base_px    = 16,
+    break_factor     = factor(
+      c("Top Priority", "Second Priority", "Third Priority"),
+      levels = c("Top Priority", "Second Priority", "Third Priority")
+    )
+  )
+})
 
 
 
