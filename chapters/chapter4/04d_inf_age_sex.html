@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Course of the Outbreak – Simulated Infectious Disease Outbreak in California</title>
+<title>11&nbsp; Infections by Demographic – Simulated Infectious Disease Outbreak in California</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -64,8 +29,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/chapter4/04b_cnty_ranks.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/apx_library_refs.html" rel="next">
+<link href="../../chapters/chapter4/04c_weekly_inf_map.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -75,7 +40,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-9ccc8265a614170e284c6da1d6f7a0f2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6fb768c2e64037f746d200755b08d1aa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -103,20 +68,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="../../site_libs/core-js-2.5.3/shim.min.js"></script>
-
-<script src="../../site_libs/react-18.2.0/react.min.js"></script>
-
-<script src="../../site_libs/react-18.2.0/react-dom.min.js"></script>
-
-<script src="../../site_libs/reactwidget-2.0.0/react-tools.js"></script>
-
-<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-
-<link href="../../site_libs/reactable-0.4.4/reactable.css" rel="stylesheet">
-
-<script src="../../site_libs/reactable-binding-0.4.4/reactable.js"></script>
-
 
 
 </head>
@@ -130,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html">Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Course of the Outbreak</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html">Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter4/04d_inf_age_sex.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Infections by Demographic</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -150,13 +101,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Problem Statement</span></a>
+ <span class="menu-text">Project Description</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Analysis</span></a>
+ <span class="menu-text">Data Preparation</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -164,14 +115,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter4/04a_outbreak_course.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Course of the Outbreak</span></span></a>
+  <a href="../../chapters/chapter3/03a_project_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Project Set-Up</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter4/04b_cnty_ranks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Prioritizing State Resources</span></span></a>
+  <a href="../../chapters/chapter3/03b_aligning_columns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter3/03c_age_groups.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Age Groups</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter3/03d_infection_dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Infection Dates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter3/03e_race_ethnicity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Race and Ethnicity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter3/03f_population_counts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Population by Demographic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter3/03g_creating_final_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Combined Database</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter3/03h_final_data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Final Data Dictionary</span></span></a>
   </div>
 </li>
       </ul>
@@ -179,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Data Preparation</span></a>
+ <span class="menu-text">Analysis</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -187,56 +174,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03a_project_setup.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Project Set-Up</span></span></a>
+  <a href="../../chapters/chapter4/04a_outbreak_course.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Course of the Outbreak</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03b_aligning_columns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Aligning Column Names</span></span></a>
+  <a href="../../chapters/chapter4/04c_weekly_inf_map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Weekly Infection Map</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03c_age_groups.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Age Groups</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03d_infection_dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Infection Dates</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03e_race_ethnicity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Race and Ethnicity</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03f_population_counts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Population by Demographic</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03g_creating_final_datasets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Combined Dataset</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03h_final_data_dictionary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Final Data Dictionary</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03i_prep_dem_df.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Combined Demographic Dataset</span></span></a>
+  <a href="../../chapters/chapter4/04d_inf_age_sex.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Infections by Demographic</span></span></a>
   </div>
 </li>
       </ul>
@@ -273,9 +224,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html">Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Course of the Outbreak</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html">Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter4/04d_inf_age_sex.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Infections by Demographic</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Course of the Outbreak</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Infections by Demographic</span></h1>
 </div>
 
 
@@ -292,109 +243,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="statewide-infections-by-month" class="level2">
-<h2 class="anchored" data-anchor-id="statewide-infections-by-month">Statewide Infections by Month</h2>
-<section id="may-2023---dec-2023" class="level5">
-<h5 class="anchored" data-anchor-id="may-2023---dec-2023"><em>May 2023 - Dec 2023</em></h5>
-<div class="cell">
-<div class="cell-output-display">
-<div id="htmlwidget-e2acf0510f1a255687df" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e2acf0510f1a255687df">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"metric":["New Infections","Infection Rate","Severe Infections","Severe Infection Rate"],"May":[13875,36,0,0],"Jun":[119964,307,1091,3],"Jul":[440529,1126,8714,22],"Aug":[936492,2395,13583,35],"Sep":[1445806,3697,37009,95],"Oct":[1403727,3589,47012,120],"Nov":[181327,464,18495,47],"Dec":[7863,20,1022,3]},"columns":[{"id":"metric","name":"Metric","type":"factor","sortable":false,"vAlign":"center","headerVAlign":"bottom","maxWidth":120,"align":"left"},{"id":"May","name":"May","type":"numeric","sortable":false,"vAlign":"center","headerVAlign":"bottom","cell":["13,875","36","–","–"],"maxWidth":75,"align":"center","style":[{"background":"#FCEAEC","color":"#111111","fontWeight":600},{"background":"#FCEAEC","color":"#111111","fontWeight":600},{"color":"#dadada"},{"color":"#dadada"}]},{"id":"Jun","name":"Jun","type":"numeric","sortable":false,"vAlign":"center","headerVAlign":"bottom","cell":["119,964","307","1,091","3"],"maxWidth":75,"align":"center","style":[{"background":"#FCE2E6","color":"#111111","fontWeight":600},{"background":"#FCE2E6","color":"#111111","fontWeight":600},{"background":"#FCE8EA","color":"#111111","fontWeight":600},{"background":"#FCE8EA","color":"#111111","fontWeight":600}]},{"id":"Jul","name":"Jul","type":"numeric","sortable":false,"vAlign":"center","headerVAlign":"bottom","cell":["440,529","1,126","8,714","22"],"maxWidth":75,"align":"center","style":[{"background":"#FCCCD3","color":"#111111","fontWeight":600},{"background":"#FCCCD3","color":"#111111","fontWeight":600},{"background":"#FCD5DA","color":"#111111","fontWeight":600},{"background":"#FCD5DB","color":"#111111","fontWeight":600}]},{"id":"Aug","name":"Aug","type":"numeric","sortable":false,"vAlign":"center","headerVAlign":"bottom","cell":["936,492","2,395","13,583","35"],"maxWidth":75,"align":"center","style":[{"background":"#FBA8B6","color":"#111111","fontWeight":600},{"background":"#FBA8B6","color":"#111111","fontWeight":600},{"background":"#FCC9D0","color":"#111111","fontWeight":600},{"background":"#FCC9D0","color":"#111111","fontWeight":600}]},{"id":"Sep","name":"Sep","type":"numeric","sortable":false,"vAlign":"center","headerVAlign":"bottom","cell":["1,445,806","3,697","37,009","95"],"maxWidth":75,"align":"center","style":[{"background":"#D46B91","color":"#111111","fontWeight":600},{"background":"#D46B91","color":"#111111","fontWeight":600},{"background":"#DD7A99","color":"#111111","fontWeight":600},{"background":"#DD7999","color":"#111111","fontWeight":600}]},{"id":"Oct","name":"Oct","type":"numeric","sortable":false,"vAlign":"center","headerVAlign":"bottom","cell":["1,403,727","3,589","47,012","120"],"maxWidth":75,"align":"center","style":[{"background":"#D87094","color":"#111111","fontWeight":600},{"background":"#D87094","color":"#111111","fontWeight":600},{"background":"#C34F7F","color":"#ffffff","fontWeight":600},{"background":"#C34F80","color":"#ffffff","fontWeight":600}]},{"id":"Nov","name":"Nov","type":"numeric","sortable":false,"vAlign":"center","headerVAlign":"bottom","cell":["181,327","464","18,495","47"],"maxWidth":75,"align":"center","style":[{"background":"#FCDEE2","color":"#111111","fontWeight":600},{"background":"#FCDEE2","color":"#111111","fontWeight":600},{"background":"#FCBDC6","color":"#111111","fontWeight":600},{"background":"#FCBDC6","color":"#111111","fontWeight":600}]},{"id":"Dec","name":"Dec","type":"numeric","sortable":false,"vAlign":"center","headerVAlign":"bottom","cell":["7,863","20","1,022","3"],"maxWidth":75,"align":"center","style":[{"background":"#FCEAEC","color":"#111111","fontWeight":600},{"background":"#FCEAEC","color":"#111111","fontWeight":600},{"background":"#FCE8EA","color":"#111111","fontWeight":600},{"background":"#FCE8EA","color":"#111111","fontWeight":600}]}],"columnGroups":[{"name":"Outbreak by Month","columns":["May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]}],"defaultSorted":[{"id":"metric","desc":false}],"pagination":false,"className":"reactable","width":"auto","dataKey":"9bf25deab1b11bf3a671056076b4ea20"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-<div class="line-block"><br>
-<br>
-</div>
-</section>
-</section>
-<section id="timeline-of-the-outbreak" class="level2">
-<h2 class="anchored" data-anchor-id="timeline-of-the-outbreak">Timeline of the Outbreak</h2>
-<section id="may-2023---december-2023" class="level3">
-<h3 class="anchored" data-anchor-id="may-2023---december-2023"><em>May 2023 - December 2023</em></h3>
-<hr>
-<div class="indent-block">
-<section id="may-28-2023" class="level5">
-<h5 class="anchored" data-anchor-id="may-28-2023"><em>May 28, 2023:</em></h5>
-<p>California had reported 13,875 infections. Infections increased rapidly throughout June and early July, with weekly new cases rising <strong>50 to 100 percent</strong> compared with the previous week, the most instense growth phase of the outbreak this year.</p>
-</section>
-<section id="late-july---september" class="level5">
-<h5 class="anchored" data-anchor-id="late-july---september"><em>Late July - September:</em></h5>
-<p>The outbreak began to slow. Weekly increases in new cases dropped to <strong>20 to 30 percent.</strong></p>
-</section>
-<section id="october" class="level5">
-<h5 class="anchored" data-anchor-id="october"><em>October:</em></h5>
-<p>Growth had slowed even further, with weekly increases approaching single digits.</p>
-</section>
-<section id="mid-november" class="level5">
-<h5 class="anchored" data-anchor-id="mid-november"><em>Mid-November:</em></h5>
-<p>Growth in weekly percent change in new case slowed to less than 1%</p>
-</section>
-<section id="as-of-december-30" class="level5">
-<h5 class="anchored" data-anchor-id="as-of-december-30"><em>As of December 30:</em></h5>
-<p>Although overall infections have continued to decline, we are still getting reports of new cases.</p>
-<p>Most importantly is that there is now a much <strong>higher proportion of new infections that are severe and require hospitalization.</strong></p>
-<p>While the State of California is seeing dramatically fewer infections overall, seeing a higher proportion of infections that are severe requires our continued vigilance and dedication to address this outbreak as a community: maintaining clinical capacity, strengthening rapid detection, and ensuring that the communities being hit the hardest get the resources they need.</p>
-</section>
-</div>
-<hr>
 <div class="wide-embed">
 
-<iframe src="https://evalue.shinyapps.io/Group08_County_Weekly_Map/" width="100%" height="1000px" frameborder="0">
+<iframe src="https://evalue.shinyapps.io/Group08_cases_dem_app/" width="100%" height="1800px" frameborder="0">
 </iframe>
 
 </div>
-<div class="line-block"><br>
-<br>
-</div>
-<section id="supporting-code" class="level4">
-<h4 class="anchored" data-anchor-id="supporting-code">Supporting Code:</h4>
-<p>The full code for the weekly case map can be found on the github repository within the “cases_week_app” branch: <strong><a href="https://github.com/EvalstacE/Group08_PHW251_R/tree/cases_week_app" class="uri">https://github.com/EvalstacE/Group08_PHW251_R/tree/cases_week_app</a></strong></p>
-<p><a href="../../www/Group08_weekly_case_map_shiny_app.zip" class="btn btn-primary" target="_blank">Download Shiny App Code (ZIP)</a></p>
-<div class="line-block"></div>
-<p><a href="../../www/ca_mnth_tbl_code.zip" class="btn btn-primary" target="_blank">Download Full Table Code (ZIP)</a></p>
-<div class="line-block"></div>
-<p><a href="../../data/inf_rate_dfs/ca_weekly_cases.csv" class="btn btn-primary" target="_blank">Download Weekly Infection Rates (CSV)</a></p>
-<div class="line-block"></div>
-<p><strong>Creating and saving shapefiles for maps:</strong></p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">##--bring in California shapefile and </span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">###---join to infection rate dataframe</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ca_cnty_sf <span class="ot">&lt;-</span> <span class="fu">counties</span>(<span class="at">state =</span> <span class="st">"CA"</span>, <span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">year =</span> <span class="dv">2023</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(NAME) <span class="sc">%&gt;%</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"county"</span> <span class="ot">=</span> <span class="st">"NAME"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">##--state border only</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ca_state_sf <span class="ot">&lt;-</span> <span class="fu">states</span>(<span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">year =</span> <span class="dv">2023</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(STUSPS <span class="sc">==</span> <span class="st">"CA"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(STATEFP, STUSPS, GEOIDFQ, GEOID) <span class="sc">%&gt;%</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">##--dissolves counties into Health Officer Regions</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>hor_sf <span class="ot">&lt;-</span> ca_cnty_sf <span class="sc">%&gt;%</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(health_officer_region) <span class="sc">%&gt;%</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.groups =</span> <span class="st">"drop"</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="st">"MULTIPOLYGON"</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">##--save to data/shapefiles folder</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">##-st_write(ca_cnty_sf, here("data/shapefiles/ca_cnty_sf/ca_cnty_sf.shp"), append = FALSE)</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">##-st_write(hor_sf, here("data/shapefiles/hor_sf/hor_sf.shp"), append = FALSE)</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">##-st_write(ca_state_sf, here("data/shapefiles/ca_state_sf/ca_state_sf.shp"), append = FALSE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
 
 
-</section>
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -803,13 +659,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Problem Statement">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Problem Statement</span>
+      <a href="../../chapters/chapter4/04c_weekly_inf_map.html" class="pagination-link" aria-label="Weekly Infection Map">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Weekly Infection Map</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/chapter4/04b_cnty_ranks.html" class="pagination-link" aria-label="Prioritizing State Resources">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Prioritizing State Resources</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/apx_library_refs.html" class="pagination-link" aria-label="Packages">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Packages</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
