@@ -171,7 +171,11 @@ cnty_ranked_df <- cnty_adj_rates %>%
   ) %>%
 ##--drop cutpoints
   select(-starts_with("inf_p"), -starts_with("sev_p")) %>%
-  arrange(priority_tier, desc(adj_sev_100k), desc(adj_rate_100k))
+  arrange(priority_tier, desc(adj_sev_100k), desc(adj_rate_100k)) %>%
+  left_join(cnty_rates_df, by = c("health_officer_region", "county")) %>%
+  rename("total_cnty_pop" = "group_pop") %>%
+  mutate(pop_prop = total_cnty_pop / sum(total_cnty_pop))
+
 
 
 #########################################
