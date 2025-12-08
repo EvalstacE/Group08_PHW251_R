@@ -1,19 +1,18 @@
 leaflet_ca_blank <- function(
-    initial_zoom   = 5.4,
+    initial_zoom   = 6,
     initial_center = c(37.25, -119.5),  # lat, lng
     ...
 ) {
   leaflet(
     options = leafletOptions(
-      zoomControl      = FALSE,
-      dragging         = FALSE,
-      scrollWheelZoom  = FALSE,
-      doubleClickZoom  = FALSE,
-      touchZoom        = FALSE,
-      boxZoom          = FALSE,
-      keyboard         = FALSE,
-      minZoom          = initial_zoom,
-      maxZoom          = initial_zoom
+      #zoomControl      = FALSE,
+      #dragging         = FALSE,
+      #scrollWheelZoom  = FALSE,
+      #doubleClickZoom  = FALSE,
+      #touchZoom        = FALSE,
+      #boxZoom          = FALSE,
+      #keyboard         = FALSE,
+      minZoom          = initial_zoom
     )
   ) %>%
     setView(
@@ -38,7 +37,7 @@ leaflet_ca_blank <- function(
 
 
 
-make_cnty_basemap <- function(sf_all, sf_top) {
+make_cnty_basemap <- function(sf_all) {
   leaflet_ca_blank() %>%
     addPolygons(
       data        = sf_all,
@@ -46,12 +45,5 @@ make_cnty_basemap <- function(sf_all, sf_top) {
       color       = "white",
       weight      = 1,
       fillOpacity = 1
-    ) %>%
-    addPolygons(
-      data        = sf_top,
-      color       = "#cdcabd",
-      fillColor   = "#dddbcf",
-      weight      = 1.5,
-      fillOpacity = 1
-    )
+    ) 
 }

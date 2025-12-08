@@ -1,5 +1,13 @@
 # Load and install packages
 
+library(shiny)
+library(bslib)
+library(rsconnect)
+library(htmltools)
+library(htmlwidgets)
+library(jsonlite)
+library(bsicons)
+
 library(dplyr)
 library(tidyr)
 library(readr)
@@ -8,23 +16,26 @@ library(janitor)
 library(lubridate)
 library(rlang)
 library(stringr)
+library(glue)
+library(scales)
 library(purrr)
+library(MMWRweek)
+library(classInt)
+library(magrittr)
+
 library(ggplot2)
 library(ggthemes)
-library(MMWRweek)
-library(shiny)
-library(bslib)
-library(rsconnect)
-library(sf)
-library(tigris)
-library(leaflet)
-library(scales)
-library(htmltools)
-library(htmlwidgets)
-library(jsonlite)
-library(bsicons)
+library(plotly)
 
-options(tigris_use_cache = TRUE)
+library(DT)
+library(RColorBrewer)
+library(viridis)
+library(viridisLite)
+
+library(leaflet)
+library(cartogram)
+library(sf)
+
 
 # Bring in helper functions
 func_dir <- here::here("functions")
@@ -33,10 +44,7 @@ purrr::walk(r_files, source)
 
 
 # Bring in datasets
-data_dirs <- c(
-  here::here("data", "inf_rate_dfs"),
-  here::here("data", "cleaned_data")
-)
+data_dirs <- c(here::here("data", "cleaned_data"))
 
 csv_files <- purrr::map(data_dirs, ~ list.files(
   path = .x,
@@ -54,72 +62,79 @@ purrr::walk(csv_files, function(file_path) {
 ## - Bring in shapefiles
 geoms <- bring_in_sfs()
 
-ca_cnty_pnts <- geoms$ca_cnty_pnts
+cnty_sf  <- geoms$ca_cnty_sf
 hor_sf   <- geoms$hor_sf
-hor_pnts <- geoms$hor_pnts
-cnty_week_pnts <- read.csv(file = here("data/shapefiles/cnty_week_pnts.csv"))
-hor_week_pnts <- read.csv(file = here("data/shapefiles/hor_week_pnts.csv"))
 
-ca_cnty_sf <- geoms$ca_cnty_sf %>%
-  left_join(inf_rates_by_cnty, by = "county")
+# county centroids (center points)
+cnty_centroids <- cnty_sf %>%
+  st_transform(3310) %>%      
+  st_centroid() %>%
+  st_transform(4326) %>%      
+  select(county)            
 
-top_cnty_rates <- ca_cnty_sf %>%
-  arrange(desc(inf_rate_100k)) %>%
-  slice_head(n = 5) %>%
-  bind_rows(
-    ca_cnty_sf %>%
-      arrange(desc(sev_rate_100k)) %>%
-      slice_head(n = 5)
+
+
+weekly_df <- combined_df %>%
+  group_by(mmwr_week, start_date, end_date, county) %>%
+  summarise(
+    cumulative_infected = sum(cumulative_infected, na.rm = TRUE), 
+    cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+max_cases     <- max(weekly_df$cumulative_infected, na.rm = TRUE)
+max_sev_cases <- max(weekly_df$cumulative_severe, na.rm = TRUE)
+
+
+## - cumulative cases line chart
+
+p1_df <- weekly_df %>% 
+  group_by(mmwr_week, start_date, end_date) %>%
+  summarise(
+    cumulative_infected = sum(cumulative_infected, na.rm = TRUE), 
+    cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+    .groups = "drop"
   ) %>%
-  distinct()
-
-break_cols <- c("case_breaks", "inf_rate_breaks",
-                "sev_case_breaks", "sev_rate_breaks")
-
-cnty_week_pnts <- cnty_week_pnts %>%
-  mutate(across(all_of(break_cols), enforce_factor_levels))
-
-hor_week_pnts <- hor_week_pnts %>%
-  mutate(across(all_of(break_cols), enforce_factor_levels))
-
-  
-
-## - color palettes for maps
-
-cnty_rate_levels <- levels(cnty_week_pnts$inf_rate_breaks)
-cnty_sev_rate_levels <- levels(cnty_week_pnts$sev_rate_breaks)
-cnty_case_levels <- levels(cnty_week_pnts$case_breaks)
-
-
-custom_pal_cases <- colorFactor(
-  palette = c(
-    "#fdacb8",
-    "#b93f76",
-    "#892a68",
-    "#52176b",
-    "#1e0c47"
-  ),
-  domain  = cnty_rate_levels, 
-  ordered = TRUE
+  arrange(mmwr_week) %>%
+mutate(
+    p_chng = (cumulative_infected - lag(cumulative_infected)) / lag(cumulative_infected) * 100,
+    s_dt   = format(as_date(start_date), format = "%b %d"),
+    e_dt   = format(as_date(end_date),   format = "%b %d"),
+    cum_lbl = scales::comma(cumulative_infected, big.mark = ","),
+    p_chng_scaled = case_when(
+      is.na(p_chng) ~ 4,
+      max(p_chng, na.rm = TRUE) == min(p_chng, na.rm = TRUE) ~ 8,
+      TRUE ~ scales::rescale(
+        p_chng,
+        to   = c(4, 14),
+        from = range(p_chng, na.rm = TRUE)
+      )
+    )
 )
 
+max_chng <- max(p1_df$p_chng, na.rm = TRUE)
 
-custom_pal_sev_cases <- colorFactor(
-  palette = c(
-    "#fdacb8",
-    "#b93f76",
-    "#892a68",
-    "#52176b",
-    "#1e0c47"
-  ),
-  domain  = cnty_sev_rate_levels, 
-  ordered = TRUE
+
+
+##-- color palettes and objects for maps and charts
+
+lgt_clr <- "#fcebed"
+drk_clr <- "#1e0c47"
+drkst_clr <- "#0f172a"
+grid_clr <- "#212738"
+
+
+custom_pal <- c(
+  "#fcebed",
+  "#fdacb8",
+  "#b93f76",
+  "#52176b",
+  "#1e0c47"
 )
 
-
-## -- scale infections + severe infections proportionally 
-
-sev_scale <- 
-  max(cnty_week_pnts$inf_rate_100k, na.rm = TRUE) /
-  max(cnty_week_pnts$sev_rate_100k, na.rm = TRUE)
+rnk_pal <- c(
+  "#1e0c47",
+  "#854d88",
+  "#f1f0ea"
+)
 
