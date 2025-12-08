@@ -1,0 +1,349 @@
+# Infection Rate Summary
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+source("_common04.R")
+
+```
+
+
+
+```{r}
+
+state_dem <- all_rates_by_demographic %>%
+  filter(geo_level == "statewide") %>%
+  select(group_var, group_var_cat, inf_rate_100k, sev_rate_100k) %>%
+  group_by(group_var) %>%
+  mutate(
+    hgst_rt  = max(sev_rate_100k, na.rm = TRUE),
+    high_grp = if_else(sev_rate_100k >= hgst_rt, "yes", "no")
+  ) %>%
+  ungroup() %>%
+  arrange(group_var, group_var_cat)
+
+
+state_list <- state_dem %>%
+  select(-hgst_rt) %>%
+  split(.$group_var)
+
+state_sex  <- state_list$sex
+state_race <- state_list$race_short
+state_age  <- state_list$age_cat
+
+```
+
+
+```{r}
+
+##--create the kable outputs
+
+make_state_kable <- function(df, group_name) {
+  
+# conditionally set group_var table label
+demo_label <- dplyr::case_when(
+  group_name == "sex"        ~ "Sex",
+  group_name == "race_short" ~ "Race",
+  group_name == "age_cat"    ~ "Age Group",
+  TRUE                       ~ "Demographic"
+)
+
+# highlight highest rate per demographic group  
+highlight_rows <- which(df$high_grp == "yes")
+  
+  df %>%
+    select(
+      group_var_cat,
+      inf_rate_100k,
+      sev_rate_100k,
+      high_grp
+    ) %>%
+    mutate(
+      inf_rate_100k = scales::comma(inf_rate_100k, accuracy = 1),
+      sev_rate_100k = scales::comma(sev_rate_100k, accuracy = 1)
+    ) %>%
+    rename(
+      !!demo_label            := group_var_cat,
+      `Infection Rate`        = inf_rate_100k,
+      `Severe Infection Rate` = sev_rate_100k
+    ) %>%
+    select(-high_grp) %>%
+    
+    kbl(escape = FALSE, align = "c") %>%
+    
+    row_spec(
+      0,
+      bold       = TRUE,
+      background = "#0f172a",
+      extra_css  = "font-size: 14px!important; color:#ffffff;"
+    ) %>%
+    
+    row_spec(
+      highlight_rows,
+      background = "#fde586",
+      bold       = TRUE
+    ) %>%
+    
+    kable_styling(
+      bootstrap_options = c("bordered", "condensed"),
+      font_size = 12,
+      full_width = FALSE
+    ) %>%
+    column_spec(1:3, extra_css = "padding: 2px 6px !important;")
+}
+
+
+
+state_tables <- lapply(names(state_list), function(nm) {
+  make_state_kable(state_list[[nm]], group_name = nm)
+})
+
+
+names(state_tables) <- names(state_list)
+
+
+
+```
+
+
+
+```{r}
+
+cnty_rates_df <- all_rates_dem_adj %>%
+  filter(geo_level == "county", group_var_cat == "Overall") %>%
+  select(health_officer_region, county, group_pop,
+         cumulative_infected, cumulative_severe,
+         inf_rate_100k, sev_rate_100k
+         ) %>%
+  drop_na() %>%
+  distinct()
+
+cnty_adj_rates <- all_rates_dem_adj %>%
+  filter(geo_level == "county", group_var == "age_cat") %>%
+  select(health_officer_region, county, 
+         adj_rate_100k, adj_sev_100k, 
+         adj_sev_joint_rate) %>%
+  drop_na() %>%
+  distinct()
+
+
+cnty_ranked_df <- cnty_adj_rates %>%
+  ##--compute quantile cutpoints for each metric
+  mutate(
+    inf_p90 = quantile(adj_rate_100k,    0.90, na.rm = TRUE),
+    inf_p75 = quantile(adj_rate_100k,    0.75, na.rm = TRUE),
+    inf_p50 = quantile(adj_rate_100k,    0.50, na.rm = TRUE),
+    
+    sev_p90 = quantile(adj_sev_100k,     0.90, na.rm = TRUE),
+    sev_p75 = quantile(adj_sev_100k,     0.75, na.rm = TRUE),
+    sev_p50 = quantile(adj_sev_100k,     0.50, na.rm = TRUE)
+  ) %>%
+  ##--assign ranks based on those cutpoints
+  mutate(
+    inf_q_rank = case_when(
+      adj_rate_100k    >= inf_p90 ~ 1L,              # ≥ 90th
+      adj_rate_100k    >= inf_p75 ~ 2L,              # 75–<90
+      adj_rate_100k    >= inf_p50 ~ 3L,              # 50–<75
+      TRUE                         ~ 4L              # < 50
+    ),
+    sev_q_rank = case_when(
+      adj_sev_100k     >= sev_p90 ~ 1L,
+      adj_sev_100k     >= sev_p75 ~ 2L,
+      adj_sev_100k     >= sev_p50 ~ 3L,
+      TRUE                         ~ 4L
+    ),
+    
+    rank_sum = inf_q_rank + sev_q_rank,
+    
+    priority_tier = case_when(
+      rank_sum == 2              ~ "Top Priority",      
+      between(rank_sum, 3, 4)    ~ "Second Priority",  
+      TRUE                       ~ "Third Priority"
+    ),
+    
+    priority_tier = factor(
+      priority_tier,
+      levels = c("Top Priority", "Second Priority", "Third Priority")
+    )
+  ) %>%
+##--drop cutpoints
+  select(-starts_with("inf_p"), -starts_with("sev_p")) %>%
+  arrange(priority_tier, desc(adj_sev_100k), desc(adj_rate_100k))
+
+
+
+```
+
+
+
+
+
+```{r}
+
+cnty_ranked_df <- cnty_ranked_df %>%
+  mutate(
+    county_label = case_when(
+      priority_tier == "Top Priority" ~ 
+        glue("<span style='font-weight:bold; font-size:12px; color:#52176b'>{county}</span>"),
+      
+      priority_tier == "Second Priority" ~ 
+        glue("<span style='font-weight:bold; font-size:12px; color:#854d88'>{county}</span>"),
+      
+      TRUE  ~ 
+        glue("<span style='font-size:8px; color:#555555'>{county}</span>")
+      )
+  ) %>%
+ mutate(county = forcats::fct_reorder(county, adj_sev_100k))
+
+
+  
+make_label_map <- function(df) {
+  df %>%
+    distinct(county, county_label) %>%
+    tibble::deframe()
+} 
+  
+
+case_label_map     <- make_label_map(cnty_ranked_df)
+
+
+case_plot_theme <- list(
+  theme = theme( 
+    axis.text.y = ggtext::element_markdown(),
+    axis.title.y = element_blank(),
+    axis.title.x = element_text(margin = margin(t=3)),
+    legend.direction = "horizontal",
+    legend.position = "top",
+    legend.title = element_blank(),
+    legend.text = element_text(margin = margin(b=5))
+  )
+)
+
+cnty_rank_chart <- 
+ggplot() + 
+  geom_col(
+    data = cnty_ranked_df, 
+    aes(x = adj_sev_100k, y = county, fill = priority_tier)
+  ) + 
+  scale_y_discrete(labels = function(x) case_label_map[x]) +
+  scale_fill_manual(values = rnk_pal)+
+  theme_classic()+
+  case_plot_theme$theme
+
+
+
+```
+
+
+## County Prioritization Method
+
+
+
+To identify counties with the greatest burden of infection and severe infection, we constructed a ranking system based on age-adjusted infection rates and age-adjusted severe infection rates. We first combined two datasets. The overall county dataset included population size, total infections, total severe infections, and crude rates per 100,000. The age-adjusted dataset provided refined infection and severe infection rates that account for differences in county age distributions.
+
+Using the age-adjusted metrics, we calculated percentile cutpoints for each rate. Counties were compared against the 90th percentile, the 75th percentile, and the 50th percentile of the statewide distribution. Counties at or above the 90th percentile were assigned a rank of 1, those between the 75th and 90th percentiles received a rank of 2, those between the 50th and 75th percentiles received a rank of 3, and the remainder received a rank of 4. This ranking process was applied to both the adjusted infection rate and the adjusted severe infection rate.
+
+Each county received two ranks. These were summed to create a combined burden score. Counties with a score of 2 were classified as Top Priority, counties with a score of 3 or 4 were classified as Second Priority, and all remaining counties were classified as Third Priority. This approach allows us to highlight counties experiencing consistently high infection and severe infection burdens
+
+
+
+```{r, echo = FALSE, fig.height = 8, fig.width = 4}
+
+cnty_rank_chart
+
+
+```
+
+
+
+
+
+
+```{r}
+
+
+cnty_sf_join <- ca_cnty_sf %>%
+  left_join(
+    cnty_ranked_df, by = c("county", "hor" = "health_officer_region")
+  )
+
+cnty_centroids <- cnty_sf_join %>%
+  st_centroid() 
+
+
+
+cnty_dorl <- cnty_sf_join %>%
+  st_transform(3310) %>%
+  mutate(dorl_wt = 0.8) %>% 
+  cartogram_dorling(
+    weight  = "dorl_wt",
+    k       = 0.2,  
+    itermax = 200
+  )
+
+cnty_dorl_centroids <- cnty_dorl %>%
+  st_centroid()
+
+cnty_dorl_centroids <- cnty_dorl_centroids %>%
+  st_transform(4326) %>%
+  mutate(
+    lng = st_coordinates(.)[, 1],
+    lat = st_coordinates(.)[, 2]
+  )
+
+```
+
+
+
+```{r}
+
+
+ggplot() + 
+  
+  geom_sf(
+    data = cnty_sf_join, 
+    fill = "#f1f0ea", 
+    stroke = TRUE,
+    color = "#cdcabd"
+  ) + 
+
+  geom_sf(
+    data = hor_sf, 
+    fill = "transparent", 
+    color = alpha(drkst_clr, 0.4),
+    stroke = TRUE,
+    size  = 0.3
+  ) + 
+  
+  geom_sf(
+    data = cnty_dorl_centroids, 
+    shape = 21,
+    size = 5,
+    aes(fill = priority_tier)
+  ) + 
+  
+  scale_fill_manual(
+    values = rnk_pal
+  ) + 
+  theme_void()
+
+```
+
+
+
+
+
+
+```{r, echo = FALSE}
+#| layout-ncol: 1
+
+state_tables$age_cat
+state_tables$race_short
+state_tables$sex
+
+```
+
+

@@ -1,4 +1,4 @@
-# Combined Database
+# Combined Dataset
 
 ```{r}
 #| include: false

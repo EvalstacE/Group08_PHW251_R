@@ -67,7 +67,7 @@ calc_rates_rng_grp  <- function(df,
     df_week %>%
       dplyr::group_by(!!region_col, !!county_col, !!group_var) %>%
       dplyr::summarise(
-        group_pop           = sum(!!pop_col,      na.rm = TRUE),
+        group_pop           = first(!!pop_col),
         cumulative_infected = sum(!!infected_col, na.rm = TRUE),
         cumulative_severe   = sum(!!severe_col,   na.rm = TRUE),
         .groups = "drop"

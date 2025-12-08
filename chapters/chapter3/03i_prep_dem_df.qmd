@@ -1,0 +1,532 @@
+# Combined Demographic Dataset
+
+
+
+```{r, eval = FALSE}
+#| code-fold: show
+
+source("_common.R")
+
+# Bring in final combined database
+df <- combined_df
+
+```
+
+
+
+
+## Calculating Crude Rates
+
+To simplify and standardize the process of calculating crude infection rates across multiple demographic and geographic groupings, we created a custom helper function: `calc_rates_rng_grp()` 
+
+It ensures consistent calculations across datasets and minimizes the need to repeat long dplyr pipes for each demographic of interest.
+
+Please see the [Custom Functions Appendix](../apx_custom_functions.qmd#custom-fx) for more details and documentation of this function. 
+
+
+
+
+*Custom function to calculate infection rates by geographic and demographic group(s):*
+
+
+```{r, eval = FALSE}
+
+
+####################################################
+##                                                ##
+##  Calculate rates based on group and geography  ##
+##     (health officer region or county)          ##
+##                                                ##
+####################################################
+
+calc_rates_rng_grp  <- function(df,
+                                group_var,      
+                                pop_col,        
+                                week        = 52,
+                                region_col  = health_officer_region,
+                                county_col  = county,
+                                infected_col = cumulative_infected,
+                                severe_col   = cumulative_severe,
+                                geo_level    = c("region", "county", "statewide")) {
+  
+  group_var    <- rlang::enquo(group_var)
+  pop_col      <- rlang::enquo(pop_col)
+  region_col   <- rlang::enquo(region_col)
+  county_col   <- rlang::enquo(county_col)
+  infected_col <- rlang::enquo(infected_col)
+  severe_col   <- rlang::enquo(severe_col)
+  geo_level    <- match.arg(geo_level)
+  
+  group_var_name <- rlang::as_name(group_var)
+  
+  #-- get *all* possible group levels (e.g. all 7 race categories)
+  all_groups <- df %>%
+    dplyr::pull(!!group_var) %>%
+    unique()
+  
+  #-- restrict to last week only (defaults to 52)
+  df_week <- df %>%
+    dplyr::filter(mmwr_week == week)
+  
+  #-- geography-specific aggregation
+  out <- if (geo_level == "region") {
+    
+#-- health officer region-level
+    df_week %>%
+      dplyr::group_by(!!region_col, !!county_col, !!group_var) %>%
+      dplyr::summarise(
+        group_pop           = dplyr::first(!!pop_col),
+        cumulative_infected = sum(!!infected_col, na.rm = TRUE),
+        cumulative_severe   = sum(!!severe_col,   na.rm = TRUE),
+        .groups = "drop"
+      ) %>%
+      dplyr::group_by(!!region_col, !!group_var) %>%
+      dplyr::summarise(
+        group_pop           = sum(group_pop,           na.rm = TRUE),
+        cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+        cumulative_severe   = sum(cumulative_severe,   na.rm = TRUE),
+        .groups = "drop"
+      ) %>%
+      dplyr::group_by(!!region_col) %>%
+      tidyr::complete(
+        !!group_var := all_groups,
+        fill = list(
+          group_pop           = 0,
+          cumulative_infected = 0,
+          cumulative_severe   = 0
+        )
+      ) %>% ungroup() %>%
+      mutate(county = NA_character_) %>%
+      relocate(county, .after = health_officer_region)
+      
+    
+  } else if (geo_level == "county")  {
+    
+#--county-level
+    df_week %>%
+      dplyr::group_by(!!region_col, !!county_col, !!group_var) %>%
+      dplyr::summarise(
+        group_pop           = first(!!pop_col),
+        cumulative_infected = sum(!!infected_col, na.rm = TRUE),
+        cumulative_severe   = sum(!!severe_col,   na.rm = TRUE),
+        .groups = "drop"
+      ) %>%
+      dplyr::group_by(!!region_col, !!county_col) %>%
+      tidyr::complete(
+        !!group_var := all_groups,
+        fill = list(
+          group_pop           = 0,
+          cumulative_infected = 0,
+          cumulative_severe   = 0
+        )
+      ) %>%
+      dplyr::ungroup()
+    
+    
+  } else {
+    
+#--statewide (no county or hor grouping) 
+    
+    df_week %>%
+  ##-- first collapse to one row per county and group
+      dplyr::group_by(!!county_col, !!group_var) %>%
+      dplyr::summarise(
+        group_pop_county    = dplyr::first(!!pop_col),
+        cumulative_infected = sum(!!infected_col, na.rm = TRUE),
+        cumulative_severe   = sum(!!severe_col,   na.rm = TRUE),
+        .groups = "drop"
+      ) %>%
+  ##-- then sum across counties to get statewide totals by group
+      dplyr::group_by(!!group_var) %>%
+      dplyr::summarise(
+        group_pop           = sum(group_pop_county,    na.rm = TRUE),
+        cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+        cumulative_severe   = sum(cumulative_severe,   na.rm = TRUE),
+        .groups = "drop"
+      ) %>%
+      tidyr::complete(
+        !!group_var := all_groups,
+        fill = list(
+          group_pop           = 0,
+          cumulative_infected = 0,
+          cumulative_severe   = 0
+        )
+      ) %>%
+  ##-- adds "statewide" for joining compatibility
+      dplyr::mutate(
+        !!region_col := "statewide",
+        !!county_col := "statewide"
+      )
+  }   
+    
+
+#################  
+#-- compute rates
+  out %>%
+    dplyr::mutate(
+      inf_rate_100k = dplyr::if_else(
+        group_pop > 0,
+        round(1e5 * cumulative_infected / group_pop),
+        0
+      ),
+      sev_rate_100k = dplyr::if_else(
+        group_pop > 0,
+        round(1e5 * cumulative_severe / group_pop),
+        0
+      )
+    ) %>%
+    dplyr::rename(group_var_cat = !!group_var) %>%
+    dplyr::mutate(group_var = group_var_name) %>%
+    relocate(group_var, .after = group_var_cat) %>%
+    
+##--These last two columns added are just a QC checkpoint
+###-- if grouping worked properly, population sums 
+###---should all equal total California population (39109070)
+    
+    group_by(group_var) %>%
+      mutate(
+        total_group_var_pop = sum(group_pop),
+               total_ca_pop = 39109070
+        ) %>%
+    ungroup()
+}
+
+```
+
+
+|
+|
+
+
+*Create final, combined dataset with all rates by demographic and geography:*
+
+
+```{r, eval = FALSE}
+
+
+##########################
+#--Prepare dataframe
+##--see 04i_calc_rates_rng_grp.R function
+###--in 'functions/' folder
+
+# specs: which grouping var uses which population column
+group_specs <- tibble::tibble(
+  group_var = list(quo(sex), quo(age_cat), quo(race_short)),
+  pop_col   = list(quo(total_sex_pop), quo(total_age_pop), quo(total_race_pop))
+)
+
+############################
+##  Region-level (HOR)    ##
+############################
+
+hor_results_list <- group_specs %>%
+  purrr::pmap(function(group_var, pop_col) {
+    calc_rates_rng_grp(
+      df        = df,
+      group_var = !!group_var,
+      pop_col   = !!pop_col,
+      geo_level = "region"   
+    ) %>%
+      dplyr::mutate(geo_level = "region")
+  })
+
+hor_rates_by_demographic <- dplyr::bind_rows(hor_results_list)
+
+############################
+##      County-level      ##
+############################
+
+cnty_results_list <- group_specs %>%
+  purrr::pmap(function(group_var, pop_col) {
+    calc_rates_rng_grp(
+      df        = df,
+      group_var = !!group_var,
+      pop_col   = !!pop_col,
+      geo_level = "county"
+    ) %>%
+      dplyr::mutate(geo_level = "county")
+  })
+
+cnty_rates_by_demographic <- dplyr::bind_rows(cnty_results_list)
+
+
+
+############################
+##       Statewide        ##
+############################
+
+statewide_rates_by_demographic <- group_specs %>%
+  purrr::pmap(function(group_var, pop_col) {
+    calc_rates_rng_grp(
+      df        = combined_df,
+      group_var = !!group_var,
+      pop_col   = !!pop_col,
+      geo_level = "statewide"
+    ) %>%
+      dplyr::mutate(geo_level = "statewide")
+  }) %>%
+  dplyr::bind_rows()
+
+
+
+#########################################
+## - calculates total rates by geography 
+###--(no stratification)
+geo_rates_overall <- calc_rates_overall_hor_cnty(df)
+
+
+############################################
+##   all rates by dem combined in one df  ##
+############################################
+
+all_rates_by_demographic <- dplyr::bind_rows(
+  hor_rates_by_demographic,
+  cnty_rates_by_demographic,
+  statewide_rates_by_demographic,
+  geo_rates_overall
+)
+  
+#########################################
+## Exports to 'data/cleaned_data/' dir ##
+#########################################
+
+#write.csv(cnty_rates_by_demographic, here("data/cleaned_data/cnty_rates_by_demographic.csv"), row.names = FALSE)
+#write.csv(hor_rates_by_demographic, here("data/cleaned_data/hor_rates_by_demographic.csv"), row.names = FALSE)
+#write.csv(all_rates_by_demographic, here("data/cleaned_data/all_rates_by_demographic.csv"), row.names = FALSE)
+
+```
+
+
+
+|
+|
+
+
+## Calculating Age-Adjusted Rates
+
+
+We next calculate age and race adjusted severe infection rates to make fair comparisons across counties that have different population structures. 
+
+* First, we use the statewide distribution of race and age groups as our standard and calculate stratum specific severe infection rates within each county. 
+
+* Then, we then weight each county’s race or age specific rate by the corresponding statewide proportion and sum these weighted rates to obtain age adjusted, race adjusted, and jointly age and race adjusted severe infection rates per 100,000. 
+
+* Finally, we create a new combined dataset of rates by demographic, with the new columns for the adjusted infection rates. 
+
+
+
+*Calculate age and race-adjusted severe infection rates, append and overwrite final demographic dataset:*
+
+
+```{r, eval = FALSE}
+
+
+####################################################
+##                                                ##
+##        Calculate age and race-adjusted         ##
+##             severe rates by county             ##
+##                                                ##
+####################################################
+
+std_race_weights <- all_rates_by_demographic %>%
+  filter(
+    geo_level == "statewide",
+    group_var == "race_short"
+  ) %>%
+  group_by(group_var_cat) %>%
+  summarise(std_pop = sum(group_pop), .groups = "drop") %>%
+  mutate(w = std_pop / sum(std_pop)) %>%
+  ungroup()
+
+
+cnty_race_rates <- all_rates_by_demographic %>%
+  filter(
+    geo_level == "county",
+    group_var == "race_short"
+  ) %>%
+  group_by(county, group_var_cat) %>%
+  summarise(
+    infected = sum(cumulative_infected, na.rm = TRUE),
+    pop    = sum(group_pop, na.rm = TRUE),
+    rate   = infected / pop,
+    .groups = "drop"
+  )
+
+
+cnty_race_adj <- cnty_race_rates %>%
+  left_join(std_race_weights, by = "group_var_cat") %>%
+  group_by(county) %>%
+  summarise(
+    adj_rate_100k = 10^5 *(sum(rate * w, na.rm = TRUE)),
+    .groups       = "drop"
+  )%>%
+  mutate(
+    group_var = "race_short",
+    geo_level = "county"
+  )
+
+cnty_race_rates_sev <- all_rates_by_demographic %>%
+  filter(
+    geo_level == "county",
+    group_var == "race_short"
+  ) %>%
+  group_by(county, group_var_cat) %>%
+  summarise(
+    severe = sum(cumulative_severe, na.rm = TRUE),
+    pop    = sum(group_pop, na.rm = TRUE),
+    rate   = severe / pop,
+    .groups = "drop"
+  )
+
+
+cnty_race_adj_sev <- cnty_race_rates_sev %>%
+  left_join(std_race_weights, by = "group_var_cat") %>%
+  group_by(county) %>%
+  summarise(
+    adj_sev_100k = 10^5 *(sum(rate * w, na.rm = TRUE)),
+    .groups       = "drop"
+  )%>%
+  mutate(
+    group_var = "race_short",
+    geo_level = "county"
+  )
+
+cnty_adj_race_df <- cnty_race_adj_sev %>%
+  left_join(cnty_race_adj, by = c("county", "group_var", "geo_level"))
+
+######################################################
+### age-adjusted severe rates
+## - uses CA pop distribution by age group as standard
+
+std_age_weights <- all_rates_by_demographic %>%
+  filter(
+    geo_level == "statewide",
+    group_var == "age_cat"
+    ) %>%
+  group_by(group_var_cat) %>%
+  summarise(std_pop = sum(group_pop), .groups = "drop") %>%
+  mutate(w = std_pop / sum(std_pop)) %>% 
+  ungroup()
+
+
+cnty_age_sev_rates <- all_rates_by_demographic %>%
+  filter(
+    geo_level == "county",
+    group_var == "age_cat"
+  ) %>%
+  group_by(county, group_var, group_var_cat) %>%
+  summarise(
+    severe = sum(cumulative_severe, na.rm = TRUE),
+    pop    = sum(group_pop, na.rm = TRUE),
+    rate   = severe / pop,
+    .groups = "drop"
+  )
+
+
+cnty_age_adj_sev <- cnty_age_sev_rates %>%
+  left_join(std_age_weights, by = "group_var_cat") %>%
+  group_by(county) %>%
+  summarise(
+    adj_sev_100k = 10^5 *(sum(rate * w, na.rm = TRUE)),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    group_var = "age_cat",
+    geo_level = "county"
+  )
+
+
+cnty_age_rates <- all_rates_by_demographic %>%
+  filter(
+    geo_level == "county",
+    group_var == "age_cat"
+  ) %>%
+  group_by(county, group_var, group_var_cat) %>%
+  summarise(
+    infected = sum(cumulative_infected, na.rm = TRUE),
+    pop      = sum(group_pop, na.rm = TRUE),
+    rate     = infected / pop,
+    .groups  = "drop"
+  )
+
+cnty_age_adj <- cnty_age_rates %>%
+  left_join(std_age_weights, by = "group_var_cat") %>%
+  group_by(county) %>%
+  summarise(
+    adj_rate_100k = 10^5 *(sum(rate * w, na.rm = TRUE)),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    group_var = "age_cat",
+    geo_level = "county"
+  )
+
+
+
+
+cnty_adj_case_df <- cnty_age_adj_sev %>%
+  left_join(cnty_age_adj, by = c("county", "group_var", "geo_level"))
+
+
+##--joint adjustment: age cat + race
+
+ca_age_race_rates <- df %>%
+  filter(mmwr_week == 52) %>%
+  group_by(age_cat, race_short) %>%
+  summarise(
+    pop = sum(pop, na.rm =  TRUE), 
+    severe = sum(cumulative_severe, na.rm= TRUE),
+    rate   = severe / pop,
+    .groups = "drop"
+    ) 
+
+std_age_race_weights <- ca_age_race_rates %>%
+  group_by(age_cat, race_short) %>%
+  summarise(std_pop = sum(pop), .groups = "drop") %>%
+  mutate(w = std_pop / sum(std_pop)) %>%
+  ungroup()
+
+
+cnty_age_race_rates <- df %>%
+  filter(mmwr_week == 52) %>%
+  group_by(county, age_cat, race_short) %>%
+  summarise(
+    pop = sum(pop, na.rm =  TRUE), 
+    severe = sum(cumulative_severe, na.rm= TRUE),
+    rate   = severe / pop,
+    .groups = "drop"
+    ) 
+
+
+cnty_joint_adj <- cnty_age_race_rates %>%
+  left_join(std_age_race_weights, 
+            by = c("age_cat", "race_short")) %>%
+  group_by(county) %>%
+  summarise(
+    adj_sev_joint_rate = 10^5 *(sum(rate * w, na.rm = TRUE)),
+    .groups       = "drop"
+  )%>%
+  mutate(
+    geo_level = "county"
+  )
+
+
+
+cnty_adj_df_all <- rbind(cnty_adj_case_df, cnty_adj_race_df) %>%
+  ungroup()
+
+all_rates_dem_adj <- all_rates_by_demographic %>%
+  left_join(cnty_adj_df_all, by = c("county", "geo_level", "group_var")) %>%
+  left_join(cnty_joint_adj, by = c("county", "geo_level"))
+
+
+##########################################################
+## Export / overwrite final to 'data/cleaned_data/' dir ##
+##########################################################
+
+#write.csv(all_rates_dem_adj, here("data/cleaned_data/all_rates_dem_adj.csv"), row.names = FALSE)
+
+
+```
+
+

@@ -1,0 +1,33 @@
+# Infections by Demographic
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+source("_common04.R")
+
+```
+
+
+
+::: {.wide-embed}
+
+
+```{=html}
+
+<iframe 
+  src="https://evalue.shinyapps.io/Group08_cases_dem_app/"
+  width="100%" 
+  height="1800px" 
+  frameborder="0">
+</iframe>
+
+```
+
+:::
+
+
+
+
+

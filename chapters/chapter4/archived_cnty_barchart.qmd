@@ -1,14 +1,3 @@
-# Infections by County
-
-
-```{r}
-#| include: false
-#| warning: false
-#| message: false
-
-source("_common04.R")
-
-```
 
 
 
