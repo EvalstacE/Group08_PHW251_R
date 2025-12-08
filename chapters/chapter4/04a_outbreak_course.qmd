@@ -8,183 +8,34 @@ source("ca_mnth_tbl_code.R")
 ```
 
 
-```{r, echo = FALSE}
 
 
-p1_df <- ca_weekly_cases %>% 
-  arrange(mmwr_week) %>%
-  mutate(
-    p_chng = (cumulative_infected - lag(cumulative_infected)) / lag(cumulative_infected) * 100,
-    s_dt  = format(as_date(start_date), format = c("%b %d")),
-    e_dt  = format(as_date(end_date), format = c("%b %d")),
-    cum_lbl = scales::comma(cumulative_infected, big.mark = ",")
-  )
-
-max_chng <- max(p1_df$p_chng, na.rm = TRUE)
-
-p1_df <- p1_df %>%
- mutate(   
-    p_chng_scaled = case_when(
-      is.na(p_chng) ~ 4,
-      max(p_chng, na.rm = TRUE) == min(p_chng, na.rm = TRUE) ~ 8,
-      TRUE ~ scales::rescale(
-        p_chng,
-        to   = c(4, 14),
-        from = range(p_chng, na.rm = TRUE)
-      )
-    )
-  )
-
-
-p1 <- 
-plot_ly(
-  data = p1_df,
-  name = "Cumulative Infections",
-  x = ~mmwr_week,
-  y = ~cumulative_infected,
-  type = "scatter",
-  mode = "lines",
-  line = list(color = "#fbc9d0")
-)
-
-p1 <- p1 %>%
-  
-add_markers(
-    name = "% Change New Cases",
-    x = ~mmwr_week,
-    y = ~cumulative_infected,
-    size =  ~p_chng,
-    hoverinfo = "text",
-    text = ~paste0(
-        "<b>", s_dt, " - ", e_dt, "</b>",
-        "<br>Cumulative infected: <b>", cum_lbl, "</b>",
-        "<br>Percent change: ", "<b>", round(p_chng, 1), "% </b>"
-        ),
-    
-    marker = list(
-        sizemode = "diameter",
-        sizeref = 2 * max_chng / (60),
-        sizemin  = 3,
-        color = "#fdacb8"
-      )
-)
-
-
-p1 <- p1 %>%
-  
-layout(
-    plot_bgcolor = "#0f172a",
-    paper_bgcolor = "#0f172a",
-    font = list(color = '#f1f0ea'),
-  title = list(text = "Statewide Cumulative Infections"),
-    
-    xaxis = list(title = "MMWR Week"),
-    yaxis = list(title = "Cumulative Infections"),
-    
-    showlegend = TRUE,
-    legend = list(orientation = 'h', x = 0, y = 1.1),
-  
-    margin = list(
-    l = 60,   
-    r = 40,   
-    t = 100,  
-    b = 60,
-    pad = 4 
-  )
-    
-)
-
-```
-
-
-
-
-```{r, echo = FALSE}
-
-
-
-p2_df <- p1_df %>%
-  select(county, mmwr_week, start_date, end_date, 
-         new_infections, new_severe) %>%
-  mutate(
-    all_inf = new_infections + new_severe,
-    inf_prop = 100*new_infections/all_inf,
-    sev_prop = 100*new_severe/all_inf,
-    across(.cols = where(is.numeric), .fns  = ~ round(.x))
-    
-  ) %>%
-  
-  tidyr::pivot_longer(
-    cols      = -c(county, mmwr_week, start_date, end_date, all_inf),
-    names_to  = "inf_type",
-    values_to = "inf_cnt"
-  ) 
-
-p2 <- 
-ggplot() + 
-  geom_col(
-    data = p2_df %>% filter(!inf_type %in% c("inf_prop", "sev_prop")), 
-    aes(
-      x = mmwr_week, 
-      y = inf_cnt,
-      fill = inf_type
-    )
-  )  
-
-
-p3 <- 
-ggplot() + 
-  geom_col(
-    data = p2_df %>% filter(inf_type %in% c("inf_prop", "sev_prop")), 
-    aes(
-      x = mmwr_week, 
-      y = inf_cnt,
-      fill = inf_type
-    )
-  ) 
-
-```
-
-
-
-
-|
-|
-
-
-
-## Cumulative Cases by Week in California
+## Statewide Infections by Month
 ##### *May 2023 - Dec 2023*
 
+
 ```{r, echo = FALSE}
 
-p1
+ca_mnth_tbl
 
 ```
 
 
-|
-|
 
-
-[Download Weekly Infection Rates (CSV)](../../data/inf_rate_dfs/ca_weekly_cases.csv){.btn .btn-primary target="_blank"}
 
 
 |
 |
-
-
-
-## Timeline of the California Outbreak:
-
 |
 
 
-#### *May 2023 - December 2023*
+## Timeline of the Outbreak
 
+### *May 2023 - December 2023*
+
+--------------
 
 ::: {.indent-block}
-
 ##### *May 28, 2023:*
 
 California had reported 13,875 infections. Infections increased rapidly throughout June and early July, with weekly new cases rising **50 to 100 percent** compared with the previous week, the most instense growth phase of the outbreak this year.
@@ -215,197 +66,87 @@ While the State of California is seeing dramatically fewer infections overall, s
 :::
 
 
+------------
 
-|
-|
+::: {.wide-embed}
 
-|
-|
+```{=html}
 
-
-
-## Statewide Infections by Month
-##### *May 2023 - Dec 2023*
-
-
-```{r, echo = FALSE}
-
-ca_mnth_tbl
+<iframe 
+  src="https://evalue.shinyapps.io/Group08_County_Weekly_Map/"
+  width="100%" 
+  height="1000px" 
+  frameborder="0">
+</iframe>
 
 ```
 
+:::
+
+
 
 
 |
 |
+|
 
 
-|
-|
+
 
 
 #### Supporting Code: 
 
-|
+The full code for the weekly case map can be found on the github repository within the "cases_week_app" branch:
+**<https://github.com/EvalstacE/Group08_PHW251_R/tree/cases_week_app>**
 
+[Download Shiny App Code (ZIP)](../../www/Group08_weekly_case_map_shiny_app.zip){.btn .btn-primary target="_blank"}
+
+|
 
 [Download Full Table Code (ZIP)](../../www/ca_mnth_tbl_code.zip){.btn .btn-primary target="_blank"}
 
-
-|
 |
 
+[Download Weekly Infection Rates (CSV)](../../data/inf_rate_dfs/ca_weekly_cases.csv){.btn .btn-primary target="_blank"}
 
-**Cumulative Infections Plotly:**
+|
+
+
+**Creating and saving shapefiles for maps:**
 
 ```{r, eval = FALSE}
 
+##--bring in California shapefile and 
+###---join to infection rate dataframe
+ca_cnty_sf <- counties(state = "CA", cb = TRUE, year = 2023) %>%
+  st_as_sf() %>%
+  select(NAME) %>%
+  rename("county" = "NAME") %>%
+  st_transform(4326)
 
-p1_df <- ca_weekly_cases %>% 
-  arrange(mmwr_week) %>%
-  mutate(
-    p_chng = (cumulative_infected - lag(cumulative_infected)) / lag(cumulative_infected) * 100,
-    s_dt  = format(as_date(start_date), format = c("%b %d")),
-    e_dt  = format(as_date(end_date), format = c("%b %d")),
-    cum_lbl = scales::comma(cumulative_infected, big.mark = ",")
-  )
-
-max_chng <- max(p1_df$p_chng, na.rm = TRUE)
-
-p1_df <- p1_df %>%
- mutate(   
-    p_chng_scaled = case_when(
-      is.na(p_chng) ~ 4,
-      max(p_chng, na.rm = TRUE) == min(p_chng, na.rm = TRUE) ~ 8,
-      TRUE ~ scales::rescale(
-        p_chng,
-        to   = c(4, 14),
-        from = range(p_chng, na.rm = TRUE)
-      )
-    )
-  )
+##--state border only
+ca_state_sf <- states(cb = TRUE, year = 2023) %>%
+  st_as_sf() %>%
+  filter(STUSPS == "CA") %>%
+  select(STATEFP, STUSPS, GEOIDFQ, GEOID) %>%
+  st_transform(4326)
 
 
-p1 <- 
-plot_ly(
-  data = p1_df,
-  name = "Cumulative Infections",
-  x = ~mmwr_week,
-  y = ~cumulative_infected,
-  type = "scatter",
-  mode = "lines",
-  line = list(color = "#fbc9d0")
-)
-
-p1 <- p1 %>%
-  
-add_markers(
-    name = "% Change New Cases",
-    x = ~mmwr_week,
-    y = ~cumulative_infected,
-    size =  ~p_chng,
-    hoverinfo = "text",
-    text = ~paste0(
-        "<b>", s_dt, " - ", e_dt, "</b>",
-        "<br>Cumulative infected: <b>", cum_lbl, "</b>",
-        "<br>Percent change: ", "<b>", round(p_chng, 1), "% </b>"
-        ),
-    
-    marker = list(
-        sizemode = "diameter",
-        sizeref = 2 * max_chng / (60),
-        sizemin  = 3,
-        color = "#fdacb8"
-      )
-)
+##--dissolves counties into Health Officer Regions
+hor_sf <- ca_cnty_sf %>%
+  group_by(health_officer_region) %>%
+  summarise(.groups = "drop")%>%
+  st_cast("MULTIPOLYGON")%>%
+  st_transform(4326)
 
 
-p1 <- p1 %>%
-  
-layout(
-    plot_bgcolor = "#0f172a",
-    paper_bgcolor = "#0f172a",
-    font = list(color = '#f1f0ea'),
-  title = list(text = "Statewide Cumulative Infections"),
-    
-    xaxis = list(title = "MMWR Week"),
-    yaxis = list(title = "Cumulative Infections"),
-    
-    showlegend = TRUE,
-    legend = list(orientation = 'h', x = 0, y = 1.1),
-  
-    margin = list(
-    l = 60,   
-    r = 40,   
-    t = 100,  
-    b = 60,
-    pad = 4 
-  )
-    
-) 
 
-```
-
-
-|
-
-
-**Final table build:**
-
-```{r, eval = FALSE}
-
-
-###########################################
-###########################################
-##                                       ##
-##         Build the Reactable           ##
-##                                       ##
-###########################################
-###########################################
-
-
-ca_mnth_tbl <- 
-  
-reactable::reactable(
-  data,
-  pagination = FALSE,
-  defaultSorted    = "metric",
-  defaultSortOrder = "asc",
-  class = "reactable",
-    
-  defaultColDef = reactable::colDef(
-    vAlign = "center",
-    headerVAlign = "bottom",
-    sortable    = FALSE 
-  ),
-    
-  columnGroups = list(
-    
-    reactable::colGroup(
-      name = "Outbreak by Month",
-      columns = mnth_cols,
-    )
-  ),
-    
-  columns = c(
-      list(
-        metric = reactable::colDef(
-          name = "Metric",
-          align = "left",
-          maxWidth = 80
-        )
-        
-      ),
-      
-      month_cols
-    )
- 
-####################  
-##-- end of table 
-)
+##--save to data/shapefiles folder
+##-st_write(ca_cnty_sf, here("data/shapefiles/ca_cnty_sf/ca_cnty_sf.shp"), append = FALSE)
+##-st_write(hor_sf, here("data/shapefiles/hor_sf/hor_sf.shp"), append = FALSE)
+##-st_write(ca_state_sf, here("data/shapefiles/ca_state_sf/ca_state_sf.shp"), append = FALSE)
 
 
 ```
-
 
 
