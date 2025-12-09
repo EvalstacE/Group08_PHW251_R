@@ -1,0 +1,144 @@
+---
+echo: false
+---
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+source("_common04.R")
+source("04bb_race_code.R")
+
+```
+
+
+
+# Burden of Disease: Race
+
+
+### Infections by Race / Ethnicity
+
+::: {.vspace}
+
+:::
+
+ 
+Interpreting racial differences in infection rates is challenging because observed patterns may reflect multiple overlapping dynamics. 
+
+Counties with higher proportions of a given racial group may show higher infection rates if individuals in that group experience greater risk of exposure or treatment from underlying social or structural inequities (e.g. limited access to healthcare, social or financial safety nets and resources).
+
+At the same time, counties may have broader contextual factors unrelated to race that increase infection risk for all residents, including proximity to the outbreak’s epicenter, population density, or county-level public health policies and enforcement. When counties with these high-risk conditions also have larger proportions of a particular racial group, that group will therefore also have much higher rates of infection.
+
+
+
+
+
+##### Statewide Proportion of Infections by Race
+
+
+::: {layout="[ [1], [1,1] ]"}
+
+```{r, fig.height= 4}
+race_bar_p
+```
+
+
+::: card
+
+#### Statewide Proportion of Infections by Race {.card-header}
+
+::: {.card-body}
+
+```{r}
+race_tbl_1
+```
+
+:::
+:::
+
+
+::: card
+
+#### Distribution of Severe Infection Proportions Across Counties{.card-header}
+
+::: {.card-body}
+
+```{r}
+race_tbl_2
+```
+
+:::
+:::
+
+
+:::
+
+
+
+
+
+
+
+
+Race-adjusted rates help reduce the influence of differing population compositions, but they cannot determine whether elevated risk arises from individual-level factors, county-level conditions, or both. The use of race adjustment is debated because race is a social construct that often functions as a proxy for deeper inequities. In some cases, adjustment may inadvertently mask meaningful disparities experienced by populations disproportionately impacted by historical and structural racism. 
+
+ 
+
+::: circle-bullet
+
+
+
+:::
+
+
+
+---------
+
+
+
+#### Adjusted Severe Infection Rates by Race {.card-header}
+
+
+
+```{r}
+race_p1
+```
+
+
+
+```{r}
+race_p2
+```
+
+
+
+
+
+
+::: {.exsm-text}
+
+*add race codes*
+
+:::
+
+
+
+
+::: {.vspace-xlg}
+
+:::
+
+
+
+-------------
+
+
+
+
+::: {.indent-block}
+
+
+  
+:::

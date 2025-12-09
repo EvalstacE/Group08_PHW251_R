@@ -49,8 +49,7 @@ inf_rates_by_HOR <- inf_rates_by_HOR %>%
          "cumulative_severe" = "total_severe")
 
 
-cat_pal <- 
-  c("#31888d", "#52176b", "#f6c143", "#ff66c4")
+
 
 
 source("_common04_maps.R")

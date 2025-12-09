@@ -27,7 +27,12 @@ hor_pnts <- read.csv(file = here("data/weekly_case_points/hor_pnts.csv"))
 
 
 
-##-- color palettes for maps
+##-- color palettes for maps and charts
+
+cat_pal <- 
+  c("#31888d", "#52176b", "#f6c143", "#ff66c4", "#61c46e", "#395b8b", "#c1434e")
+
+
 
 lgt_clr <- "#fcebed"
 drk_clr <- "#1e0c47"

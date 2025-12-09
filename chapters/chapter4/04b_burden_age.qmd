@@ -2,7 +2,7 @@
 echo: false
 ---
 
-# Burden of Disease
+# Burden of Disease: Age
 
 
 ### Infections by Age
