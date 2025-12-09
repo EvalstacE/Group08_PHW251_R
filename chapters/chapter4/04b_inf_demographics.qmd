@@ -1,0 +1,272 @@
+---
+echo: false
+---
+
+# Burden of Disease
+
+
+### Infections by Age
+
+
+The distribution of infections and severe infections by age group highlights a clear and important pattern in the progression of this outbreak: 
+
+::: circle-bullet
+
+Californians aged **65 and older** make up only about one quarter of all infections statewide, yet they account for nearly **75% of all severe infections.**
+
+:::
+
+
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+source("_common04.R")
+
+```
+
+
+
+```{r}
+
+age_cat_lng <- all_rates_by_demographic %>%
+  filter(geo_level == "statewide", 
+         group_var == "age_cat") %>%
+  mutate(
+    group_var_cat = factor(group_var_cat, levels = rev(c("0-17", "18-49", "50-64", "65+")))
+  )%>%
+  select(group_var_cat, cumulative_severe, cumulative_infected) %>%
+  mutate(
+    total_sev = sum(cumulative_severe),
+    total_inf = sum(cumulative_infected)
+  ) %>%
+  group_by(group_var_cat) %>%
+  mutate(
+    sev_prop = 100*cumulative_severe / total_sev,
+    inf_prop = 100*cumulative_infected / total_inf
+  ) %>%
+  ungroup() %>%
+  select(1, 6:7) %>%
+  pivot_longer(
+    cols      = c(sev_prop, inf_prop),
+    names_to  = "inf_type",
+    values_to = "prop"
+  ) %>%
+  mutate(
+    inf_type = recode(
+      inf_type,
+      "sev_prop" = "Severe Infections",
+      "inf_prop" = "All Infections"
+    )
+  )
+
+
+
+age_bar_p <- age_cat_lng %>%
+  
+plotly::plot_ly(
+  y    = ~inf_type,
+  x    = ~prop,
+  type = "bar",
+  stroke = TRUE,
+  color = ~group_var_cat,
+  colors = cat_pal,
+  hovertext  = ~paste0(
+    group_var_cat, "<br>",
+    inf_type, "<br>",
+    "Percent: <b>", round(prop, 1), "%</b>"
+  ),
+  hoverinfo = "text",
+  
+  marker = list(
+    size = 14,
+    line = list(
+      color = "#ffffff",  
+      width = 2         
+    )
+  )
+    
+) %>%
+  
+plotly::layout(
+  barmode = "stack",  
+  yaxis = list(
+    title = "",
+    tickfont = list(size = 16)
+  ),
+  xaxis = list(
+    title = "",
+    showgrid   = FALSE,  
+    showticklabels = FALSE, 
+    ticks      = ""   
+  ),
+legend = list(
+  title = list(text = "Age Group"),
+  orientation = "h",
+  x = 0.5,
+  xanchor = "center",
+  y = -0.1, 
+  font = list(size = 16),
+  itemsizing = "constant" 
+),
+margin = list(b = 50, t = 50)
+
+)
+
+
+```
+
+
+```{r}
+
+age_cat_df <- all_rates_by_demographic %>%
+  filter(geo_level == "statewide", 
+         group_var == "age_cat") %>%
+  mutate(
+    group_var_cat = factor(group_var_cat, levels = rev(c("0-17", "18-49", "50-64", "65+")))
+  )%>%
+  select(group_var_cat, cumulative_severe, cumulative_infected) %>%
+  mutate(
+    total_sev = sum(cumulative_severe),
+    total_inf = sum(cumulative_infected)
+  ) %>%
+  group_by(group_var_cat) %>%
+  mutate(
+    sev_prop = fmt_pct(100*cumulative_severe / total_sev),
+    inf_prop = fmt_pct(100*cumulative_infected / total_inf)
+  ) %>%
+  ungroup() %>%
+  select(1, 6:7) %>%
+  rename(
+    `Age Group` = group_var_cat ,
+    `Infections`        = inf_prop,
+    `Severe Infections` = sev_prop,
+  )
+
+
+age_tbl_1 <- kable(age_cat_df, align = "c") %>%
+  row_spec(0, bold = TRUE)  %>%
+  kable_styling(bootstrap_options = c("hover"))
+
+
+```
+
+
+
+```{r}
+
+age_dist_df <- all_rates_by_demographic %>%
+  filter(group_var == "age_cat", geo_level == "county") %>%
+  select(county, group_var, group_var_cat, cumulative_infected, cumulative_severe) %>%
+  group_by(county) %>%
+    mutate(
+    total_sev = sum(cumulative_severe),
+    total_inf = sum(cumulative_infected)
+  ) %>% ungroup() %>%
+  group_by(county, group_var_cat) %>%
+  mutate(
+    sev_prop = 100*cumulative_severe / total_sev,
+    inf_prop = 100*cumulative_infected / total_inf
+  ) %>% ungroup()
+
+age_dist_sum <- age_dist_df %>%
+  group_by(group_var_cat) %>%
+  summarise(
+    med_sev_raw = median(sev_prop),
+    max_sev_raw = max(sev_prop),
+    min_sev_raw = min(sev_prop),
+    sd_sev_raw  = sd(sev_prop)
+  ) %>%
+  mutate(
+    med_sev = fmt_pct(med_sev_raw),
+    rng_sev = paste0(fmt_pct(min_sev_raw), " - ", fmt_pct(max_sev_raw)),
+    sd_sev  = fmt_pct(sd_sev_raw)
+  ) %>%
+  select(group_var_cat, med_sev, rng_sev, sd_sev) %>%
+  rename(
+    `Age Group` = group_var_cat ,
+    Median = med_sev,
+    Range = rng_sev,
+    SD = sd_sev
+  )
+
+age_tbl_2 <- kable(age_dist_sum, align = "c") %>%
+  row_spec(0, bold = TRUE)  %>%
+  kable_styling(bootstrap_options = c("hover"))
+
+
+
+```
+
+
+
+---------
+
+
+##### Statewide Proportion of Infections by Age Group
+
+
+::: {layout="[ [1], [1,1] ]"}
+
+```{r, fig.height= 4}
+age_bar_p
+```
+
+
+::: card
+
+#### Statewide Proportion of Infections by Age Group {.card-header}
+
+::: {.card-body}
+
+```{r}
+age_tbl_1
+```
+
+:::
+:::
+
+
+::: card
+
+#### Distribution of Severe Infection Proportions Across Counties{.card-header}
+
+::: {.card-body}
+
+```{r}
+age_tbl_2
+```
+
+:::
+:::
+
+:::
+
+
+|
+|
+
+
+-----------
+
+|
+|
+
+
+This contrast shows that while transmission occurs across all age groups, the risk of severe outcomes is heavily concentrated among older adults. 
+
+**Counties show a similar pattern**, with the median proportion of severe infections in the 65 and older age group far exceeding that of other groups.
+
+
+::: {.indent-block}
+
+This finding has important implications for analysis and resource prioritization:
+
+  1. Prevention and treatment efforts that focus on older adults are likely to yield the greatest reductions in severe illness, hospital burden, and mortality. This includes prioritizing access to vaccines, early treatment, and targeted outreach in counties with large older populations.
+
+  2. Counties with older age structures may appear to have higher crude severe infection rates even when their underlying transmission levels are comparable to those of younger counties. For this reason, *age adjustments*, that allow us to separate the influence of population age structure from the actual severity of the outbreak, becomes essential when comparing counties or identifying areas most in need of support. 
+  
+:::

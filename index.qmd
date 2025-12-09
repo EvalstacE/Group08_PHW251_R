@@ -19,7 +19,6 @@ This report examines the progression of infections from May through December 202
 
 |
 
-
 All data and statistics summarized in this report were compiled from three primary sources: 
 
 **1. Statewide Weekly Infections** by demographics for all counties except Los Angeles
@@ -30,11 +29,15 @@ All data and statistics summarized in this report were compiled from three prima
 
 
 |
+|
 
+-----------
 
-Our analysis centers on four primary questions::
+|
 
-* What is the **current status** of the outbreak in California? 
+::: {.indent-block}
+Our analysis centers on three primary questions:
+
 
 * How has the **course of the outbreak** evolved from May 2023 - December 2023 (present)?
 
@@ -42,6 +45,7 @@ Our analysis centers on four primary questions::
 
 * How can we use the reported infection data to-date to develop **priorities for allocating prevention and treatment resources**?
 
+:::
 
 |
 

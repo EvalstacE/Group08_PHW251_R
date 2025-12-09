@@ -490,6 +490,11 @@ h2 {margin-top: 4rem !important;}
 h3 {margin-top: 4rem !important;}
 
 
+.center-text {
+  text-align: center;
+}
+
+
 
 /* ------------------------------------------------ */
 
@@ -730,7 +735,29 @@ $card-group-margin:                 $grid-gutter-width * .5 !default;
 
 
 
+.card {
+  border: 1px solid #e5e7eb;    
+  border-radius: 12px;          
+  padding: 1rem;             
+  margin: 1rem 0;                
+  background-color: #ffffff;    
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06); 
+}
 
+.card-header {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: #0f172a;
+  background-color: #ffffff !important; 
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+.card-body {
+  font-size: 0.95rem;
+  font-weight: 350;
+}
 
 /* --------------------------------------------- */
 /* --------      Figures        --------------- */
@@ -742,7 +769,18 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
 // scss-docs-end figure-variables
 
 
+/* outer circle (root) */
+.node--root circle {
+  fill: #ffffff !important;   /* a light gray instead of light blue */
+}
 
+.circlepackeR svg circle.node--root {
+  fill: #ffffff !important;
+}
+
+.circlepackeR svg circle.node--leaf {
+  fill: #b93f76 !important;
+}
 
 /* --------------------------------------------- */
 /* --------     kbl tables           ---------- */
@@ -788,6 +826,50 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
 /* Presets */
 .text-box-red   { @include activity-box($red,  $white); }
 .text-box-white { @include activity-box($white, $black); }
+
+
+
+/* ------------------------------------------------- */
+/* --------    custom "bullet"      --------------- */
+/* ----------------------------------------------- */
+
+
+.circle-bullet.gold   { --bullet-color: #f6c143; }
+.circle-bullet.orange { --bullet-color: #e56937; }
+.circle-bullet.magenta{ --bullet-color: #892a68; }
+.circle-bullet.purple { --bullet-color: #52176b; }
+.circle-bullet.green  { --bullet-color: #3cad82; }
+.circle-bullet.teal   { --bullet-color: #31888d; }
+
+
+.circle-bullet {
+  --bullet-color: #31888d;      
+  --text-color: var(--bullet-color);
+
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: flex start;
+  gap: 0.75rem;
+  margin-left: 2.5rem;   
+  padding-left: 1rem;
+  padding-right: 10rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  color: var(--text-color);     
+}
+
+.circle-bullet::before {
+  content: "";
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--bullet-color);
+  flex-shrink: 0;
+  margin-top: 0.3rem;
+}
+
 
 
 
