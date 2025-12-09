@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Infection Dates – Simulated Infectious Disease Outbreak in California</title>
+<title>2&nbsp; Burden of Disease: Age – Simulated Infectious Disease Outbreak in California</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -64,8 +29,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/chapter3/03e_race_ethnicity.html" rel="next">
-<link href="../../chapters/chapter3/03c_age_groups.html" rel="prev">
+<link href="../../chapters/chapter4/04bb_burden_race.html" rel="next">
+<link href="../../chapters/chapter4/04a_outbreak_course.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -103,6 +68,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../../site_libs/plotly-binding-4.10.4/plotly.js"></script>
+
+<script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="../../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="../../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="../../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
 <script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
 
 <link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
@@ -120,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html">Data Preparation</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/03d_infection_dates.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Infection Dates</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html">Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter4/04b_burden_age.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Burden of Disease: Age</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -160,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter4/04b_burden_age.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/chapter4/04b_burden_age.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Burden of Disease: Age</span></span></a>
   </div>
 </li>
@@ -207,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/03d_infection_dates.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/chapter3/03d_infection_dates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Infection Dates</span></span></a>
   </div>
 </li>
@@ -273,11 +256,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/03a_project_setup.html">Data Preparation</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/03d_infection_dates.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Infection Dates</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter4/04a_outbreak_course.html">Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter4/04b_burden_age.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Burden of Disease: Age</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Infection Dates</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Burden of Disease: Age</span></h1>
 </div>
 
 
@@ -294,100 +277,135 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>To support date-based analyses, infection records will be aggregated by <strong>MMWR week and year</strong>. For both the Los Angeles County and California datasets, we will generate two new columns: <strong>mmwr_year</strong> and <strong>mmwr_week</strong>, then remove the original date-based fields. We will also add columns <strong>start_date</strong> and <strong>end_date</strong> to serve as reference points should we need them later.</p>
-<p>In the California dataset, the field <strong>time_int</strong> encodes the year and MMWR week as a six-digit integer (YYYYWW). To create the new fields, we extract the first four digits as mmwr_year and the last two digits as mmwr_week, then drop the original time_int column.</p>
-<p>In the Los Angeles County dataset, the codebook identifies a field <strong>dt_report</strong> as the last day of the MMWR week. However, this field contained only missing values, so it was removed. Instead, we convert the infection date field, <strong>dt_dx</strong> to a proper date format, and then use the <code>MMWRweek</code> package to derive the mmwr_year and mmwr_week.</p>
-<div class="cell">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">##-- California dataset:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>step2_ca_df <span class="ot">&lt;-</span> step1_ca_df <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">##--pull MMWR week and year from time_int field</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mmwr_year =</span> <span class="fu">factor</span>(time_int <span class="sc">%/%</span> <span class="dv">100</span>), </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mmwr_week =</span> <span class="fu">factor</span>(time_int <span class="sc">%%</span> <span class="dv">100</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">add_start_end_dates</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span>time_int) <span class="sc">%&gt;%</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(mmwr_year, mmwr_week, start_date, </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>         end_date, <span class="at">.before =</span> <span class="fu">everything</span>())</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">##-- LA county dataset:</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>step2_la_cnty_df <span class="ot">&lt;-</span> step1_la_cnty_df <span class="sc">%&gt;%</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">##--restructure to proper date format</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">DATE_FIX =</span> </span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.Date</span>(<span class="fu">parse_date_time</span>(dt_dx, <span class="st">"%d%b%Y"</span>), </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>          <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="do">##--use date to create new MMWR fields</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">add_mmwr_week_columns</span>(<span class="at">date_col =</span> <span class="st">"DATE_FIX"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">add_start_end_dates</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(DATE_FIX, dt_dx)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(mmwr_year, mmwr_week, start_date, </span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>         end_date, <span class="at">.before =</span> <span class="fu">everything</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(county, <span class="at">.before =</span> age_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<section id="infections-by-age" class="level3">
+<h3 class="anchored" data-anchor-id="infections-by-age">Infections by Age</h3>
+<div class="vspace">
+
 </div>
-<div class="line-block"><br>
+<p>The distribution of infections and severe infections by age group highlights a clear and important pattern in the progression of this outbreak:</p>
+<div class="circle-bullet">
+<p>Californians aged <strong>65 and older</strong> make up only about one quarter of all infections statewide, yet they account for nearly <strong>75% of all severe infections.</strong></p>
 </div>
-<p>To streamline this process, we created two helper functions:</p>
-<ul>
-<li><code>add_mmwr_week_columns()</code> : takes date column and adds two fields: mmwr_year and mmwr_week</li>
-<li><code>add_start_end_dates()</code> : uses those values to generate corresponding MMWR week start and end dates</li>
-</ul>
-<div class="column-box">
-<p><strong>The dataframes now have a structure that looks like this:</strong></p>
+<hr>
+<section id="statewide-proportion-of-infections-by-age-group" class="level5">
+<h5 class="anchored">Statewide Proportion of Infections by Age Group</h5>
+<div class="quarto-layout-panel" data-layout="[ [1], [1,1] ]">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-b57753db1c38711786a1" style="width:100%;height:371px;"></div>
+<script type="application/json" data-for="htmlwidget-b57753db1c38711786a1">{"x":{"visdat":{"429410bc3b41":["function () ","plotlyVisDat"]},"cur_data":"429410bc3b41","attrs":{"429410bc3b41":{"y":{},"x":{},"hovertext":{},"hoverinfo":"text","marker":{"size":14,"line":{"color":"#ffffff","width":2}},"color":{},"stroke":true,"colors":["#31888d","#52176b","#f6c143","#ff66c4","#61c46e","#395b8b","#c1434e"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":50,"l":60,"t":50,"r":10},"barmode":"stack","yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":16},"type":"category","categoryorder":"array","categoryarray":["All Infections","Severe Infections"]},"xaxis":{"domain":[0,1],"automargin":true,"title":"","showgrid":false,"showticklabels":false,"ticks":""},"legend":{"title":{"text":"Age Group"},"orientation":"h","x":0.5,"xanchor":"center","y":-0.10000000000000001,"font":{"size":16},"itemsizing":"constant"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Severe Infections","All Infections"],"x":[74.386650489261456,26.125647119747018],"hovertext":["65+<br>Severe Infections<br>Percent: <b>74.4%<\/b>","65+<br>All Infections<br>Percent: <b>26.1%<\/b>"],"hoverinfo":["text","text"],"marker":{"color":"rgba(49,136,141,1)","size":14,"line":{"color":"#ffffff","width":2}},"type":"bar","orientation":"h","name":"65+","error_y":{"color":"rgba(49,136,141,1)","thickness":1},"error_x":{"color":"rgba(49,136,141,1)","thickness":1},"textfont":{"color":"rgba(49,136,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"y":["Severe Infections","All Infections"],"x":[2.2233427351370088,11.879792060063526],"hovertext":["50-64<br>Severe Infections<br>Percent: <b>2.2%<\/b>","50-64<br>All Infections<br>Percent: <b>11.9%<\/b>"],"hoverinfo":["text","text"],"marker":{"color":"rgba(246,193,67,1)","size":14,"line":{"color":"#ffffff","width":2}},"type":"bar","orientation":"h","name":"50-64","error_y":{"color":"rgba(246,193,67,1)","thickness":1},"error_x":{"color":"rgba(246,193,67,1)","thickness":1},"textfont":{"color":"rgba(246,193,67,1)"},"xaxis":"x","yaxis":"y","frame":null},{"y":["Severe Infections","All Infections"],"x":[23.104013362116508,54.230992159061614],"hovertext":["18-49<br>Severe Infections<br>Percent: <b>23.1%<\/b>","18-49<br>All Infections<br>Percent: <b>54.2%<\/b>"],"hoverinfo":["text","text"],"marker":{"color":"rgba(97,196,110,1)","size":14,"line":{"color":"#ffffff","width":2}},"type":"bar","orientation":"h","name":"18-49","error_y":{"color":"rgba(97,196,110,1)","thickness":1},"error_x":{"color":"rgba(97,196,110,1)","thickness":1},"textfont":{"color":"rgba(97,196,110,1)"},"xaxis":"x","yaxis":"y","frame":null},{"y":["Severe Infections","All Infections"],"x":[0.28599341348502277,7.7635686611278443],"hovertext":["0-17<br>Severe Infections<br>Percent: <b>0.3%<\/b>","0-17<br>All Infections<br>Percent: <b>7.8%<\/b>"],"hoverinfo":["text","text"],"marker":{"color":"rgba(193,67,78,1)","size":14,"line":{"color":"#ffffff","width":2}},"type":"bar","orientation":"h","name":"0-17","error_y":{"color":"rgba(193,67,78,1)","thickness":1},"error_x":{"color":"rgba(193,67,78,1)","thickness":1},"textfont":{"color":"rgba(193,67,78,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<section id="statewide-proportion-of-infections-by-age-group-1" class="level4 card-header card quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<h4 class="card-header anchored" data-anchor-id="statewide-proportion-of-infections-by-age-group-1">Statewide Proportion of Infections by Age Group</h4>
+<div class="card-body">
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-bordered caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<table class="table table-hover caption-top table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">mmwr_year</span></th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">mmwr_week</span></th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">start_date</span></th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;"><span style=" font-weight: bold;    color: rgba(15, 23, 42, 255) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(255, 222, 89, 255) !important;font-size: 16px;">end_date</span></th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">county</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">age_cat</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: rgba(15, 23, 42, 255) !important; font-size: 16px!important; color: #ffffff;">new_infections</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Age Group</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Severe Infections</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Infections</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">2023</td>
-<td style="text-align: center;">22</td>
-<td style="text-align: center;">2023-05-28</td>
-<td style="text-align: center;">2023-06-03</td>
-<td style="text-align: center;">Los Angeles</td>
 <td style="text-align: center;">0-17</td>
-<td style="text-align: center;">15</td>
+<td style="text-align: center;">0.3%</td>
+<td style="text-align: center;">7.8%</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">2023</td>
-<td style="text-align: center;">23</td>
-<td style="text-align: center;">2023-06-04</td>
-<td style="text-align: center;">2023-06-10</td>
-<td style="text-align: center;">Los Angeles</td>
-<td style="text-align: center;">0-17</td>
-<td style="text-align: center;">17</td>
+<td style="text-align: center;">18-49</td>
+<td style="text-align: center;">23.1%</td>
+<td style="text-align: center;">54.2%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">2023</td>
-<td style="text-align: center;">24</td>
-<td style="text-align: center;">2023-06-11</td>
-<td style="text-align: center;">2023-06-17</td>
-<td style="text-align: center;">Los Angeles</td>
-<td style="text-align: center;">0-17</td>
-<td style="text-align: center;">23</td>
+<td style="text-align: center;">50-64</td>
+<td style="text-align: center;">2.2%</td>
+<td style="text-align: center;">11.9%</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">65+</td>
+<td style="text-align: center;">74.4%</td>
+<td style="text-align: center;">26.1%</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
+</section>
+<section id="distribution-of-severe-infection-proportions-across-counties" class="level4 card-header card quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<h4 class="card-header anchored" data-anchor-id="distribution-of-severe-infection-proportions-across-counties">Distribution of Severe Infection Proportions Across Counties</h4>
+<div class="card-body">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-hover caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Age Group</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Median</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Range</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0-17</td>
+<td style="text-align: center;">0.2%</td>
+<td style="text-align: center;">0% - 0.7%</td>
+<td style="text-align: center;">0.2%</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">18-49</td>
+<td style="text-align: center;">20.6%</td>
+<td style="text-align: center;">0% - 31.0%</td>
+<td style="text-align: center;">6.9%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">50-64</td>
+<td style="text-align: center;">2.0%</td>
+<td style="text-align: center;">0% - 3.9%</td>
+<td style="text-align: center;">0.8%</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">65+</td>
+<td style="text-align: center;">77.7%</td>
+<td style="text-align: center;">66.3% - 100%</td>
+<td style="text-align: center;">7.3%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<div class="exsm-text">
+<p><em>SD = standard deviation (how spread out proportions are from the mean)</em></p>
+</div>
+<div class="vspace-xlg">
+
+</div>
+<hr>
+<p>This contrast shows that while transmission occurs across all age groups, the risk of severe outcomes is heavily concentrated among older adults.</p>
+<p><strong>Counties show a similar pattern</strong>, with the median proportion of severe infections in the 65 and older age group far exceeding that of other groups.</p>
+<div class="indent-block">
+<p>This finding has important implications for analysis and resource prioritization:</p>
+<ol type="1">
+<li><p>Prevention and treatment efforts that focus on older adults are likely to yield the greatest reductions in severe illness, hospital burden, and mortality. This includes prioritizing access to vaccines, early treatment, and targeted outreach in counties with large older populations.</p></li>
+<li><p>Counties with older age structures may appear to have higher crude severe infection rates even when their underlying transmission levels are comparable to those of younger counties. For this reason, <em>age adjustments</em>, that allow us to separate the influence of population age structure from the actual severity of the outbreak, becomes essential when comparing counties or identifying areas most in need of support.</p></li>
+</ol>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -796,13 +814,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/chapter3/03c_age_groups.html" class="pagination-link" aria-label="Age Groups">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Age Groups</span></span>
+      <a href="../../chapters/chapter4/04a_outbreak_course.html" class="pagination-link" aria-label="Course of the Outbreak">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Course of the Outbreak</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/chapter3/03e_race_ethnicity.html" class="pagination-link" aria-label="Race and Ethnicity">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Race and Ethnicity</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/chapter4/04bb_burden_race.html" class="pagination-link" aria-label="Burden of Disease: Race">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Burden of Disease: Race</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
