@@ -5,8 +5,10 @@ pacman::p_load(
   kableExtra, MMWRweek, scales, sf, tigris, classInt,
   plotly, leaflet, ggspatial, glue, htmltools, htmlwidgets,
   ggtext, ggfx, grid, forcats, gganimate, cowplot, ggrepel,
-  reactable, RColorBrewer, cartogram
+  reactable, RColorBrewer, cartogram, viridis, viridisLite,
+  circlepackeR
 )
+
 
 options(
   tigris_use_cache = TRUE,
@@ -45,6 +47,10 @@ inf_rates_by_cnty <- inf_rates_by_cnty %>%
 inf_rates_by_HOR <- inf_rates_by_HOR %>%
   rename("cumulative_infected" = "total_infected",
          "cumulative_severe" = "total_severe")
+
+
+cat_pal <- 
+  c("#31888d", "#52176b", "#f6c143", "#ff66c4")
 
 
 source("_common04_maps.R")
