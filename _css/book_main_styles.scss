@@ -468,6 +468,35 @@ $mark-bg:                     $yellow !default;
 
 $paragraph-margin-bottom:   1rem !default;
 
+
+
+.center-text {
+  text-align: center;
+}
+
+
+.exsm-text {
+  font-size: 0.85rem !important;
+  width: 250px !important;
+  float: right !important;
+  text-align: center !important;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+
+.vspace {
+  margin-top: 1rem;
+}
+
+
+.vspace-xlg {
+  margin-top: 8rem;
+}
+
+
+
+
 /* ----------------------------------------------------- */
 /* -------------       HEADINGS       ----------------- */
 /* --------------------------------------------------- */
@@ -489,10 +518,6 @@ h2 {margin-top: 4rem !important;}
 
 h3 {margin-top: 4rem !important;}
 
-
-.center-text {
-  text-align: center;
-}
 
 
 

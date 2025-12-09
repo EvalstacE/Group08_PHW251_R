@@ -7,6 +7,9 @@ echo: false
 
 ### Infections by Age
 
+::: {.vspace}
+
+:::
 
 The distribution of infections and severe infections by age group highlights a clear and important pattern in the progression of this outbreak: 
 
@@ -243,17 +246,27 @@ age_tbl_2
 :::
 :::
 
+
 :::
 
 
-|
-|
+
+::: {.exsm-text}
+
+*SD = standard deviation (how spread out proportions are from the mean)*
+
+:::
 
 
------------
 
-|
-|
+
+::: {.vspace-xlg}
+
+:::
+
+
+
+-------------
 
 
 This contrast shows that while transmission occurs across all age groups, the risk of severe outcomes is heavily concentrated among older adults. 
