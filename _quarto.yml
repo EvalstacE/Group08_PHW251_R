@@ -37,9 +37,10 @@ book:
   chapters:
     - index.qmd
     
-    - part: "Analysis"
+    - part: "Final Report"
       chapters: 
-        - chapters/chapter4/04a_outbreak_course.qmd
+        - chapters/chapter4/04a_executive_summary.qmd      
+        - chapters/chapter4/04aa_outbreak_course.qmd
         - chapters/chapter4/04b_burden_age.qmd   
         - chapters/chapter4/04bb_burden_race.qmd         
         - chapters/chapter4/04d_cnty_ranks.qmd        
