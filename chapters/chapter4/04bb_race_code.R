@@ -146,6 +146,133 @@ race_p1_plotly <- race_p1 %>% layout(height = 400)
 
 
 
+#########################
+#########################
+### plotly : WHITE NH
+white_df <- race_prop_inf %>%
+  dplyr::filter(group_var_cat == "White NH") %>%
+  dplyr::mutate(
+    hover_lbl = paste0(
+      "<b>", county, "</b><br>",
+      "Severe Infection Rate: <br><b>",
+      round(adj_sev_joint_rate, 1), " per 100K<br></b>",
+      "White NH population <br>proportion: <b>",
+      round(race_prop, 1), "% </b>"
+    )
+  )
+
+
+# Linear model
+mod_white <- lm(adj_sev_joint_rate ~ race_prop, data = white_df)
+
+# Prediction grid for smooth line and CI
+pred_df_white <- data.frame(
+  race_prop = seq(
+    from = min(white_df$race_prop, na.rm = TRUE),
+    to   = max(white_df$race_prop, na.rm = TRUE),
+    length.out = 100
+  )
+)
+
+preds_white <- predict(mod_white, newdata = pred_df_white, interval = "confidence")
+
+pred_df_white <- pred_df_white %>%
+  dplyr::mutate(
+    fit = preds_white[, "fit"],
+    lwr = preds_white[, "lwr"],
+    upr = preds_white[, "upr"]
+  )
+
+
+
+white_p1 <- plotly::plot_ly() %>%
+  
+  # CI band (the "glow")
+  add_ribbons(
+    data      = pred_df_white,
+    x         = ~race_prop,
+    ymin      = ~lwr,
+    ymax      = ~upr,
+    line      = list(color = "transparent"),
+    fillcolor = "rgba(246,193,67,0.4)",  
+    hoverinfo = "skip",
+    showlegend = FALSE
+  ) %>%
+  
+  # Regression line
+  add_lines(
+    data = pred_df_white,
+    x    = ~race_prop,
+    y    = ~fit,
+    line = list(
+      color = drkst_clr,
+      width = 0.9
+    ),
+    hoverinfo  = "skip",
+    showlegend = FALSE
+  ) %>%
+  
+  # Points
+  add_markers(
+    data = white_df,
+    x    = ~race_prop,
+    y    = ~adj_sev_joint_rate,
+    marker = list(
+      size = 8,
+      color = "rgba(49, 136, 141, 0.5)", 
+      line = list(
+        color = drkst_clr,
+        width = 0.8
+      )
+    ),
+    text      = ~hover_lbl,
+    hoverinfo = "text",
+    showlegend = FALSE
+  ) %>%
+  
+  layout(
+    hoverlabel = list(
+      bgcolor  = "rgba(49, 136, 141,0.9)",   
+      font = list(
+        color = "white"
+      )
+    ),
+    
+    xaxis = list(
+      title    = "White NH Proportion of <br>County Population (%)",
+      zeroline = FALSE,
+      showgrid = TRUE,  
+      tickmode = "array",
+      range    = c(0, 100),
+      tickvals = c(30, 60, 90)
+    ),
+    yaxis = list(
+      title    = "Joint Age-Race Adjusted<br>Severe Infection Rate",
+      zeroline = FALSE,
+      showgrid = TRUE,  
+      tickmode = "array",
+      range    = c(0, 1500),
+      tickvals = c(100, 700, 1400)
+    ),
+    margin = list(l = 60, r = 20, t = 40, b = 60)
+  )
+
+
+
+white_p1_plotly <- white_p1 %>% layout(height = 400)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #########################
 #########################

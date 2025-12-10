@@ -147,20 +147,10 @@ Counties with the largest **Hispanic populations** experienced the highest rates
 
 
 
-
-::: {.wide-embed}
-
-
 ::: {.hr-colored .purple}
 
 :::
 
-
-::: {.center-text}
-
-#### Adjusted Severe Infection Rates and Proportion of Population by County
-
-::: 
 
 
 
@@ -169,21 +159,18 @@ Counties with the largest **Hispanic populations** experienced the highest rates
 :::
 
 
-::: {layout="[[1.5,1]]"}
-
-
 
 
 ::: card
 
-#### Adjusted Infection Rates by County Hispanic Population Proportion {.card-header}
+#### County Adjusted Infection Rates by Hispanic Population {.card-header}
 
 ::: {.card-body}
 
 
 ```{r}
-#| fig-width: 7
-#| fig-height: 4.5
+#| fig-width: 8
+#| fig-height: 5
 
 race_p1_plotly
 
@@ -191,28 +178,11 @@ race_p1_plotly
 
 
 :::
-:::
-
-
-::: card
-
-#### Adjusted Infection Rates by all other Races {.card-header}
-
-::: {.card-body}
-
-```{r}
-#| fig-width: 8
-#| fig-height: 7
-
-
-race_p2
-
-```
-
 
 :::
-:::
 
+
+::: {.vspace}
 
 :::
 
@@ -227,7 +197,11 @@ race_p2
 
 
 
-::: {.vspace-xlg}
+::: {.vspace}
+
+:::
+
+::: {.vspace}
 
 :::
 
@@ -240,13 +214,9 @@ race_p2
 
 
 
-::: {.vspace}
+::: {.vspace-lg}
 
 :::
-
-
-
-
 
 
 
@@ -334,11 +304,6 @@ race_tbl_2
 
 ::::
 
-
-
-
-
-:::
 
 
 
