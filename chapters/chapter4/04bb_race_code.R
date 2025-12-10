@@ -3,6 +3,10 @@ source("_common04.R")
 cnty_rnks <- cnty_ranked_df %>%
   select(county, total_cnty_pop, priority_tier)
 
+
+
+
+
 race_prop_inf <- all_rates_dem_adj %>%
   filter(geo_level == "county", 
          group_var == "race_short") %>%
@@ -117,8 +121,15 @@ race_p2 <-
   )
 
 
+##### statewide df for table and bar plot --
 
-
+race_props_all <- all_rates_dem_adj %>%
+  filter(geo_level == "statewide", group_var == "race_short") %>%
+  select(county, group_var_cat, group_pop, total_ca_pop) %>%
+  mutate(
+    race_prop = 100*group_pop/total_ca_pop
+  ) %>%
+  select(group_var_cat, group_pop, race_prop)
 
 
 race_cat_lng <- all_rates_by_demographic %>%
@@ -152,10 +163,25 @@ race_cat_lng <- all_rates_by_demographic %>%
       "sev_prop" = "Severe Infections",
       "inf_prop" = "All Infections"
     )
-  ) 
+  ) %>%
+  left_join(race_props_all, by = "group_var_cat")%>%
+  mutate(lbl_bold = paste0("<b>", group_var_cat, "</b>"))
 
+
+
+### encode factor order and color palette
+race_levels <- race_cat_lng %>%
+  distinct(group_var_cat) %>%
+  pull(group_var_cat)
+
+race_cat_lng <- race_cat_lng %>%
+  mutate(group_var_cat = factor(group_var_cat, levels = race_levels))
+
+cat_pal_named <- setNames(cat_pal[seq_along(race_levels)], race_levels)
+###############
 
 race_bar_p <- race_cat_lng %>%
+  mutate(group_var_cat = factor(group_var_cat, levels = race_levels)) %>%
   
   plotly::plot_ly(
     y    = ~inf_type,
@@ -163,11 +189,13 @@ race_bar_p <- race_cat_lng %>%
     type = "bar",
     stroke = TRUE,
     color = ~group_var_cat,
-    colors = cat_pal,
+    colors = cat_pal_named,
     hovertext  = ~paste0(
       group_var_cat, "<br>",
       inf_type, "<br>",
-      "Percent: <b>", round(prop, 1), "%</b>"
+      "Percent: <b>", round(prop, 1), "%</b><br>",
+      "Proportion of CA Population: <b>", round(race_prop), "%</b><br>"
+      
     ),
     hoverinfo = "text",
     
@@ -182,6 +210,7 @@ race_bar_p <- race_cat_lng %>%
   ) %>%
   
   plotly::layout(
+    showlegend = FALSE,
     barmode = "stack",  
     yaxis = list(
       title = "",
@@ -208,7 +237,44 @@ race_bar_p <- race_cat_lng %>%
 
 
 
+###### pie --
 
+race_pie_df <- race_cat_lng %>%
+  distinct(group_var_cat, group_pop, lbl_bold) %>%
+  mutate(
+    group_var_cat = factor(group_var_cat, levels = race_levels),
+    prop = group_pop / sum(group_pop),
+    display_lbl = if_else(prop >= 0.05, lbl_bold, "")
+  )
+
+race_prop_pie <- race_pie_df %>%
+  plotly::plot_ly(
+    labels    = ~group_var_cat,
+    values    = ~group_pop,
+    text      = ~display_lbl,
+    hoverinfo = "label+percent"
+  ) %>%
+  add_pie(
+    hole                  = 0.6,
+    sort                  = FALSE,  # keep factor order
+    textinfo              = "text+percent",
+    textposition          = "outside",
+    insidetextorientation = "radial",
+    marker = list(
+      colors = unname(cat_pal_named[levels(race_pie_df$group_var_cat)])
+    )
+  ) %>%
+  layout(
+    title      = "",
+    showlegend = FALSE,
+    xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+    yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
+  )
+
+
+###################
+###################
+#### -- tables
 
 race_df <- all_rates_by_demographic %>%
   filter(geo_level == "statewide", 
@@ -280,13 +346,15 @@ race_dist_sum <- race_dist_df %>%
     SD = sd_sev
   )
 
+
+
 race_tbl_2 <- kable(race_dist_sum, align = "c") %>%
   row_spec(0, bold = TRUE)  %>%
   kable_styling(bootstrap_options = c("hover"))
 
 
-
-
+###################
+###################
 
 
 
