@@ -79,6 +79,7 @@ weekly_df <- combined_df %>%
   summarise(
     cumulative_infected = sum(cumulative_infected, na.rm = TRUE), 
     cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+    new_cases           = sum(new_infections, na.rm = TRUE),
     .groups = "drop"
   )
 
@@ -93,6 +94,7 @@ p1_df <- weekly_df %>%
   summarise(
     cumulative_infected = sum(cumulative_infected, na.rm = TRUE), 
     cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+    new_cases           = sum(new_cases, na.rm = TRUE),
     .groups = "drop"
   ) %>%
   arrange(mmwr_week) %>%
@@ -101,6 +103,7 @@ mutate(
     s_dt   = format(as_date(start_date), format = "%b %d"),
     e_dt   = format(as_date(end_date),   format = "%b %d"),
     cum_lbl = scales::comma(cumulative_infected, big.mark = ","),
+    new_lbl = scales::comma(new_cases, big.mark = ","),
     p_chng_scaled = case_when(
       is.na(p_chng) ~ 4,
       max(p_chng, na.rm = TRUE) == min(p_chng, na.rm = TRUE) ~ 8,
@@ -122,6 +125,9 @@ lgt_clr <- "#fcebed"
 drk_clr <- "#1e0c47"
 drkst_clr <- "#0f172a"
 grid_clr <- "#212738"
+
+cat_pal <- 
+  c("#31888d", "#52176b", "#f6c143", "#ff66c4", "#61c46e", "#395b8b", "#c1434e")
 
 
 custom_pal <- c(

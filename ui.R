@@ -56,10 +56,46 @@ layout_column_wrap(
       
       leafletOutput("cnty_case_map", height = "600px"),
       
-      plotlyOutput("cum_cases_plot")
+        layout_column_wrap(
+          width = 1, 
+          
+          card(
+
+              div(
+                "New Cases by Week",
+                style = "
+                  background-color: #31888d;
+                  color: #ffffff;
+                  font-weight: 700;
+                  text-align: center;
+                  padding: 0.5rem 1rem;
+                  border-radius: 0.5rem 0.5rem 0 0;
+                "
+              ),
+              
+            plotlyOutput("new_cases_plot")
+          ),
+          
+          card(
+            div(
+              "Cumulative Cases",
+              style = "
+                  background-color: #52176b;
+                  color: #ffffff;
+                  font-weight: 700;
+                  text-align: center;
+                  padding: 0.5rem 1rem;
+                  border-radius: 0.5rem 0.5rem 0 0;
+                "
+            ),
+            plotlyOutput("cum_cases_plot")
+          )
+        )
     )
     
 )
+    
+
 
 
 

@@ -135,7 +135,7 @@ output$cum_cases_plot <- plotly::renderPlotly({
     type = "scatter",
     mode = "lines+markers",
     line = list(color = drkst_clr, width = 0.5),
-    marker = list(color = "#52176b", size = 6), 
+    marker = list(color =  "#52176b", size = 6), 
     hoverinfo = "text",
     text      = ~paste0(
       "<b>", s_dt, " - ", e_dt, "</b>",
@@ -149,7 +149,63 @@ output$cum_cases_plot <- plotly::renderPlotly({
     layout(
       title = list(text = ""),
       xaxis = list(title = "MMWR Week"),
-      yaxis = list(title = "")
+      yaxis = list(
+        title = "",
+        showticklabels = FALSE
+      )
+    )
+  
+})
+
+
+
+
+
+
+output$new_cases_plot <- plotly::renderPlotly({
+  req(p1_df, input$mmwr_slider)
+  
+  this_week <- input$mmwr_slider
+  
+  # Option: only show weeks up to the selected week
+  df_plot <- p1_df %>%
+    filter(mmwr_week <= this_week) %>%
+    mutate(is_selected = mmwr_week == this_week)
+  
+  # Base line
+  p <- plotly::plot_ly(
+    data = df_plot,
+    name = "New Infections",
+    x    = ~mmwr_week,
+    y    = ~new_cases,
+    type = "bar",
+
+    line = list(color = drkst_clr, width = 0.5),
+    # Bar styling
+    marker = list(
+      color = "#31888d",
+      line  = list(color = drkst_clr, width = 0.5)  # outline
+    ),
+    
+    # Hover only (no bar labels)
+    text = ~paste0(
+      "<b>", s_dt, " - ", e_dt, "</b>",
+      "<br>New Infections: <b>", new_lbl, "</b>"
+    ),
+    hoverinfo = "text",
+    textposition = "none",
+    
+    showlegend = FALSE
+  )
+  
+  p  %>%
+    layout(
+      title = list(text = ""),
+      xaxis = list(title = "MMWR Week"),
+      yaxis = list(
+        title = "",
+        showticklabels = FALSE
+      )
     )
   
 })
