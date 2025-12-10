@@ -24,61 +24,138 @@ race_prop_inf <- all_rates_dem_adj %>%
 
 
 
-hisp_df <- race_prop_inf %>% filter(group_var_cat == "Hispanic")
 
-race_p1 <- 
-  ggplot() + 
-  facet_wrap(~group_var_cat, scales = "free", nrow = 1) +   
-  geom_smooth(
-    data = hisp_df,
-    aes(
-      x = race_prop,
-      y = adj_sev_joint_rate,
-      group = 1
-    ),
-    method = "lm",
-    se = TRUE,                
-    fill = "#f6c143",          
-    alpha = 0.2,               
-    color = drkst_clr,         
-    linewidth = 0.9
-  )+   
-  
-  geom_point(
-    data = hisp_df, 
-    shape = 21,
-    color = drkst_clr,
-    fill = "#52176b",
-    alpha = 0.65,
-    size = 3,
-    aes(
-      x = race_prop, 
-      y = adj_sev_joint_rate,
+#########################
+#########################
+#########################
+#########################
+### plotly
+hisp_df <- race_prop_inf %>%
+  dplyr::filter(group_var_cat == "Hispanic") %>%
+  dplyr::mutate(
+    hover_lbl = paste0(
+      "<b>", county, "</b><br>",
+      "Severe Infection Rate: <br><b>",
+      round(adj_sev_joint_rate, 1), " per 100K<br></b>",
+      "Hispanic population <br>proportion: <b>",
+      round(race_prop, 1), "% </b>"
     )
-  ) +
-  
-  labs(
-    x = "Proportion of County Population (%)",
-    y = "Joint Age-Race Adjusted \nSevere Infection Rate"
-  ) + 
-  
-  theme_classic() + 
-  theme(
-    panel.grid = element_blank(),
-    axis.line = element_line(color = grid_clr, linewidth = .5),
-    axis.text = element_text(color = grid_clr, size = 7),
-    strip.background = element_rect(fill = "#f1f0ea", color = grid_clr, linewidth = .5),
-    strip.text = element_text(size = 16)
+  )
+
+
+# Linear model
+mod <- lm(adj_sev_joint_rate ~ race_prop, data = hisp_df)
+
+# Prediction grid for smooth line and CI
+pred_df <- data.frame(
+  race_prop = seq(
+    from = min(hisp_df$race_prop, na.rm = TRUE),
+    to   = max(hisp_df$race_prop, na.rm = TRUE),
+    length.out = 100
+  )
+)
+
+preds <- predict(mod, newdata = pred_df, interval = "confidence")
+
+pred_df <- pred_df %>%
+  dplyr::mutate(
+    fit = preds[, "fit"],
+    lwr = preds[, "lwr"],
+    upr = preds[, "upr"]
   )
 
 
 
+race_p1 <- plotly::plot_ly() %>%
+  
+  # CI band (the "glow")
+  add_ribbons(
+    data      = pred_df,
+    x         = ~race_prop,
+    ymin      = ~lwr,
+    ymax      = ~upr,
+    line      = list(color = "transparent"),
+    fillcolor = "rgba(246,193,67,0.4)",  
+    hoverinfo = "skip",
+    showlegend = FALSE
+  ) %>%
+  
+  # Regression line
+  add_lines(
+    data = pred_df,
+    x    = ~race_prop,
+    y    = ~fit,
+    line = list(
+      color = drkst_clr,
+      width = 0.9
+    ),
+    hoverinfo  = "skip",
+    showlegend = FALSE
+  ) %>%
+  
+  # Points
+  add_markers(
+    data = hisp_df,
+    x    = ~race_prop,
+    y    = ~adj_sev_joint_rate,
+    marker = list(
+      size = 8,
+      color = "rgba(82,23,107,0.5)", 
+      line = list(
+        color = drkst_clr,
+        width = 0.8
+      )
+    ),
+    text      = ~hover_lbl,
+    hoverinfo = "text",
+    showlegend = FALSE
+  ) %>%
+  
+  layout(
+    hoverlabel = list(
+      bgcolor  = "rgba(82,23,107,0.9)",   
+      font = list(
+        color = "white"
+      )
+    ),
+    
+    xaxis = list(
+      title    = "Hispanic Proportion of <br>County Population (%)",
+      zeroline = FALSE,
+      showgrid = TRUE,  
+      tickmode = "array",
+      range    = c(0, 100),
+      tickvals = c(30, 60, 90)
+    ),
+    yaxis = list(
+      title    = "Joint Age-Race Adjusted<br>Severe Infection Rate",
+      zeroline = FALSE,
+      showgrid = TRUE,  
+      tickmode = "array",
+      range    = c(0, 1500),
+      tickvals = c(100, 700, 1400)
+    ),
+    margin = list(l = 60, r = 20, t = 40, b = 60)
+  )
+
+
+
+race_p1_plotly <- race_p1 %>% layout(height = 400)
+
+
+
+
+
+
+#########################
+#########################
+### ggplot - all other racial groups
 
 others <- race_prop_inf %>% filter(group_var_cat != "Hispanic")
 
 race_p2 <- 
   ggplot() + 
-  facet_wrap(~group_var_cat, scales = "free", nrow = 2) + 
+  facet_wrap(~group_var_cat, scales = "free", ncol = 3) + 
   
   geom_smooth(
     data = others,
@@ -108,7 +185,7 @@ race_p2 <-
   ) +
   
   labs(
-    x = "Proportion of County Population (%)",
+    x = "Proportion of \nCounty Population (%)",
     y = "Joint Age-Race Adjusted \nSevere Infection Rate"
   ) + 
   
@@ -121,6 +198,10 @@ race_p2 <-
   )
 
 
+#########################
+#########################
+#########################
+#########################
 ##### statewide df for table and bar plot --
 
 race_props_all <- all_rates_dem_adj %>%
@@ -210,7 +291,7 @@ race_bar_p <- race_cat_lng %>%
   ) %>%
   
   plotly::layout(
-    showlegend = FALSE,
+    showlegend = TRUE,
     barmode = "stack",  
     yaxis = list(
       title = "",
@@ -268,8 +349,13 @@ race_prop_pie <- race_pie_df %>%
     title      = "",
     showlegend = FALSE,
     xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-    yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
-  )
+    yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+    
+    # transparent backgrounds
+    plot_bgcolor  = "rgba(0,0,0,0)",
+    paper_bgcolor = "rgba(0,0,0,0)"
+  )%>% 
+  plotly::config(displayModeBar = FALSE)
 
 
 ###################

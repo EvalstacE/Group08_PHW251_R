@@ -18,44 +18,103 @@ source("04bb_race_code.R")
 # Burden of Disease: Race
 
 
+::: {.vspace}
+
+:::
+
+::: {.vspace}
+
+:::
+
+
+::: {.full-bleed-banner}
+::: {.banner-inner}
+
+
+::: {.vspace}
+
+:::
+
+::: {.center-text}
+
+##### Proportion of CA Population by Race
+
+
+```{r, fig.height=4}
+race_prop_pie
+```
+
+
+:::
+
+::: {.vspace}
+
+:::
+
+
+:::: {.columns}
+
+::: {.column width="33%" .exsmall-note}
+
+**White NH** = White, Non-Hispanic  
+
+**Black NH** = Black, Non-Hispanic  
+
+**AIAN NH** = American Indian or Alaska Native, Non-Hispanic
+
+:::
+
+::: {.column width="33%" .exsmall-note}
+
+**Asian NH** = Asian, Non-Hispanic 
+
+**NHPI NH** = Native Hawaiian or Pacific Islander, Non-Hispanic  
+
+**MR NH** = Multiracial (two or more of the above races), Non-Hispanic
+
+:::
+
+::: {.column width="33%" .exsmall-note}
+
+**Hispanic** = Hispanic (any race)  
+
+**Unknown** = Unknown
+
+:::
+
+::::
+
+::: {.vspace}
+
+:::
+
+
+:::
+:::
+
+
+
+
+
+::: {.vspace}
+
+:::
+
+
 ### Infections by Race / Ethnicity
 
 ::: {.vspace}
 
 :::
 
-::: {.vspace}
 
-:::
-
-
-::: card
-
-#### Proportion of CA Population by Race {.card-header}
-
-::: {.card-body}
-
-
-```{r, fig.height=3}
-race_prop_pie
-```
-
-:::
-:::
+Interpreting racial differences in infection rates is complex because observed patterns often reflect multiple overlapping social and structural factors. 
 
 
 ::: {.vspace}
 
 :::
- 
-Interpreting racial differences in infection rates is complex because observed patterns often reflect multiple overlapping social and structural factors. After adjusting for both age and race across counties, one key finding persisted:
 
-
-::: {.circle-bullet .purple}
-
-Counties with the largest **Hispanic populations** experienced the highest average rates of  **severe infections** on average.
-
-:::
 
 
 ::: {.indent-block}
@@ -72,14 +131,36 @@ Adjusting for both age and race is a way for us to ask:
 :::
 
 
-This adjustment helps isolate differences in disease burden from differences in population composition. However, it does not explain *why* a population group or a county shows elevated risk.
+Race-adjusted rates help reduce the influence of differing racial compositions across counties, but they cannot determine *why* a population groups shows elevated risk: whether it reflects individual-level vulnerabilities, county-level conditions, or the interaction of both. It is important to recognize that race is a social construct shaped by historical and structural forces. Because of this, race can serve as a proxy for inequities rather than a direct cause of disease. In some cases, statistical adjustment may unintentionally obscure meaningful disparities that stem from structural racism and unequal access to resources. 
 
 
-Counties with higher proportions of a particular racial or ethnic group may show higher infection rates if individuals in that group experience increased exposure or barriers to prevention or treatment linked to longstanding social and structural inequities. Examples include limited access to healthcare, lower availability of social or financial supports, and sustained occupational or environmental risks.
 
-Counties may also have contextual features that elevate risk for everyone regardless of race. Examples include proximity to the outbreak’s epicenter, higher population density, or variation in public health resources and implementation. When these high-risk county conditions coincide with larger proportions of a particular racial group, the observed infection burden for that group becomes even higher.
+However, even after adjusting for both age and race across counties, one key finding persisted:
 
-Statewide, White and Hispanic residents account for the majority of total infections and severe infections. However, this aligns closely with each group’s share of the statewide population. For instance, the Hispanic population makes up about 38 percent of California residents and accounts for roughly 40 percent of all infections. 
+
+::: {.circle-bullet .purple}
+
+Counties with the largest **Hispanic populations** experienced the highest rates of  **severe infections** on average.
+
+:::
+
+
+
+
+
+::: {.wide-embed}
+
+
+::: {.hr-colored .purple}
+
+:::
+
+
+::: {.center-text}
+
+#### Adjusted Severe Infection Rates and Proportion of Population by County
+
+::: 
 
 
 
@@ -88,6 +169,77 @@ Statewide, White and Hispanic residents account for the majority of total infect
 :::
 
 
+::: {layout="[[1.5,1]]"}
+
+
+
+
+::: card
+
+#### Adjusted Infection Rates by County Hispanic Population Proportion {.card-header}
+
+::: {.card-body}
+
+
+```{r}
+#| fig-width: 7
+#| fig-height: 4.5
+
+race_p1_plotly
+
+```
+
+
+:::
+:::
+
+
+::: card
+
+#### Adjusted Infection Rates by all other Races {.card-header}
+
+::: {.card-body}
+
+```{r}
+#| fig-width: 8
+#| fig-height: 7
+
+
+race_p2
+
+```
+
+
+:::
+:::
+
+
+:::
+
+
+::: {.small-note}
+
+*The severe infection rates were adjusted jointly for both age distributions and racial composition (reported as rates per 100,000 population).*
+
+*The line shows the average trend across counties and the band shows how much the estimate could vary due to uncertainty.*
+
+:::
+
+
+
+::: {.vspace-xlg}
+
+:::
+
+
+
+
+::: {.hr-colored .purple}
+
+:::
+
+
+
 ::: {.vspace}
 
 :::
@@ -95,7 +247,16 @@ Statewide, White and Hispanic residents account for the majority of total infect
 
 
 
-##### Statewide Proportion of Infections by Race
+
+
+
+
+::: {.center-text}
+
+#### Statewide Proportion of Infections by Race
+
+:::
+
 
 
 ::: {layout="[ [1], [1,1] ]"}
@@ -124,7 +285,7 @@ race_tbl_1
 
 ::: card
 
-#### Distribution of Severe Infection Proportions Across Counties{.card-header}
+#### Distribution of Severe Infections Across Counties{.card-header}
 
 ::: {.card-body}
 
@@ -141,53 +302,43 @@ race_tbl_2
 
 
 
+:::: {.columns}
 
+::: {.column width="33%" .exsmall-note}
 
+**White NH** = White, Non-Hispanic  
 
+**Black NH** = Black, Non-Hispanic  
 
-Race-adjusted rates help reduce the influence of differing racial compositions across counties, but they cannot determine whether elevated risk reflects individual-level vulnerabilities, county-level conditions, or the interaction of both. It is important to recognize that race is a social construct shaped by historical and structural forces. Because of this, race can serve as a proxy for inequities rather than a direct cause of disease. In some cases, statistical adjustment may unintentionally obscure meaningful disparities that stem from structural racism and unequal access to resources. 
-
- 
-
-
----------
-
-
-
-#### Adjusted Severe Infection Rates by Race {.card-header}
-
-
-
-```{r}
-race_p1
-```
-
-
-
-```{r}
-race_p2
-```
-
-
-
-
-
-
-::: {.exsm-text}
-
-*add race codes*
+**AIAN NH** = American Indian or Alaska Native, Non-Hispanic
 
 :::
 
+::: {.column width="33%" .exsmall-note}
 
+**Asian NH** = Asian, Non-Hispanic 
 
+**NHPI NH** = Native Hawaiian or Pacific Islander, Non-Hispanic  
 
-::: {.vspace-xlg}
+**MR NH** = Multiracial (two or more of the above races), Non-Hispanic
 
 :::
 
+::: {.column width="33%" .exsmall-note}
+
+**Hispanic** = Hispanic (any race)  
+
+**Unknown** = Unknown
+
+:::
+
+::::
 
 
+
+
+
+:::
 
 
 

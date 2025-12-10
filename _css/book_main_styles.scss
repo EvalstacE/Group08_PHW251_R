@@ -472,6 +472,7 @@ $paragraph-margin-bottom:   1rem !default;
 
 .center-text {
   text-align: center;
+  justify-content: center;
 }
 
 
@@ -485,6 +486,22 @@ $paragraph-margin-bottom:   1rem !default;
 }
 
 
+.small-note {
+  font-size: 0.8rem;
+  line-height: 1;
+  padding-right: 3rem;
+  padding-left: 3rem;
+}
+
+
+.exsmall-note {
+  font-size: 0.8rem;
+  line-height: 1;
+  padding-right: 1rem;
+}
+
+
+
 .vspace {
   margin-top: 1rem;
 }
@@ -495,6 +512,44 @@ $paragraph-margin-bottom:   1rem !default;
 }
 
 
+
+.hr-colored.gold    { --line-color: #f6c143; }
+.hr-colored.orange  { --line-color: #e56937; }
+.hr-colored.magenta { --line-color: #892a68; }
+.hr-colored.purple  { --line-color: #52176b; }
+.hr-colored.green   { --line-color: #3cad82; }
+.hr-colored.teal    { --line-color: #31888d; }
+
+
+
+.hr-colored {
+  width: 100%;
+  height: 4px;                   
+  background-color: var(--line-color, #000); 
+  border: none;
+  margin: 1rem 0;
+}
+
+
+
+
+
+.full-bleed-banner {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background-color: #f1f0ea; /* change as needed */
+  padding: 1.5rem 0;        /* vertical padding */
+}
+
+.full-bleed-banner .banner-inner {
+  max-width: 700px;         /* match Quarto page width */
+  margin: 0 auto;           /* centers content inside banner */
+  padding: 0 1.5rem;        /* side padding inside banner */
+}
 
 
 /* ----------------------------------------------------- */
@@ -882,7 +937,8 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
   padding-top: 2rem;
   padding-bottom: 2rem;
 
-  color: var(--text-color);     
+  color: var(--text-color);   
+  font-size: 1.25rem;
 }
 
 .circle-bullet::before {
@@ -894,6 +950,9 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
   flex-shrink: 0;
   margin-top: 0.3rem;
 }
+
+
+
 
 
 
