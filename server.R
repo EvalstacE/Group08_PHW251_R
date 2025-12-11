@@ -177,7 +177,7 @@ output$dem_table <- DT::renderDT({
 
 # map outputs
 output$cnty_map <- renderLeaflet({
-  make_cnty_basemap(cnty_sf, hor_sf, cnty_pnts)
+  make_cnty_basemap(cnty_sf, cnty_dorl_centroids)
 })
 
 
@@ -238,6 +238,9 @@ plt <- plotly::plot_ly(
   
   layout(
     showlegend = FALSE,
+    xaxis = list(
+      title    = "Age-Adjusted Severe Infection Rate"
+    ), 
     yaxis = list(
       title    = "",
       tickmode = "array",

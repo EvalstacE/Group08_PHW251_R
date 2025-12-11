@@ -29,24 +29,17 @@ leaflet_ca_blank <- function(
 
 
 
-make_cnty_basemap <- function(cnty_sf, hor_sf, cnty_pnts) {
+make_cnty_basemap <- function(cnty_sf, cnty_dorl_centroids) {
 
  leaflet_ca_blank(map_id = "cnty_map") %>%
     
-  addPolygons(
-      data        = hor_sf,
-      fillColor   = "#f1f0ea",
-      color       = drkst_clr,
-      fillOpacity = 0.9,
-      weight      = 2
-      
-  ) %>%
-    
+
   addPolygons(
       data        = cnty_sf,
-      fillColor   = "transparent",
+      fillColor   = "#f1f0ea",
       color       = "#cdcabd",
       weight      = 0.8,
+      fillOpacity = 1,
       
       label = ~lapply(hover_lbl, htmltools::HTML),
       labelOptions = labelOptions(
