@@ -68,30 +68,6 @@ pred_df <- pred_df %>%
 
 race_p1 <- plotly::plot_ly() %>%
   
-  # CI band (the "glow")
-  add_ribbons(
-    data      = pred_df,
-    x         = ~race_prop,
-    ymin      = ~lwr,
-    ymax      = ~upr,
-    line      = list(color = "transparent"),
-    fillcolor = "rgba(246,193,67,0.4)",  
-    hoverinfo = "skip",
-    showlegend = FALSE
-  ) %>%
-  
-  # Regression line
-  add_lines(
-    data = pred_df,
-    x    = ~race_prop,
-    y    = ~fit,
-    line = list(
-      color = drkst_clr,
-      width = 0.9
-    ),
-    hoverinfo  = "skip",
-    showlegend = FALSE
-  ) %>%
   
   # Points
   add_markers(

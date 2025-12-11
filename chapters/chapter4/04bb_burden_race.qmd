@@ -131,11 +131,11 @@ Adjusting for both age and race is a way for us to ask:
 :::
 
 
-Race-adjusted rates help reduce the influence of differing racial compositions across counties, but they cannot determine *why* a population groups shows elevated risk: whether it reflects individual-level vulnerabilities, county-level conditions, or the interaction of both. It is important to recognize that race is a social construct shaped by historical and structural forces. Because of this, race can serve as a proxy for inequities rather than a direct cause of disease. In some cases, statistical adjustment may unintentionally obscure meaningful disparities that stem from structural racism and unequal access to resources. 
+Race-adjusted rates help reduce the influence of differing racial compositions across counties, but they cannot explain *why* a population group shows elevated risk. Higher rates may reflect individual-level vulnerabilities, structural inequities such as racism or unequal access to resources, county-level environmental or social conditions, or the interaction among these factors.  
 
 
 
-However, even after adjusting for both age and race across counties, one key finding persisted:
+For example,  after adjusting for both age and race across counties:
 
 
 ::: {.circle-bullet .purple}
@@ -144,7 +144,15 @@ Counties with the largest **Hispanic populations** experienced the highest rates
 
 :::
 
+This finding signals an important disparity, but the adjusted rate alone cannot identify its underlying causes. One possible explanation is that many of **these counties are located near major urban areas with very high numbers of cases, such as Los Angeles, Sacramento, and San Bernardino counties**, which may increase exposure risk. 
 
+Additional analysis would be needed to determine whether this pattern reflects geographic proximity, social determinants of health, barriers to prevention and treatment, or a combination of factors.
+
+
+
+::: {.vspace}
+
+:::
 
 
 ::: {.hr-colored .purple}
@@ -191,7 +199,6 @@ race_p1_plotly
 
 *The severe infection rates were adjusted jointly for both age distributions and racial composition (reported as rates per 100,000 population).*
 
-*The line shows the average trend across counties and the band shows how much the estimate could vary due to uncertainty.*
 
 :::
 
