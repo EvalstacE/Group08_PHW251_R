@@ -1,0 +1,15 @@
+---
+echo: false
+---
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+source("_common04.R")
+source("04ba_sex_code.R")
+
+```
+

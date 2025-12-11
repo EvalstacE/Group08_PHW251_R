@@ -315,7 +315,81 @@ We next calculate age and race adjusted severe infection rates to make fair comp
 
 
 
-*Calculate age and race-adjusted severe infection rates, append and overwrite final demographic dataset:*
+*Calculate age, sex,  and race-adjusted severe infection rates, append and overwrite final demographic dataset:*
+
+
+
+```{r}
+
+### -- had to run age x sex separately then will join
+##### by age x sex 
+
+#################################
+######### statewide rates
+by_sex_age_state <- combined_df %>% 
+  #--only last week (52)
+  filter(mmwr_week == 52) %>%
+  #--one row per region–county–sex 
+  group_by(mmwr_week, sex, age_cat) %>%
+  summarise(
+    sex_age_pop         = sum(pop),
+    total_ca_pop        = first(total_ca_pop),
+    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+    cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  group_by(sex) %>%
+  mutate(total_sex_pop = sum(sex_age_pop)) %>% 
+  ungroup() %>%
+  mutate(
+    age_sex_prop        = sex_age_pop/total_sex_pop,
+    inf_rate_100k       = round((10^5*cumulative_infected/sex_age_pop)),
+    sev_rate_100k       = round((10^5*cumulative_severe/sex_age_pop))
+  )
+
+
+std_age_weights_sex <- by_sex_age_state %>%
+  group_by(sex, age_cat) %>%
+  summarise(
+    w = sex_age_pop / total_sex_pop,
+    .groups = "drop"
+  )
+
+
+by_sex_age_cnty <- combined_df %>% 
+  #--only last week (52)
+  filter(mmwr_week == 52) %>%
+  #--one row per region–county–sex 
+  group_by(health_officer_region, county, age_cat, sex) %>%
+  summarise(
+    sex_age_pop         = sum(pop),
+    total_cnty_pop      = first(total_cnty_pop),
+    cumulative_infected = sum(cumulative_infected, na.rm = TRUE),
+    cumulative_severe   = sum(cumulative_severe, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    inf_rate       = cumulative_infected/sex_age_pop,
+    sev_rate       = cumulative_severe/sex_age_pop
+  ) 
+
+
+cnty_sex_age_adj <- by_sex_age_cnty %>%
+  left_join(std_age_weights_sex, by = c("sex", "age_cat")) %>%
+  group_by(health_officer_region, county, sex) %>%
+  summarise(
+    adj_rate_100k = 1e5 * sum(inf_rate * w, na.rm = TRUE),
+    adj_sev_100k = 1e5 * sum(sev_rate * w, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  group_by(county) %>%
+
+  ungroup() %>%
+  mutate(group_var = "sex", geo_level = "county") %>%
+  rename(group_var_cat = sex)
+
+
+```
 
 
 ```{r, eval = FALSE}
@@ -323,8 +397,8 @@ We next calculate age and race adjusted severe infection rates to make fair comp
 
 ####################################################
 ##                                                ##
-##        Calculate age and race-adjusted         ##
-##             severe rates by county             ##
+##     Calculate age, sex, and race-adjusted      ##
+##          severe rates by county                ##
 ##                                                ##
 ####################################################
 
@@ -337,6 +411,8 @@ std_race_weights <- all_rates_by_demographic %>%
   summarise(std_pop = sum(group_pop), .groups = "drop") %>%
   mutate(w = std_pop / sum(std_pop)) %>%
   ungroup()
+
+
 
 
 cnty_race_rates <- all_rates_by_demographic %>%
@@ -462,8 +538,6 @@ cnty_age_adj <- cnty_age_rates %>%
   )
 
 
-
-
 cnty_adj_case_df <- cnty_age_adj_sev %>%
   left_join(cnty_age_adj, by = c("county", "group_var", "geo_level"))
 
@@ -520,11 +594,41 @@ all_rates_dem_adj <- all_rates_by_demographic %>%
   left_join(cnty_joint_adj, by = c("county", "geo_level"))
 
 
+
+### -- some rigging here to join my sex-age adjusted rates to the dataframe
+join_keys <- c(
+  "health_officer_region",
+  "county",
+  "group_var_cat",  
+  "group_var",     
+  "geo_level"       
+)
+
+joined <- all_rates_dem_adj %>%
+  left_join(
+    cnty_sex_age_adj %>%
+      select(all_of(join_keys), adj_sev_100k, adj_rate_100k),
+    by = join_keys,
+    suffix = c("", "_new")
+  )
+
+
+joined <- joined %>%
+  mutate(
+    adj_sev_100k  = dplyr::coalesce(adj_sev_100k_new,  adj_sev_100k),
+    adj_rate_100k = dplyr::coalesce(adj_rate_100k_new, adj_rate_100k)
+  ) %>%
+  select(
+    -adj_sev_100k_new,
+    -adj_rate_100k_new
+  )
+
 ##########################################################
 ## Export / overwrite final to 'data/cleaned_data/' dir ##
 ##########################################################
 
 #write.csv(all_rates_dem_adj, here("data/cleaned_data/all_rates_dem_adj.csv"), row.names = FALSE)
+#write.csv(joined, here("data/cleaned_data/all_rates_dem_adj_wsex.csv"), row.names = FALSE)
 
 
 ```
