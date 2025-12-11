@@ -1,4 +1,14 @@
-# Prioritizing State Resources
+---
+echo: false
+---
+
+
+
+# Resource Prioritization
+
+::: {.vspace}
+
+:::
 
 
 ```{r}
@@ -7,12 +17,137 @@
 #| message: false
 
 source("_common04.R")
+source("cum_cases_map.R")
 
 ```
 
 
+### Recommended Prioritization Strategy
 
-## County Prioritization Method
+Based on the statewide analysis of infection rates, severe disease burden, and population distribution, we recommend a two-part strategy to guide allocation of prevention, testing, and treatment resources. 
+
+This approach recognizes that total case counts and per capita rates each reflect different types of vulnerability. Urban counties require strong prevention and testing to reduce rapid transmission at scale. Rural counties need enhanced treatment and recovery support because their smaller populations experience a much higher proportional disease burden. Prioritizing resources based on both absolute and relative impacts provides a balanced and equitable strategy that reduces statewide transmission while protecting communities experiencing the most severe outcomes.
+
+
+::: {.highlight-text}
+::: {.circle-bullet .purple}
+
+**1. Prioritize prevention and testing capacity in densely populated urban counties with rapid transmission growth.**
+
+:::
+:::
+
+::: {.vspace}
+
+:::
+
+##### Los Angeles, San Bernardino, and Sacramento Counties
+
+Reported the largest number of total infections and demonstrate the fastest acceleration in weekly transmission. High population density increases the likelihood of widespread community spread, which in turn elevates risk for neighboring counties and the state as a whole. Concentrating early prevention and control activities in these settings is likely to have the greatest effect on slowing statewide transmission. This could include expanding public education and outreach, increasing access to low-barrier testing, and supporting local public health policies that help control disease spread. 
+
+
+
+::: {.highlight-text}
+::: {.circle-bullet .purple}
+
+**2. Prioritize treatment, clinical support, and recovery resources in counties with the highest per capita burden**
+
+:::
+:::
+
+
+
+::: {.vspace}
+
+:::
+
+##### Imperial, Inyo, Kings, Tulare, Kern, and Merced Counties 
+
+Experienced the highest infection and severe infection rates in California, despite having relatively small total case counts. These rural counties experience disproportionate impacts because even modest increases in infections translate into very high rates per capita. Directing treatment resources to these areas supports timely clinical care, hospital surge planning, and rapid linkage to treatment. This prioritization helps offset structural disadvantages related to geography, healthcare access, and smaller public health workforces.
+
+
+::: {.vspace}
+
+:::
+
+
+
+**As resources allow, extend priority into second-highest per capita tier:**
+
+##### Colusa, Stanislaus, San Joaquin, Tehama, Sutter, Yuba, and Solano Counties
+
+
+
+::: {.vspace}
+
+:::
+
+
+
+:::{.wide-embed}
+
+
+
+::: {layout="[ [1,1] ]"}
+
+::: card
+
+#### Cumulative Infections by County {.card-header}
+
+
+::: {.card-body}
+
+```{r}
+#| fig-height: 2.05
+#| fig-width: 2
+
+
+cum_cases_map
+```
+
+:::
+
+:::
+
+
+::: card
+
+#### Age-Adjusted Severe Infection Rate by County {.card-header}
+
+::: {.card-body}
+
+```{r}
+#| fig-height: 2.05
+#| fig-width: 2
+
+cnty_rank_map
+```
+
+
+:::
+
+:::
+
+
+:::
+
+
+
+
+
+
+
+
+::: {.full-bleed-banner}
+
+::: {.banner-inner}
+
+::: {.vspace}
+
+:::
+
+
+##### Methods for ranking counties based on age-adjusted infection and severe infection rates:
 
 To identify counties with the greatest burden of infection and severe infection, we developed a ranking system based on age-adjusted infection rates and age-adjusted severe infection rates. This approach highlights counties experiencing consistently elevated disease burden and allows us to identify and target the areas with the greatest need for additional support and resources.
 
@@ -25,11 +160,15 @@ Each county received two percentile-based ranks, one for its adjusted infection 
 * **Second Priority (score of 3 or 4):** A county is classified as second priority if either one rate is at or above the 90th percentile and the other is at or above the 75th percentile, or if both rates fall within the 75th percentile range
 
 
+::: {.vspace}
+
+:::
+
+:::
+
+:::
 
 
-
-
-::: {.wide-embed}
 
 
 ```{=html}
@@ -43,96 +182,10 @@ Each county received two percentile-based ranks, one for its adjusted infection 
 
 ```
 
+
+
 :::
 
 
 
-
-
-
-|
-|
-|
-
-
-#### Supporting Code: 
-
-*Creating the priority scores / county ranks:* 
-
-
-```{r, eval = FALSE}
-
-cnty_rates_df <- all_rates_dem_adj %>%
-  filter(geo_level == "county", group_var_cat == "Overall") %>%
-  select(health_officer_region, county, group_pop,
-         cumulative_infected, cumulative_severe,
-         inf_rate_100k, sev_rate_100k
-         ) %>%
-  drop_na() %>%
-  distinct()
-
-cnty_adj_rates <- all_rates_dem_adj %>%
-  filter(geo_level == "county", group_var == "age_cat") %>%
-  select(health_officer_region, county, 
-         adj_rate_100k, adj_sev_100k, 
-         adj_sev_joint_rate) %>%
-  drop_na() %>%
-  distinct()
-
-
-cnty_ranked_df <- cnty_adj_rates %>%
-##--compute quantile cutpoints for each metric
-  mutate(
-    inf_p90 = quantile(adj_rate_100k,    0.90, na.rm = TRUE),
-    inf_p75 = quantile(adj_rate_100k,    0.75, na.rm = TRUE),
-    inf_p50 = quantile(adj_rate_100k,    0.50, na.rm = TRUE),
-    
-    sev_p90 = quantile(adj_sev_100k,     0.90, na.rm = TRUE),
-    sev_p75 = quantile(adj_sev_100k,     0.75, na.rm = TRUE),
-    sev_p50 = quantile(adj_sev_100k,     0.50, na.rm = TRUE)
-  ) %>%
-##--assign ranks based on those cutpoints
-  mutate(
-    inf_q_rank = case_when(
-      adj_rate_100k    >= inf_p90 ~ 1L,             
-      adj_rate_100k    >= inf_p75 ~ 2L,             
-      adj_rate_100k    >= inf_p50 ~ 3L,             
-      TRUE                         ~ 4L           
-    ),
-    sev_q_rank = case_when(
-      adj_sev_100k     >= sev_p90 ~ 1L,
-      adj_sev_100k     >= sev_p75 ~ 2L,
-      adj_sev_100k     >= sev_p50 ~ 3L,
-      TRUE                         ~ 4L
-    ),
-    
-    rank_sum = inf_q_rank + sev_q_rank,
-    
-    priority_tier = case_when(
-      rank_sum == 2              ~ "Top Priority",      
-      between(rank_sum, 3, 4)    ~ "Second Priority",  
-      TRUE                       ~ "Third Priority"
-    ),
-    
-    priority_tier = factor(
-      priority_tier,
-      levels = c("Top Priority", "Second Priority", "Third Priority")
-    )
-  ) %>%
-##--drop reference points
-  select(-starts_with("inf_p"), -starts_with("sev_p")) %>%
-  arrange(priority_tier, desc(adj_sev_100k), desc(adj_rate_100k)) %>%
-  left_join(cnty_rates_df, by = c("health_officer_region", "county")) %>%
-  rename("total_cnty_pop" = "group_pop") %>%
-  mutate(pop_prop = total_cnty_pop / sum(total_cnty_pop))
-
-
-
-#########################################
-## Export to 'data/cleaned_data/' dir ##
-#########################################
-
-#write.csv(cnty_ranked_df, here("data/cleaned_data/cnty_ranked_df.csv"), row.names = FALSE)
-
-```
 

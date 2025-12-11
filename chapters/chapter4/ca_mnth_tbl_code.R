@@ -134,10 +134,7 @@ mnth_cols <- months
 
 ##-- color scale
 pnk_purp_scale <- c(
-  "#fcebed",
-  "#fdacb8",
-  "#b93f76",
-  "#892a68",
+  "#f1f0ea",
   "#52176b",
   "#1e0c47"
 )
@@ -165,8 +162,9 @@ row_totals <- data %>%
 month_cols <- setNames(lapply(months, function(m) {
   reactable::colDef(
     name     = m,
-    maxWidth = 75,
+    #maxWidth = 75,
     align    = "center",
+
     cell  = function(value) {
       if (is.na(value) || value == 0) "\u2013" else format(value, big.mark = ",")
     },
@@ -193,7 +191,8 @@ month_cols <- setNames(lapply(months, function(m) {
       list(
         background = bg, 
         color = text_col,
-        fontWeight = 600
+        fontWeight = 600,
+        fontSize = "14px"
       )
       
     }
@@ -228,14 +227,15 @@ reactable::reactable(
   defaultColDef = reactable::colDef(
     vAlign = "center",
     headerVAlign = "bottom",
-    sortable    = FALSE 
+    sortable    = FALSE ,
+    style = list(fontSize = "16px")
   ),
     
   
   columnGroups = list(
     
     reactable::colGroup(
-      name = "Outbreak by Month",
+      name = "",
       columns = mnth_cols,
     )
   ),
@@ -246,7 +246,7 @@ reactable::reactable(
         metric = reactable::colDef(
           name = "Metric",
           align = "left",
-          maxWidth = 120
+          minWidth = 120
         )
         
       ),

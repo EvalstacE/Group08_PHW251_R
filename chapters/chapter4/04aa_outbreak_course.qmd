@@ -1,5 +1,10 @@
 # Course of the Outbreak
 
+::: {.vspace}
+
+:::
+
+
 ```{r, echo = FALSE}
 
 source("ca_mnth_tbl_code.R")
@@ -7,6 +12,47 @@ source("ca_mnth_tbl_code.R")
 
 ```
 
+
+
+::: {.vspace}
+
+:::
+
+
+*Please hang tight. The application below may take a minute or two to load.*
+
+::: {.vspace}
+
+:::
+
+
+::: {.wide-embed}
+
+```{=html}
+
+<iframe 
+  src="https://evalue.shinyapps.io/Group08_County_Weekly_Map/"
+  width="100%" 
+  height="1000px" 
+  frameborder="0">
+</iframe>
+
+```
+
+
+
+
+
+
+::: {.vspace-lg}
+
+:::
+
+
+
+::: {.hr-colored .purple}
+
+:::
 
 
 
@@ -23,10 +69,11 @@ ca_mnth_tbl
 
 
 
+::: {.vspace-lg}
 
-|
-|
-|
+:::
+
+
 
 
 ## Timeline of the Outbreak
@@ -66,87 +113,20 @@ While the State of California is seeing dramatically fewer infections overall, s
 :::
 
 
-------------
-
-::: {.wide-embed}
-
-```{=html}
-
-<iframe 
-  src="https://evalue.shinyapps.io/Group08_County_Weekly_Map/"
-  width="100%" 
-  height="1000px" 
-  frameborder="0">
-</iframe>
-
-```
+::: {.vspace-lg}
 
 :::
 
 
 
 
-|
-|
-|
+::: {.hr-colored .purple}
+
+:::
 
 
 
 
-
-#### Supporting Code: 
-
-The full code for the weekly case map can be found on the github repository within the "cases_week_app" branch:
-**<https://github.com/EvalstacE/Group08_PHW251_R/tree/cases_week_app>**
-
-[Download Shiny App Code (ZIP)](../../www/Group08_weekly_case_map_shiny_app.zip){.btn .btn-primary target="_blank"}
-
-|
-
-[Download Full Table Code (ZIP)](../../www/ca_mnth_tbl_code.zip){.btn .btn-primary target="_blank"}
-
-|
-
-[Download Weekly Infection Rates (CSV)](../../data/inf_rate_dfs/ca_weekly_cases.csv){.btn .btn-primary target="_blank"}
-
-|
-
-
-**Creating and saving shapefiles for maps:**
-
-```{r, eval = FALSE}
-
-##--bring in California shapefile and 
-###---join to infection rate dataframe
-ca_cnty_sf <- counties(state = "CA", cb = TRUE, year = 2023) %>%
-  st_as_sf() %>%
-  select(NAME) %>%
-  rename("county" = "NAME") %>%
-  st_transform(4326)
-
-##--state border only
-ca_state_sf <- states(cb = TRUE, year = 2023) %>%
-  st_as_sf() %>%
-  filter(STUSPS == "CA") %>%
-  select(STATEFP, STUSPS, GEOIDFQ, GEOID) %>%
-  st_transform(4326)
-
-
-##--dissolves counties into Health Officer Regions
-hor_sf <- ca_cnty_sf %>%
-  group_by(health_officer_region) %>%
-  summarise(.groups = "drop")%>%
-  st_cast("MULTIPOLYGON")%>%
-  st_transform(4326)
-
-
-
-##--save to data/shapefiles folder
-##-st_write(ca_cnty_sf, here("data/shapefiles/ca_cnty_sf/ca_cnty_sf.shp"), append = FALSE)
-##-st_write(hor_sf, here("data/shapefiles/hor_sf/hor_sf.shp"), append = FALSE)
-##-st_write(ca_state_sf, here("data/shapefiles/ca_state_sf/ca_state_sf.shp"), append = FALSE)
-
-
-```
+:::
 
 

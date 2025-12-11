@@ -519,6 +519,14 @@ $paragraph-margin-bottom:   1rem !default;
 
 
 
+.highlight-text {
+  background-color: rgba(246, 193, 67, 0.6);
+  padding: 0rem;
+  border-radius: 4px;
+}
+
+
+
 .hr-colored.gold    { --line-color: #f6c143; }
 .hr-colored.orange  { --line-color: #e56937; }
 .hr-colored.magenta { --line-color: #892a68; }
@@ -544,7 +552,7 @@ $paragraph-margin-bottom:   1rem !default;
   width: 100vw;
   position: relative;
   left: 50%;
-  right: 50%;
+  right: 0%;
   margin-left: -50vw;
   margin-right: -50vw;
   background-color: #f1f0ea; /* change as needed */
@@ -671,6 +679,17 @@ a {
   padding-bottom: 2rem;
   border-left: 2px solid var(--bs-border-color); 
 }
+
+
+.indent-block-wide {
+  margin-left: 2.5rem;   
+  padding-left: 1rem;
+  padding-right: 0rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  border-left: 2px solid var(--bs-border-color); 
+}
+
 
 
 /* -------------------------------------------------------------------------- */
