@@ -319,7 +319,7 @@ We next calculate age and race adjusted severe infection rates to make fair comp
 
 
 
-```{r}
+```{r, eval = FALSE}
 
 ### -- had to run age x sex separately then will join
 ##### by age x sex 

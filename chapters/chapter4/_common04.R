@@ -5,8 +5,7 @@ pacman::p_load(
   kableExtra, MMWRweek, scales, sf, tigris, classInt,
   plotly, leaflet, ggspatial, glue, htmltools, htmlwidgets,
   ggtext, ggfx, grid, forcats, gganimate, cowplot, ggrepel,
-  reactable, RColorBrewer, cartogram, viridis, viridisLite,
-  circlepackeR
+  reactable, RColorBrewer, cartogram, sandwich, lmtest
 )
 
 

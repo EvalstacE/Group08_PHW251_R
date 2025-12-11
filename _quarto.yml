@@ -41,6 +41,7 @@ book:
       chapters: 
         - chapters/chapter4/04aa_outbreak_course.qmd
         - chapters/chapter4/04b_burden_age.qmd   
+        - chapters/chapter4/04ba_burden_sex.qmd  
         - chapters/chapter4/04bb_burden_race.qmd         
         - chapters/chapter4/04d_cnty_ranks.qmd        
 

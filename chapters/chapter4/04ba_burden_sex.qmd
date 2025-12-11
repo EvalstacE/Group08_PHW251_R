@@ -13,3 +13,168 @@ source("04ba_sex_code.R")
 
 ```
 
+
+
+# Burden of Disease: Sex
+
+
+::: {.vspace}
+
+:::
+
+::: {.vspace}
+
+:::
+
+
+::: {.full-bleed-banner}
+::: {.banner-inner}
+
+
+
+::: {.vspace}
+
+:::
+
+
+::: {.center-text}
+
+#### Proportion of CA Population by Sex
+
+:::
+
+
+```{r, fig.height=4}
+sex_prop_pie
+```
+
+
+:::
+
+::: {.vspace}
+
+:::
+
+
+:::
+
+
+### Infections by Sex
+
+::: {.vspace}
+
+:::
+
+
+
+At first glance, statewide severe infection rates appear slightly higher among females than males. However, when looking across individual counties and comparing sex-specific age-adjusted rates, the observed differences were small and did not suggest a meaningful or consistent pattern. In other words, while minor variations exist, they do not indicate a clear disparity in severe infection burden between females and males. 
+
+
+
+::: card
+
+#### Statewide Proportion of Infections by Sex {.card-header}
+
+::: {.card-body}
+
+```{r}
+sex_tbl_1
+```
+
+:::
+:::
+
+
+::: {.vspace}
+
+:::
+
+::: {.exsmall-note}
+
+*Rates = per 100,000 population*
+
+:::
+
+
+
+
+
+
+::: {.vspace}
+
+:::
+
+
+::: {.hr-colored .green}
+
+:::
+
+
+
+::: {.circle-bullet .green}
+
+Across counties, **severe infection rates for females and males are very similar** on average, and there is no consistent evidence that one group experiences a meaningfully higher burden than the other. 
+
+:::
+
+
+
+::: card
+
+#### Comparing Average Female vs Male Adjusted Severe Infection Rates {.card-header}
+
+::: {.card-body}
+
+```{r}
+sex_stat_plotly
+```
+
+:::
+:::
+
+
+
+::: {.vspace-lg}
+
+:::
+
+
+::: {.hr-colored .green}
+
+:::
+
+
+
+::: {.vspace-lg}
+
+:::
+
+
+Before comparing severe infection rates across counties by sex, we first adjusted each county’s sex-specific rates for differences in age structure. Severe disease risk increases sharply with age, and the age distribution of males and females varies across counties. If we compared crude rates alone, counties with a larger proportion of older residents would appear to have higher rates even if their underlying risk was the same. Similarly, if one sex is disproportionately older in a given county, the crude sex difference could reflect population structure rather than true differences in severe infection risk.
+
+To address this, we calculated **age-adjusted severe infection rates for females and males within each county.** We used the statewide sex-specific age distribution as the standard population and applied direct standardization to re-weight each county’s age-specific rates. This approach removes the influence of unequal age distributions and creates a comparable measure of severe infection risk for each sex across all counties.
+
+
+
+
+::: card
+
+#### County Age-Adjusted Severe Infection Rates by Sex {.card-header}
+
+::: {.card-body}
+
+```{r}
+#| out-width: 100%
+#| out-height: 100%
+
+sex_cnty_p
+
+```
+
+:::
+:::
+
+
+
+
+
