@@ -1,3 +1,8 @@
+---
+echo: false
+---
+
+
 # Course of the Outbreak
 
 ::: {.vspace}
@@ -83,28 +88,68 @@ ca_mnth_tbl
 --------------
 
 ::: {.indent-block}
-##### *May 28, 2023:*
 
-California had reported 13,875 infections. Infections increased rapidly throughout June and early July, with weekly new cases rising **50 to 100 percent** compared with the previous week, the most instense growth phase of the outbreak this year.
+##### *May 28, 2023:* 
+
+Cumulative Infections: **13,875** 
+
+::: {.vspace}
+
+:::
+
+##### *June:* 
+
+Cumulative Infections: **133,835**
+
+Infections increased rapidly, with weekly new cases rising **50 to 100 percent** compared with the previous week. This was the most intense growth phase of the outbreak. By July 8th, we saw a 864.58% increase since May.
+
+::: {.vspace}
+
+:::
+
+##### *July:* 
+
+Cumulative Infections: **441,588**
+
+The outbreak began to slow in terms of it's week-over percent growth, dropping to about **20 to 30 percent,** but the number of new infections reported each week continued to rise. By the end of July, there was a 229.95% increase.  
+
+::: {.vspace}
+
+:::
 
 
-##### *Late July - September:*
-
-The outbreak began to slow. Weekly increases in new cases dropped to **20 to 30 percent.**
-
-
-##### *October:*
-
-Growth had slowed even further, with weekly increases approaching single digits.
-
-##### *Mid-November:* 
-
-Growth in weekly percent change in new case slowed to less than 1%
+```{r}
+sepoct <- ca_weekly_cases %>%
+  filter(mmwr_week %in% c(36:43)) 
+```
 
 
-##### *As of December 30:* 
+##### *September-October:* 
 
-Although overall infections have continued to decline, we are still getting reports of new cases. 
+Cumulative Infections: **4,185,531**
+
+We saw the largest growth in cumulative infections statewide during September and October, with an average of over 334,000 new cases reported each week. 
+
+::: {.vspace}
+
+:::
+
+##### *November:* 
+
+Cumulative Infections: **4,533,887**
+
+Growth in weekly percent change in new cases drops precipitously to less than 1%, and we start to see the outbreak slow down. 
+
+::: {.vspace}
+
+:::
+
+
+##### *December 30:* 
+
+Cumulative Infections: **4,549,583**
+
+New infections have continued to decline each week, but we are still getting reports of new cases. 
 
 Most importantly is that there is now a much **higher proportion of new infections that are severe and require hospitalization.**
 
