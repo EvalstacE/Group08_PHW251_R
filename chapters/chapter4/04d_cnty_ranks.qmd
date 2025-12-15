@@ -112,7 +112,8 @@ cum_cases_map
 
 ::: card
 
-#### Age-Adjusted Severe Infection Rate by County {.card-header}
+#### Age-Adjusted Severe Infection Rate by County (per 100K) {.card-header}
+
 
 ::: {.card-body}
 

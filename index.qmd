@@ -39,7 +39,7 @@ All data and statistics summarized in this report were compiled from three prima
 Our analysis centers on three primary questions:
 
 
-* How has the **course of the outbreak** evolved from May 2023 - December 2023 (present)?
+* How has the **course of the outbreak** evolved from May 2023 - December 2023?
 
 * Which geographic regions or demographic groups are experiencing **disproportionately high burdens of disease**?
 

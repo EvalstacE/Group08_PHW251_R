@@ -72,12 +72,27 @@ ca_mnth_tbl
 ```
 
 
+::: {.vspace}
+
+:::
+
+
+::: {.small-note-nopad}
+
+* For each metric, cell shading reflects the **relative contribution of each month to the total across all months combined**. 
+
+* Darker shading = months with higher infection counts or rates relative to other months
+
+* Infection and Severe Infection rates are reported as the number of cases per 100,000 population
+
+:::
+
+
 
 
 ::: {.vspace-lg}
 
 :::
-
 
 
 

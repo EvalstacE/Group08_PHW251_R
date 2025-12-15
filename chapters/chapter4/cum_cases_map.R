@@ -143,7 +143,7 @@ cnty_rank_map <- make_cnty_basemap(sf_all = cnty_sf) %>%
         fillOpacity = 1,
         label       = ~paste0(
           "<strong>", county, "</strong><br>",
-          "Severe AAR: <strong>", scales::comma(adj_sev_100k), "</strong>"
+          "Severe AAR: <strong>", scales::comma(round(adj_sev_100k,1)), "</strong>"
         ) %>% lapply(htmltools::HTML)
       )  %>%
   

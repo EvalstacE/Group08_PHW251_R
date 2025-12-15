@@ -79,8 +79,11 @@ ca_monthly_cases <- ca_weekly_cases %>%
 
 ca_mnth_wide <- ca_monthly_cases %>%
   select(mnth_lbl,  new_infections, inf_rate_100k, new_severe, sev_rate_100k) %>%
-  mutate(across(.cols = where(is.numeric),
-                .fns  = ~ round(.x))) %>%
+  mutate(
+    new_infections = round(new_infections), 
+    new_severe = round(new_severe)
+  ) %>%
+    
   tidyr::pivot_longer(
     cols      = -mnth_lbl,
     names_to  = "metric",
@@ -117,9 +120,9 @@ data <- ca_mnth_wide
 
 metric_map <- c(
   new_infections = "New Infections",
-  inf_rate_100k  = "Infection Rate",
+  inf_rate_100k  = "Infection Rate (per 100k)",
   new_severe     = "Severe Infections",
-  sev_rate_100k  = "Severe Infection Rate"
+  sev_rate_100k  = "Severe Infection Rate (per 100k)"
 )
 
 data <- data %>%

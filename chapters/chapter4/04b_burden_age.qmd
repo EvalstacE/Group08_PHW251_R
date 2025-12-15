@@ -141,7 +141,7 @@ age_tbl_2
 -------------
 
 
-This contrast shows that while transmission occurs across all age groups, the risk of severe outcomes is heavily concentrated among older adults. 
+This contrast shows that while transmission occurs across all age groups, the risk of severe outcomes is heavily concentrated among older adults (65+). 
 
 **Counties show a similar pattern**, with the median proportion of severe infections in the 65 and older age group far exceeding that of other groups.
 
