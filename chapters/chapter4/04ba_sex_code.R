@@ -82,7 +82,6 @@ sex_prop_pie <- sex_pie_df %>%
     hoverinfo = "label+percent"
   ) %>%
   add_pie(
-    hole                  = 0.6,
     sort                  = FALSE,  # keep factor order
     textinfo              = "text+percent",
     textposition          = "outside",

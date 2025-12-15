@@ -439,7 +439,6 @@ race_prop_pie <- race_pie_df %>%
     hoverinfo = "label+percent"
   ) %>%
   add_pie(
-    hole                  = 0.6,
     sort                  = FALSE,  # keep factor order
     textinfo              = "text+percent",
     textposition          = "outside",
@@ -459,6 +458,7 @@ race_prop_pie <- race_pie_df %>%
     paper_bgcolor = "rgba(0,0,0,0)"
   )%>% 
   plotly::config(displayModeBar = FALSE)
+
 
 
 ###################
