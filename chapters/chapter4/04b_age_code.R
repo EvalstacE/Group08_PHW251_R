@@ -82,7 +82,6 @@ age_prop_pie <- age_pie_df %>%
     hoverinfo = "label+percent"
   ) %>%
   add_pie(
-    hole                  = 0, 
     sort                  = FALSE,  # keep factor order
     textinfo              = "text+percent",
     textposition          = "outside",
